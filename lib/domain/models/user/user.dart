@@ -1,48 +1,50 @@
-/// Modelo para enrolar un usuario en Contactabilidad
+import 'dart:ffi';
+
+/// User model
 class User {
-  /// Email del usuario
-  final String? email;
-
-  /// Contraseña del usuario
-  final String? password;
-
-  /// Tipo de usuario
-  final String? userType;
-
-  /// Nombre del usuario
-  final String? firstName;
-
-  /// Apellido del usuario
-  final String? lastName;
-
-  /// Numero de telefono del usuario
-  final String? phoneNumber;
-
-  /// Origin del registro
-  final String? origin;
-
+  final String userID;
+  final String email;
+  final bool isLocked;
+  final String userType;
+  final int passwordRecoveryCode;
+  final DateTime createDate;
+  final bool notificationsEnabled;
+  final String emailConfirmationCode;
+  final bool emailConfirmed;
+  final bool termsAndConditionsAccepted;
+  final DateTime termsAndConditionsAcceptedDate;
+  final String activeCampaignContactId;
+  final String activeCampaignDealId;
+  final int activeCampaignDealStatus;
+  final String activeCampaignDealStage;
+  final Long balance;
+  final String pageCreatedFrom;
+  final String arrivalChannel;
+  final DateTime? emailConfirmationDate;
+  final String? profilePictureUrl;
+  final DateTime? updateDate;
 
   User({
+    required this.userID,
     required this.email,
-    required this.password,
+    required this.isLocked,
     required this.userType,
-    required this.firstName,
-    required this.lastName,
-    required this.phoneNumber,
-    required this.origin
+    required this.passwordRecoveryCode,
+    required this.createDate,
+    required this.notificationsEnabled,
+    required this.emailConfirmationCode,
+    required this.emailConfirmed,
+    required this.termsAndConditionsAccepted,
+    required this.termsAndConditionsAcceptedDate,
+    required this.activeCampaignContactId,
+    required this.activeCampaignDealId,
+    required this.activeCampaignDealStatus,
+    required this.activeCampaignDealStage,
+    required this.balance,
+    required this.pageCreatedFrom,
+    required this.arrivalChannel,
+    this.profilePictureUrl,
+    this.updateDate,
+    this.emailConfirmationDate,
   });
-
-  // Map<String, dynamic> toJson() => {
-  //   'customerDocumentType': customerDocumentType,
-  //   'customerDocumentNumber': customerDocumentNumber,
-  //   'applicationProviderId': applicationProviderId,
-  //   'deviceCode': deviceCode,
-  //   'devicePlatform': devicePlatform,
-  //   'customerName': customerName,
-  //   'customerLastName': customerLastName,
-  //   'customerNickname': customerNickname,
-  //   'mdmKey': mdmKey,
-  //   'topicName': topicName,
-  //   'categoryIds': categoryIds,
-  // };
 }
