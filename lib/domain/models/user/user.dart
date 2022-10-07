@@ -17,9 +17,10 @@ class User {
   final String activeCampaignDealId;
   final int activeCampaignDealStatus;
   final String activeCampaignDealStage;
-  final Long balance;
-  final String pageCreatedFrom;
-  final String arrivalChannel;
+  final String? password;
+  final Long? balance;
+  final String? pageCreatedFrom;
+  final String? arrivalChannel;
   final DateTime? emailConfirmationDate;
   final String? profilePictureUrl;
   final DateTime? updateDate;
@@ -40,9 +41,10 @@ class User {
     required this.activeCampaignDealId,
     required this.activeCampaignDealStatus,
     required this.activeCampaignDealStage,
-    required this.balance,
-    required this.pageCreatedFrom,
-    required this.arrivalChannel,
+    this.balance,
+    this.pageCreatedFrom,
+    this.arrivalChannel,
+    this.password,
     this.profilePictureUrl,
     this.updateDate,
     this.emailConfirmationDate,

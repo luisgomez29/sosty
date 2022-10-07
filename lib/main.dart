@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sosty_app/config/use_case_config.dart';
 
 void main() {
   runApp(const MyApp());
@@ -49,8 +50,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final UseCaseConfig _useCaseConfig = UseCaseConfig();
 
-  void _incrementCounter() {
+  void _incrementCounter() async {
+    var res = await _useCaseConfig.userUseCase
+        .login("emailtest@gmail.com", "B@ncolombiaa");
+    print("USER_LOGIN => ${res}");
+
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below

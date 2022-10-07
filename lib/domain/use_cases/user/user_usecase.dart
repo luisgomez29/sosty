@@ -9,4 +9,8 @@ class UserUseCase {
   Future<User> getByID(String userID) async {
     return _userGateway.getByID(userID);
   }
+
+  Future<User> login(String email, String password) async {
+    return _userGateway.login(email, password);
+  }
 }

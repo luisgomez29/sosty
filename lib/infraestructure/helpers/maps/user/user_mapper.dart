@@ -9,12 +9,13 @@ class UserMapper implements BaseMapper<User> {
         isLocked: json['isLocked'],
         userType: json['userType'],
         passwordRecoveryCode: json['passwordRecoveryCode'],
-        createDate: json['createDate'],
+        createDate: DateTime.parse(json['createDate']),
         notificationsEnabled: json['notificationsEnabled'],
         emailConfirmationCode: json['emailConfirmationCode'],
         emailConfirmed: json['emailConfirmed'],
         termsAndConditionsAccepted: json['termsAndConditionsAccepted'],
-        termsAndConditionsAcceptedDate: json['termsAndConditionsAcceptedDate'],
+        termsAndConditionsAcceptedDate:
+            DateTime.parse(json['termsAndConditionsAcceptedDate']),
         activeCampaignContactId: json['activeCampaignContactId'],
         activeCampaignDealId: json['activeCampaignDealId'],
         activeCampaignDealStatus: json['activeCampaignDealStatus'],
@@ -23,7 +24,11 @@ class UserMapper implements BaseMapper<User> {
         pageCreatedFrom: json['pageCreatedFrom'],
         arrivalChannel: json['arrivalChannel'],
         profilePictureUrl: json['profilePictureUrl'],
-        updateDate: json['updateDate'],
-        emailConfirmationDate: json['emailConfirmationDate'],
+        updateDate: json['updateDate'] != null
+            ? DateTime.parse(json['updateDate'])
+            : null,
+        emailConfirmationDate: json['emailConfirmationDate'] != null
+            ? DateTime.parse(json['emailConfirmationDate'])
+            : null,
       );
 }
