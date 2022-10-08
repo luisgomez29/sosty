@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sosty_app/config/use_case_config.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:sosty_app/ui/screens/on_boarding_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -23,9 +26,25 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        textTheme: TextTheme(
+          headline1: GoogleFonts.montserrat(
+            fontSize: 36.0,
+            fontWeight: FontWeight.w700,
+          ),
+          bodyText1: GoogleFonts.montserrat(
+            fontSize: 18.0,
+            fontWeight: FontWeight.w400,
+          ),
+          bodyText2: GoogleFonts.montserrat(
+            fontSize: 14.0,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        primarySwatch: Colors.red,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const OnBoardingScreen(),
     );
   }
 }
@@ -53,9 +72,13 @@ class _MyHomePageState extends State<MyHomePage> {
   final UseCaseConfig _useCaseConfig = UseCaseConfig();
 
   void _incrementCounter() async {
-    var res = await _useCaseConfig.userUseCase
-        .login("emailtest@gmail.com", "B@ncolombiaa");
-    print("USER_LOGIN => ${res}");
+    try {
+      var res = await _useCaseConfig.userUseCase
+          .login("emailtest@gmail.com", "B@ncolombiaa");
+      print("USER_LOGIN => ${res}");
+    } catch (e) {
+      print("ERROR => ${e}");
+    }
 
     setState(() {
       // This call to setState tells the Flutter framework that something has
