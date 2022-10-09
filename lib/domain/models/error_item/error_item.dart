@@ -1,4 +1,4 @@
-/// Mooelo de error
+/// Error model
 class ErrorItem {
   final String? code;
   final String? domain;

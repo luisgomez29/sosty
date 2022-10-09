@@ -1,5 +1,5 @@
-import 'package:sosty_app/domain/models/user/gateway/user_gateway.dart';
-import 'package:sosty_app/domain/models/user/user.dart';
+import 'package:sosty/domain/models/user/gateway/user_gateway.dart';
+import 'package:sosty/domain/models/user/user.dart';
 
 class UserUseCase {
   final UserGateway _userGateway;

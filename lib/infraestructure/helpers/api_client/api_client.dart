@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:sosty_app/domain/models/common/constants/constants.dart';
-import 'package:sosty_app/domain/models/common/exception/api_exception.dart';
-import 'package:sosty_app/domain/models/error_item/error_item.dart';
-import 'package:sosty_app/domain/models/service_response/service_response.dart';
+import 'package:sosty/domain/models/common/constants/constants.dart';
+import 'package:sosty/domain/models/common/exception/api_exception.dart';
+import 'package:sosty/domain/models/error_item/error_item.dart';
+import 'package:sosty/domain/models/service_response/service_response.dart';
 
 /// Permite realizar las peticiones por metodo post, get.
 ///

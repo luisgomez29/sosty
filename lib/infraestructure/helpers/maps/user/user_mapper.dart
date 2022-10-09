@@ -1,5 +1,5 @@
-import 'package:sosty_app/domain/models/user/user.dart';
-import 'package:sosty_app/infraestructure/helpers/maps/commons/base_mapper.dart';
+import 'package:sosty/domain/models/user/user.dart';
+import 'package:sosty/infraestructure/helpers/maps/commons/base_mapper.dart';
 
 class UserMapper implements BaseMapper<User> {
   @override

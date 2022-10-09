@@ -1,4 +1,4 @@
-import 'package:sosty_app/domain/models/error_item/error_item.dart';
+import 'package:sosty/domain/models/error_item/error_item.dart';
 
 abstract class BaseException implements Exception {
   late ErrorItem _errorItem;

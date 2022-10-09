@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 /// User model
 class User {
   final String userID;
@@ -18,7 +16,7 @@ class User {
   final int activeCampaignDealStatus;
   final String activeCampaignDealStage;
   final String? password;
-  final Long? balance;
+  final int? balance;
   final String? pageCreatedFrom;
   final String? arrivalChannel;
   final DateTime? emailConfirmationDate;

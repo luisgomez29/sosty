@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sosty_app/ui/components/buttons/text_button_full_width.dart';
-import 'package:sosty_app/ui/components/clippers/wave_clipper.dart';
-import 'package:sosty_app/ui/config/theme/light_theme.dart';
-import 'package:sosty_app/ui/helpers/on_boarding.dart';
-import 'package:sosty_app/ui/screens/login_screen.dart';
+import 'package:sosty/ui/components/buttons/text_button_full_width.dart';
+import 'package:sosty/ui/components/clippers/wave_clipper.dart';
+import 'package:sosty/ui/config/theme/light_theme.dart';
+import 'package:sosty/ui/helpers/on_boarding.dart';
+import 'package:sosty/ui/screens/login_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);

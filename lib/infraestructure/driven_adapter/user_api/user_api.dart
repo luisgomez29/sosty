@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:sosty_app/domain/models/user/gateway/user_gateway.dart';
-import 'package:sosty_app/domain/models/user/user.dart';
-import 'package:sosty_app/infraestructure/helpers/api_client/api_client.dart';
-import 'package:sosty_app/infraestructure/helpers/maps/user/user_mapper.dart';
+import 'package:sosty/domain/models/user/gateway/user_gateway.dart';
+import 'package:sosty/domain/models/user/user.dart';
+import 'package:sosty/infraestructure/helpers/api_client/api_client.dart';
+import 'package:sosty/infraestructure/helpers/maps/user/user_mapper.dart';
 
 class UserApi extends UserGateway {
   final UserMapper _userMapper = UserMapper();

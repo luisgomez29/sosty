@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sosty_app/ui/config/theme/light_theme.dart';
-import 'package:sosty_app/config/use_case_config.dart';
-import 'package:sosty_app/ui/screens/on_boarding_screen.dart';
+import 'package:sosty/ui/config/theme/light_theme.dart';
+import 'package:sosty/config/use_case_config.dart';
+import 'package:sosty/ui/screens/on_boarding_screen.dart';
 
 void main() {
   runApp(const MyApp());
