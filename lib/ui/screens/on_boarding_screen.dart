@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/components/buttons/text_button_full_width.dart';
 import 'package:sosty/ui/components/clippers/wave_clipper.dart';
 import 'package:sosty/ui/config/theme/light_theme.dart';
@@ -16,6 +18,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int _currentPage = 0;
   final Duration animatedDuration = const Duration(milliseconds: 300);
   final PageController _pageController = PageController(initialPage: 0);
+
+  /// Set value to not show on boarding screens again
+  Future<void> _setSeenOnboard() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(seenOnboardPref, true);
+  }
 
   AnimatedContainer _dotIndicator(index) {
     final isActive = _currentPage == index;
@@ -85,6 +93,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               ),
             ],
           );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _setSeenOnboard();
   }
 
   @override

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sosty/ui/config/theme/light_theme.dart';
+import 'package:sosty/app.dart';
 import 'package:sosty/config/use_case_config.dart';
+import 'package:sosty/ui/config/theme/light_theme.dart';
 import 'package:sosty/ui/screens/on_boarding_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  runApp(const App());
 }
 
 class MyApp extends StatelessWidget {
