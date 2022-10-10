@@ -13,7 +13,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   bool _seenOnboard = false;
 
   // Loading seenOnboard value on start
@@ -32,11 +31,18 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setSystemUIOverlayStyle(
+    //   const SystemUiOverlayStyle(
+    //     statusBarColor: secondaryColor,
+    //     statusBarIconBrightness: Brightness.dark,
+    //     statusBarBrightness: Brightness.light,
+    //   ),
+    // );
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sosty',
-      theme: lightTheme,
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      theme: lightTheme(context),
       home:
           _seenOnboard == true ? const LoginScreen() : const OnBoardingScreen(),
     );

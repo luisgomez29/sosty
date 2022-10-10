@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
-import 'package:sosty/ui/components/buttons/text_button_full_width.dart';
+import 'package:sosty/ui/common/styles/styles.dart';
+import 'package:sosty/ui/components/buttons/large_button.dart';
 import 'package:sosty/ui/components/clippers/wave_clipper.dart';
-import 'package:sosty/ui/config/theme/light_theme.dart';
 import 'package:sosty/ui/helpers/on_boarding.dart';
 import 'package:sosty/ui/screens/login_screen.dart';
 
@@ -53,20 +53,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   Widget _getWidgetButtonNavigationBar() {
     return _currentPage == onBoardingContents.length - 1
-        ? TextButtonFullWidth(
+        ? LargeButton(
             text: "Iniciar",
-            bgColor: Theme.of(context).primaryColor,
             onPressed: _goToLoginScreen,
           )
         : Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              TextButton(
+              OutlinedButton(
                 onPressed: _goToLoginScreen,
                 child: Text(
                   "Omitir",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: bodyText1Bold,
                 ),
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -180,7 +179,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           children: [
                             Text(
                               onBoardingContents[index].title,
-                              style: Theme.of(context).textTheme.headline1,
+                              style: headline1,
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(
@@ -188,7 +187,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             ),
                             Text(
                               onBoardingContents[index].description,
-                              style: Theme.of(context).textTheme.bodyText1,
+                              style: bodyText1,
                             )
                           ],
                         ),

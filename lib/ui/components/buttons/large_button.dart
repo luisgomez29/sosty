@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sosty/ui/common/styles/styles.dart';
 
-class TextButtonFullWidth extends StatelessWidget {
-  const TextButtonFullWidth({
+class LargeButton extends StatelessWidget {
+  const LargeButton({
     Key? key,
     required this.text,
-    required this.bgColor,
     required this.onPressed,
+    this.bgColor = primaryColor,
   }) : super(key: key);
 
   final String text;
