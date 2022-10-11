@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
-import 'package:sosty/ui/config/theme/light_theme.dart';
+import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/screens/login_screen.dart';
 import 'package:sosty/ui/screens/on_boarding_screen.dart';
 
@@ -42,7 +42,7 @@ class _AppState extends State<App> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sosty',
-      theme: lightTheme(context),
+      theme: AppTheme.light(context),
       home:
           _seenOnboard == true ? const LoginScreen() : const OnBoardingScreen(),
     );

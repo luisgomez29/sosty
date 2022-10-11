@@ -53,10 +53,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   Widget _getWidgetButtonNavigationBar() {
     return _currentPage == onBoardingContents.length - 1
-        ? LargeButton(
-            text: "Iniciar",
-            onPressed: _goToLoginScreen,
-          )
+        ? Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+          child: LargeButton(
+              text: "Iniciar",
+              onPressed: _goToLoginScreen,
+            ),
+        )
         : Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [

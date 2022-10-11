@@ -8,16 +8,16 @@ import 'package:sosty/ui/components/fields/custom_password_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
 import 'package:sosty/ui/components/general/section_with_bg_logo.dart';
-import 'package:sosty/ui/screens/signup_screen.dart';
+import 'package:sosty/ui/screens/login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     vertical: 40.0,
                   ),
                   child: Text(
-                    "Por favor, entra con tu email y contraseña",
+                    "Por favor, crea una cuenta con tu email y contraseña",
                     style: bodyText2Bold,
                   ),
                 ),
@@ -58,13 +58,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const CustomPasswordFormField(
                   prefixIcon: Icon(Icons.lock_outline),
-                  labelText: "Contraseña",
+                  labelText: 'Contraseña',
+                ),
+                const CustomTextFormField(
+                  labelText: 'Nombre(s)',
+                  prefixIcon: Icon(Icons.perm_identity_rounded),
+                  inputType: TextInputType.text,
+                ),
+                const CustomTextFormField(
+                  labelText: 'Apellido(s)',
+                  prefixIcon: Icon(Icons.perm_identity_rounded),
+                  inputType: TextInputType.text,
+                ),
+                const CustomTextFormField(
+                  labelText: 'Celular',
+                  prefixIcon: Icon(Icons.call),
+                  inputType: TextInputType.phone,
                 ),
                 const SizedBox(
                   height: 30,
                 ),
                 LargeButton(
-                  text: "Login",
+                  text: "Registrarme",
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -80,12 +95,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Nuevo en Sosty? ",
+                      "Ya tienes una cuenta? ",
                       style: bodyText2Bold,
                     ),
                     const SmallButtonNavigation(
-                      buttonText: "Crear una cuenta",
-                      page: SignupScreen(),
+                      buttonText: "entra",
+                      page: LoginScreen(),
                     ),
                   ],
                 ),

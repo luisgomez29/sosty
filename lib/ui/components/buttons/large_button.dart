@@ -15,25 +15,22 @@ class LargeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30),
-      child: TextButton(
-        onPressed: onPressed,
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
+    return TextButton(
+      onPressed: onPressed,
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+      ),
+      style: TextButton.styleFrom(
+        backgroundColor: bgColor,
+        foregroundColor: Colors.white,
+        minimumSize: const Size.fromHeight(50),
+        textStyle: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 24.0,
         ),
-        style: TextButton.styleFrom(
-          backgroundColor: bgColor,
-          foregroundColor: Colors.white,
-          minimumSize: const Size.fromHeight(50),
-          textStyle: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24.0,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.0),
-          ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(buttonBorderRadius),
         ),
       ),
     );

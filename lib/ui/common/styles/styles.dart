@@ -6,6 +6,7 @@ const int secondaryColorValue = 0xFF58595B;
 
 const primaryColor = Color(primaryColorValue);
 const secondaryColor = Color(secondaryColorValue);
+const buttonBorderRadius= 5.0;
 
 final headline1 = GoogleFonts.montserrat(
   fontSize: 32.0,
