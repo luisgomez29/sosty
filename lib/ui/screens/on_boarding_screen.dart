@@ -34,7 +34,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       margin: const EdgeInsets.only(right: 5),
       duration: animatedDuration,
       decoration: BoxDecoration(
-        color: isActive ? Theme.of(context).primaryColor : secondaryColor,
+        color:
+            isActive ? Theme.of(context).primaryColor : Styles.secondaryColor,
         borderRadius: const BorderRadius.all(
           Radius.circular(22),
         ),
@@ -54,12 +55,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget _getWidgetButtonNavigationBar() {
     return _currentPage == onBoardingContents.length - 1
         ? Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0),
-          child: LargeButton(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: LargeButton(
               text: "Iniciar",
               onPressed: _goToLoginScreen,
             ),
-        )
+          )
         : Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -68,7 +69,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 child: Text(
                   "Omitir",
                   textAlign: TextAlign.center,
-                  style: bodyText1Bold,
+                  style: Styles.bodyText1Bold,
                 ),
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -182,7 +183,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           children: [
                             Text(
                               onBoardingContents[index].title,
-                              style: headline1,
+                              style: Styles.headline1,
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(
@@ -190,7 +191,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             ),
                             Text(
                               onBoardingContents[index].description,
-                              style: bodyText1,
+                              style: Styles.bodyText1,
                             )
                           ],
                         ),

@@ -6,6 +6,7 @@ import 'package:sosty/ui/components/buttons/large_button.dart';
 import 'package:sosty/ui/components/buttons/small_button_navigation.dart';
 import 'package:sosty/ui/components/fields/custom_password_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
+import 'package:sosty/ui/components/fields/checkbox_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
 import 'package:sosty/ui/components/general/section_with_bg_logo.dart';
 import 'package:sosty/ui/screens/login_screen.dart';
@@ -39,7 +40,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   child: Text(
                     "Por favor, crea una cuenta con tu email y contraseña",
-                    style: bodyText2Bold,
+                    style: Styles.bodyText2Bold,
                   ),
                 ),
                 CustomTextFormField(
@@ -75,6 +76,19 @@ class _SignupScreenState extends State<SignupScreen> {
                   prefixIcon: Icon(Icons.call),
                   inputType: TextInputType.phone,
                 ),
+                CheckboxFormField(
+                  title: Text(
+                    "Acepto Política de Privacidad y Términos y Condiciones",
+                    style: Styles.bodyText2,
+                  ),
+                  validator: (bool? value) {
+                    if (!value!) {
+                      return ValidationMessages.termsAndConditionsRequired;
+                    }
+                    return null;
+                  },
+                  onSaved: (bool? newValue) {},
+                ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -96,7 +110,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   children: [
                     Text(
                       "Ya tienes una cuenta? ",
-                      style: bodyText2Bold,
+                      style: Styles.bodyText2Bold,
                     ),
                     const SmallButtonNavigation(
                       buttonText: "entra",

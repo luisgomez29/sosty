@@ -57,7 +57,7 @@ class _CustomPasswordFormFieldState extends State<CustomPasswordFormField> {
               _isObscureText ? Icons.visibility : Icons.visibility_off,
             ),
             style: IconButton.styleFrom(
-              foregroundColor: secondaryColor.withOpacity(0.55),
+              foregroundColor: Styles.secondaryColor.withOpacity(0.55),
             ),
           ),
         ),
