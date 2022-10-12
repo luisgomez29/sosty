@@ -27,7 +27,7 @@ class SectionWithBgLogo extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: headline1,
+                style: Styles.headline1,
                 textAlign: TextAlign.center,
               ),
             ],
