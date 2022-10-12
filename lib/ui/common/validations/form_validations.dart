@@ -19,4 +19,9 @@ class FormValidations {
   static isMinLengthValid(String value, int length) {
     return (value.length >= length) ? true : false;
   }
+
+  static isCellPhoneValid(String value) {
+    String exp = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    return RegExp(exp).hasMatch(value);
+  }
 }

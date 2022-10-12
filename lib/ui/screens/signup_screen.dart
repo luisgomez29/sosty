@@ -61,20 +61,47 @@ class _SignupScreenState extends State<SignupScreen> {
                   prefixIcon: Icon(Icons.lock_outline),
                   labelText: 'Contraseña',
                 ),
-                const CustomTextFormField(
+                CustomTextFormField(
                   labelText: 'Nombre(s)',
-                  prefixIcon: Icon(Icons.perm_identity_rounded),
-                  inputType: TextInputType.text,
+                  prefixIcon: const Icon(Icons.perm_identity_rounded),
+                  inputType: TextInputType.name,
+                  validator: (value) {
+                    if (FormValidations.isEmpty(value!)) {
+                      return ValidationMessages.nameRequired;
+                    }
+                    if (!FormValidations.isMinLengthValid(value, 3)) {
+                      return ValidationMessages.fieldMinLength;
+                    }
+                    return null;
+                  },
                 ),
-                const CustomTextFormField(
+                CustomTextFormField(
                   labelText: 'Apellido(s)',
                   prefixIcon: Icon(Icons.perm_identity_rounded),
                   inputType: TextInputType.text,
+                  validator: (value) {
+                    if (FormValidations.isEmpty(value!)) {
+                      return ValidationMessages.lastnameRequired;
+                    }
+                    if (!FormValidations.isMinLengthValid(value, 3)) {
+                      return ValidationMessages.fieldMinLength;
+                    }
+                    return null;
+                  },
                 ),
-                const CustomTextFormField(
+                CustomTextFormField(
                   labelText: 'Celular',
                   prefixIcon: Icon(Icons.call),
                   inputType: TextInputType.phone,
+                  validator: (value) {
+                    if (FormValidations.isEmpty(value!)) {
+                      return ValidationMessages.cellphoneRequired;
+                    }
+                    if (!FormValidations.isCellPhoneValid(value)) {
+                      return ValidationMessages.cellphoneInvalid;
+                    }
+                    return null;
+                  },
                 ),
                 CheckboxFormField(
                   title: Text(
