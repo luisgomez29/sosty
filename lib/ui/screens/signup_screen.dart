@@ -70,28 +70,34 @@ class _SignupScreenState extends State<SignupScreen> {
                       return ValidationMessages.nameRequired;
                     }
                     if (!FormValidations.isMinLengthValid(value, 3)) {
-                      return ValidationMessages.fieldMinLength;
+                      return ValidationMessages.fieldMinLength(3);
+                    }
+                    if (!FormValidations.isMaxLengthValid(value, 30)) {
+                      return ValidationMessages.fieldMaxLength(30);
                     }
                     return null;
                   },
                 ),
                 CustomTextFormField(
                   labelText: 'Apellido(s)',
-                  prefixIcon: Icon(Icons.perm_identity_rounded),
+                  prefixIcon: const Icon(Icons.perm_identity_rounded),
                   inputType: TextInputType.text,
                   validator: (value) {
                     if (FormValidations.isEmpty(value!)) {
                       return ValidationMessages.lastnameRequired;
                     }
                     if (!FormValidations.isMinLengthValid(value, 3)) {
-                      return ValidationMessages.fieldMinLength;
+                      return ValidationMessages.fieldMinLength(3);
+                    }
+                    if (!FormValidations.isMaxLengthValid(value, 30)) {
+                      return ValidationMessages.fieldMaxLength(30);
                     }
                     return null;
                   },
                 ),
                 CustomTextFormField(
                   labelText: 'Celular',
-                  prefixIcon: Icon(Icons.call),
+                  prefixIcon: const Icon(Icons.call),
                   inputType: TextInputType.phone,
                   validator: (value) {
                     if (FormValidations.isEmpty(value!)) {

@@ -1,22 +1,32 @@
 class ValidationMessages {
-<<<<<<< HEAD
+  // Email
   static String emailRequired = "El email es requerido";
   static String emailInvalid = "El email no es valido";
+
+  // Password
   static String passwordRequired = "La constraseña es requerida";
   static String passwordMinLengthInvalid = "La constraseña es muy corta";
   static String passwordMaxLengthInvalid = "La constraseña es muy larga";
+
+  // Name
   static String nameRequired = "El nombre es requerido";
+
+  // LastName
   static String lastnameRequired = "El apellido es requerido";
+
+  // Cellphone
   static String cellphoneRequired = "El celular es requerido";
-  static String fieldMinLength = "Valor minimo 3 caracteres";
   static String cellphoneInvalid = "El celular no es valido";
-=======
-  static const String emailRequired = "El email es requerido";
-  static const String emailInvalid = "El email no es valido";
-  static const String passwordRequired = "La constraseña es requerida";
-  static const String passwordMinLengthInvalid = "La constraseña es muy corta";
-  static const String passwordMaxLengthInvalid = "La constraseña es muy larga";
+
+  // General
   static const String termsAndConditionsRequired =
       "Debes aceptar la politica de privacidad y los temrinos y condiciones";
->>>>>>> f87db3dce356ff21478c968a3b400b2902eb7a26
+
+  static String fieldMinLength(int length) {
+    return "Valor mínimo $length caracteres";
+  }
+
+  static String fieldMaxLength(int length) {
+    return "Valor máximo $length caracteres";
+  }
 }
