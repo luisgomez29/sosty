@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: Text(
                     "Por favor, entra con tu email y contraseña",
-                    style: bodyText2Bold,
+                    style: Styles.bodyText2Bold,
                   ),
                 ),
                 CustomTextFormField(
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text(
                       "Nuevo en Sosty? ",
-                      style: bodyText2Bold,
+                      style: Styles.bodyText2Bold,
                     ),
                     const SmallButtonNavigation(
                       buttonText: "Crear una cuenta",

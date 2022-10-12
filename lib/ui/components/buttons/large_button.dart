@@ -6,7 +6,7 @@ class LargeButton extends StatelessWidget {
     Key? key,
     required this.text,
     required this.onPressed,
-    this.bgColor = primaryColor,
+    this.bgColor = Styles.primaryColor,
   }) : super(key: key);
 
   final String text;
@@ -30,7 +30,7 @@ class LargeButton extends StatelessWidget {
           fontSize: 24.0,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(buttonBorderRadius),
+          borderRadius: BorderRadius.circular(Styles.buttonBorderRadius),
         ),
       ),
     );
