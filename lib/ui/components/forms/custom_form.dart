@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sosty/ui/common/styles/styles.dart';
 
 class CustomForm extends StatefulWidget {
   const CustomForm({
@@ -21,7 +22,7 @@ class _CustomFormState extends State<CustomForm> {
       key: widget.formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
+        padding: const EdgeInsets.symmetric(horizontal: Styles.paddingContent),
         child: Column(
           children: widget.children,
         ),

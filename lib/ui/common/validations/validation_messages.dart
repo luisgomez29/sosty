@@ -4,7 +4,7 @@ class ValidationMessages {
   static String emailInvalid = "El email no es valido";
 
   // Password
-  static String passwordRequired = "La constraseña es requerida";
+  static String passwordRequired = "La contraseña es requerida";
   static String passwordMinLengthInvalid = "La constraseña es muy corta";
   static String passwordMaxLengthInvalid = "La constraseña es muy larga";
 

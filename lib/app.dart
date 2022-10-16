@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
+import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/screens/login_screen.dart';
 import 'package:sosty/ui/screens/on_boarding_screen.dart';
@@ -31,13 +33,18 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   const SystemUiOverlayStyle(
-    //     statusBarColor: secondaryColor,
-    //     statusBarIconBrightness: Brightness.dark,
-    //     statusBarBrightness: Brightness.light,
-    //   ),
-    // );
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.light.copyWith(
+        // set Status bar color in Android devices
+        statusBarColor: Styles.primaryColor,
+
+        // set Status bar icons color in Android devices
+        statusBarIconBrightness: Brightness.dark,
+
+        // set Status bar icon color in iOS
+        statusBarBrightness: Brightness.dark,
+      ),
+    );
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

@@ -146,7 +146,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       style: Styles.bodyText2Bold,
                     ),
                     const SmallButtonNavigation(
-                      buttonText: "entra",
+                      buttonText: "Entra",
                       page: LoginScreen(),
                     ),
                   ],
