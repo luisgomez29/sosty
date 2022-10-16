@@ -157,12 +157,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const [
                                   Image(
-                                    image: AssetImage("assets/images/logo.png"),
+                                    image: AssetImage(assetLogo),
                                     height: 100,
                                   ),
                                   SizedBox(
                                     height: 50,
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -175,9 +175,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       child: Container(
                         padding: const EdgeInsets.only(
                           top: 15,
-                          right: 30,
+                          right: Styles.paddingContent,
                           bottom: 15,
-                          left: 30,
+                          left: Styles.paddingContent,
                         ),
                         child: Column(
                           children: [
@@ -192,7 +192,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             Text(
                               onBoardingContents[index].description,
                               style: Styles.bodyText1,
-                            )
+                            ),
                           ],
                         ),
                       ),

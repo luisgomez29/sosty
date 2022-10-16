@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sosty/app_bottom_navigation_bar.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/common/validations/form_validations.dart';
 import 'package:sosty/ui/common/validations/validation_messages.dart';
@@ -9,6 +10,7 @@ import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
 import 'package:sosty/ui/components/general/section_with_bg_logo.dart';
 import 'package:sosty/ui/screens/signup_screen.dart';
+import 'package:sosty/ui/screens/investments/investments_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -67,9 +69,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   text: "Login",
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
-                      );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const AppBottomNavigationBar()));
                     }
                   },
                 ),
