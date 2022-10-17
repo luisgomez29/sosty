@@ -1,14 +1,19 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 /// Error model
 class ErrorItem {
+  final String message;
+  late final String reason;
   final String? code;
   final String? domain;
-  final String message;
-  final String reason;
 
   ErrorItem({
+    required this.message,
+    required String reason,
     this.code,
     this.domain,
-    required this.message,
-    required this.reason,
-  });
+  }) {
+    this.reason = utf8.decode(reason.toString().runes.toList());
+  }
 }

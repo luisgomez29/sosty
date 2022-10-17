@@ -15,6 +15,11 @@ class AppTheme {
       navigationBarTheme: NavigationBarThemeData(
         indicatorColor: Styles.primaryColor.withOpacity(0.6),
       ),
+      // snackBarTheme: SnackBarThemeData(
+      //   contentTextStyle: TextStyle(
+      //     fontSize: 16.0
+      //   ),
+      // ),
       colorScheme: ColorScheme.fromSwatch(
         primarySwatch: const MaterialColor(
           Styles.primaryColorValue,

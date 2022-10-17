@@ -9,11 +9,13 @@ class CustomPasswordFormField extends StatefulWidget {
     required this.labelText,
     required this.prefixIcon,
     this.suffixIcon,
+    this.controller,
   }) : super(key: key);
 
   final String labelText;
   final Icon prefixIcon;
   final Widget? suffixIcon;
+  final TextEditingController? controller;
 
   @override
   _CustomPasswordFormFieldState createState() =>
@@ -35,6 +37,7 @@ class _CustomPasswordFormFieldState extends State<CustomPasswordFormField> {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
         obscureText: _isObscureText,
+        controller: widget.controller,
         validator: (value) {
           if (FormValidations.isEmpty(value!)) {
             return ValidationMessages.passwordRequired;

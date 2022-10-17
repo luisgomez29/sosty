@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sosty/config/provider/user_provider.dart';
+import 'package:sosty/domain/use_cases/user/user_usecase.dart';
+import 'package:sosty/infraestructure/driven_adapter/user_api/user_api.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/config/theme/app_theme.dart';
@@ -46,12 +50,22 @@ class _AppState extends State<App> {
       ),
     );
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Sosty',
-      theme: AppTheme.light(context),
-      home:
-          _seenOnboard == true ? const LoginScreen() : const OnBoardingScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(
+            userUseCase: UserUseCase(UserApi()),
+          ),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Sosty',
+        theme: AppTheme.light(context),
+        home: _seenOnboard == true
+            ? const LoginScreen()
+            : const OnBoardingScreen(),
+      ),
     );
   }
 }
