@@ -8,6 +8,7 @@ import 'package:sosty/ui/components/general/timeline.dart';
 import 'package:sosty/ui/components/investments/investments_timeline_item.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
 import 'package:sosty/ui/components/navbar/navbar_detail.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class InvestmentsDetail extends StatelessWidget {
   const InvestmentsDetail({Key? key}) : super(key: key);
@@ -36,6 +37,10 @@ class InvestmentsDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const List<ChartData> chartData = [
+      ChartData("01/01/2022", 40000),
+      ChartData("02/02/2022", 40000)
+    ];
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -122,6 +127,25 @@ class InvestmentsDetail extends StatelessWidget {
                     CustomCard(
                       child: Column(
                         children: [
+                          _getCardTitle("Evolución Peso Lote"),
+                          //Initialize the chart widget
+                          SfCartesianChart(
+                              primaryXAxis: CategoryAxis(interval: 1),
+                              primaryYAxis: NumericAxis(interval: 20000),
+                              series: <ChartSeries<ChartData, String>>[
+                                // Renders column chart
+                                ColumnSeries<ChartData, String>(
+                                    color: Styles.primaryColor,
+                                    dataSource: chartData,
+                                    xValueMapper: (ChartData data, _) => data.x,
+                                    yValueMapper: (ChartData data, _) => data.y)
+                              ])
+                        ],
+                      ),
+                    ),
+                    CustomCard(
+                      child: Column(
+                        children: [
                           _getCardTitle("Actualizaciones y \n Documentos"),
                           Timeline(
                             lineColor:
@@ -184,4 +208,10 @@ class InvestmentsDetail extends StatelessWidget {
       ),
     );
   }
+}
+
+class ChartData {
+  const ChartData(this.x, this.y);
+  final String x;
+  final int y;
 }
