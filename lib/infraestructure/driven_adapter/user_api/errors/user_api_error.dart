@@ -1,3 +1,5 @@
 class UserApiError {
-  static const failedLogin = "Error al iniciar sesión";
+  UserApiError._();
+
+  static const loginFailed = "Error al iniciar sesión";
 }

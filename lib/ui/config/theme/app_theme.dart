@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 
 class AppTheme {
+  AppTheme._();
+
   static ThemeData light(context) {
     return ThemeData(
       // scaffoldBackgroundColor: Styles.screenBackgroundColor,

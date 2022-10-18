@@ -15,7 +15,7 @@ class NavbarDetail extends StatelessWidget {
       backgroundColor: Styles.primaryColor,
       leading: BackButton(color: Colors.white),
       title: Image(
-        image: AssetImage(assetLogo),
+        image: AssetImage(Constants.assetLogo),
         height: 50,
       ),
     );

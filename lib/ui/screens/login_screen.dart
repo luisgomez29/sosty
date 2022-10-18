@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/app_bottom_navigation_bar.dart';
 import 'package:sosty/config/provider/user_provider.dart';
-import 'package:sosty/domain/models/error_item/error_item.dart';
 import 'package:sosty/domain/models/user/user.dart';
 import 'package:sosty/infraestructure/helpers/api_client/exception/api_exception.dart';
+import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/common/validations/form_validations.dart';
 import 'package:sosty/ui/common/validations/validation_messages.dart';
@@ -40,6 +41,45 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
 
+    void _login() async {
+      if (_formKey.currentState!.validate()) {
+        try {
+          User user = await userProvider.userUseCase.login(
+            emailCtrl.text,
+            passwordCtrl.text,
+          );
+
+          // Store user session data
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString(
+            Constants.accessTokenPref,
+            user.accessToken,
+          );
+          await prefs.setString(
+            Constants.userIdPref,
+            user.userID,
+          );
+          await prefs.setString(
+            Constants.userTypePref,
+            user.userType,
+          );
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AppBottomNavigationBar(),
+            ),
+          );
+        } on ApiException catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(e.getError().reason),
+            ),
+          );
+        }
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -56,12 +96,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     vertical: 40.0,
                   ),
                   child: Text(
-                    "Por favor, entra con tu email y contraseña",
+                    "Por favor, entra con tu correo electrónico y contraseña",
                     style: Styles.bodyText2Bold,
                   ),
                 ),
                 CustomTextFormField(
-                  labelText: 'Email',
+                  labelText: 'Correo electrónico',
                   prefixIcon: const Icon(Icons.email),
                   inputType: TextInputType.emailAddress,
                   controller: emailCtrl,
@@ -84,36 +124,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 30,
                 ),
                 LargeButton(
-                  text: "Login",
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      print("EMAIL => ${emailCtrl.text}");
-                      print("PASSWORD => ${passwordCtrl.text}");
-
-                      try {
-                        User user = await userProvider.userUseCase.login(
-                          emailCtrl.text,
-                          passwordCtrl.text,
-                        );
-                        print("USER => $user");
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const AppBottomNavigationBar(),
-                          ),
-                        );
-                      } on ApiException catch (e) {
-                        final reason = e.getError().reason;
-                        print("EXCEPTION => $e");
-                        print("REASON => $reason");
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(reason),
-                          ),
-                        );
-                      }
-                    }
-                  },
+                  text: "Iniciar sesión",
+                  onPressed: _login,
                 ),
                 const SizedBox(
                   height: 50,

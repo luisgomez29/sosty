@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sosty/config/provider/InvestmentProvider.dart';
 import 'package:sosty/config/provider/user_provider.dart';
-import 'package:sosty/domain/use_cases/user/user_usecase.dart';
+import 'package:sosty/domain/use_cases/investment/investment_use_case.dart';
+import 'package:sosty/domain/use_cases/user/user_use_case.dart';
+import 'package:sosty/infraestructure/driven_adapter/investment_api/investment_api.dart';
 import 'package:sosty/infraestructure/driven_adapter/user_api/user_api.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
@@ -25,7 +28,7 @@ class _AppState extends State<App> {
   Future<void> _loadSeenOnboard() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _seenOnboard = prefs.getBool(seenOnboardPref) ?? false;
+      _seenOnboard = prefs.getBool(Constants.seenOnboardPref) ?? false;
     });
   }
 
@@ -43,10 +46,10 @@ class _AppState extends State<App> {
         statusBarColor: Styles.primaryColor,
 
         // set Status bar icons color in Android devices
-        statusBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
 
         // set Status bar icon color in iOS
-        statusBarBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
       ),
     );
 
@@ -55,6 +58,11 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(
           create: (context) => UserProvider(
             userUseCase: UserUseCase(UserApi()),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => InvestmentProvider(
+            investmentUseCase: InvestmentUseCase(InvestmentApi()),
           ),
         ),
       ],

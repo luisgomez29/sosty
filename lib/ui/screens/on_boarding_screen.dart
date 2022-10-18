@@ -22,7 +22,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   /// Set value to not show on boarding screens again
   Future<void> _setSeenOnboard() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setBool(seenOnboardPref, true);
+    await prefs.setBool(Constants.seenOnboardPref, true);
   }
 
   AnimatedContainer _dotIndicator(index) {
@@ -157,7 +157,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: const [
                                   Image(
-                                    image: AssetImage(assetLogo),
+                                    image: AssetImage(Constants.assetLogo),
                                     height: 100,
                                   ),
                                   SizedBox(

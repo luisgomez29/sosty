@@ -14,7 +14,7 @@ class Navbar extends StatelessWidget {
       automaticallyImplyLeading: false,
       backgroundColor: Theme.of(context).primaryColor,
       leading: const Image(
-        image: AssetImage(assetLogo),
+        image: AssetImage(Constants.assetLogo),
       ),
       leadingWidth: 130,
       actions: [
