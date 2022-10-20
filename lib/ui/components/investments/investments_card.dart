@@ -3,7 +3,7 @@ import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/cards/custom_card.dart';
 import 'package:sosty/ui/components/general/custom_rich_text.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
-import 'package:sosty/ui/screens/investments/investments_detail.dart';
+import 'package:sosty/ui/screens/investments/investments_detail_screen.dart';
 
 class InvestmentsCard extends StatelessWidget {
   const InvestmentsCard({
