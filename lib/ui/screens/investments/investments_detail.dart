@@ -8,24 +8,11 @@ import 'package:sosty/ui/components/general/timeline.dart';
 import 'package:sosty/ui/components/investments/investments_timeline_item.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
 import 'package:sosty/ui/components/navbar/navbar_detail.dart';
-import 'package:sosty/ui/components/charts/bar_chart.dart';
 import 'package:sosty/ui/components/charts/circular_chart.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:sosty/ui/components/charts/bar_chart.dart';
 
 class InvestmentsDetail extends StatelessWidget {
   const InvestmentsDetail({Key? key}) : super(key: key);
-  static const List<BarChart> barChar = [
-    BarChart("01/01/2022", 40000),
-    BarChart("02/02/2022", 45000)
-  ];
-  static const List<CircularChart> circularChar = [
-    CircularChart('Engordan entre 0 y 6kg mensuales: ', 80,
-        Color.fromARGB(255, 247, 142, 6)),
-    CircularChart('Engordan entre 7 y 10kg mensuales: ', 80,
-        Color.fromARGB(255, 3, 217, 245)),
-    CircularChart(
-        'Engordan mas de 10kg mensuales: ', 40, Color.fromARGB(255, 0, 189, 86))
-  ];
 
   Padding _getProjectInformationItem(String text, String textSpan) {
     return Padding(
@@ -134,58 +121,8 @@ class InvestmentsDetail extends StatelessWidget {
                         ],
                       ),
                     ),
-                    CustomCard(
-                      child: Column(
-                        children: [
-                          _getCardTitle("Evolución Peso Lote"),
-                          //Initialize the chart widget
-                          SfCartesianChart(
-                              primaryXAxis: CategoryAxis(interval: 1),
-                              primaryYAxis: NumericAxis(interval: 20000),
-                              series: <ChartSeries<BarChart, String>>[
-                                // Renders column chart
-                                ColumnSeries<BarChart, String>(
-                                    color: Styles.primaryColor,
-                                    dataSource: barChar,
-                                    xValueMapper: (BarChart data, _) => data.x,
-                                    yValueMapper: (BarChart data, _) => data.y)
-                              ])
-                        ],
-                      ),
-                    ),
-                    CustomCard(
-                      child: Column(
-                        children: [
-                          _getCardTitle("Animales"),
-                          //Initialize the chart widget
-                          SfCircularChart(annotations: <
-                              CircularChartAnnotation>[
-                            CircularChartAnnotation(
-                                widget: Container(
-                                    child: const Text('200 \n Animales',
-                                        style: TextStyle(
-                                            color: Color.fromARGB(255, 0, 0, 0),
-                                            fontSize: 20),
-                                        textAlign: TextAlign.center)))
-                          ], series: <CircularSeries>[
-                            // Renders doughnut chart
-                            DoughnutSeries<CircularChart, String>(
-                                dataSource: circularChar,
-                                innerRadius: '70%',
-                                pointColorMapper: (CircularChart data, _) =>
-                                    data.color,
-                                xValueMapper: (CircularChart data, _) => data.x,
-                                yValueMapper: (CircularChart data, _) => data.y,
-                                dataLabelMapper: (CircularChart data, _) =>
-                                    data.x + data.y.toString(),
-                                dataLabelSettings: const DataLabelSettings(
-                                    isVisible: true,
-                                    labelPosition:
-                                        ChartDataLabelPosition.outside)),
-                          ])
-                        ],
-                      ),
-                    ),
+                    const CustomCard(child: ToolBar()),
+                    const CustomCard(child: ToolCircular()),
                     CustomCard(
                       child: Column(
                         children: [
