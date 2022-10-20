@@ -1,4 +1,6 @@
 class ValidationMessages {
+  ValidationMessages._();
+
   // Email
   static String emailRequired = "El email es requerido";
   static String emailInvalid = "El email no es valido";
@@ -9,14 +11,14 @@ class ValidationMessages {
   static String passwordMaxLengthInvalid = "La constraseña es muy larga";
 
   // Name
-  static String nameRequired = "El nombre es requerido";
+  static String firstNameRequired = "El nombre es requerido";
 
   // LastName
-  static String lastnameRequired = "El apellido es requerido";
+  static String lastNameRequired = "El apellido es requerido";
 
   // Cellphone
-  static String cellphoneRequired = "El celular es requerido";
-  static String cellphoneInvalid = "El celular no es valido";
+  static String cellPhoneRequired = "El celular es requerido";
+  static String cellPhoneInvalid = "El celular no es valido";
 
   // General
   static const String termsAndConditionsRequired =
