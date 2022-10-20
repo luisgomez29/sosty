@@ -1,74 +1,141 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sosty/config/provider/user_provider.dart';
+import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
+import 'package:sosty/domain/models/user/user.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/account/account_info.dart';
+import 'package:sosty/ui/components/account/profile_menu_item.dart';
 import 'package:sosty/ui/components/general/content_section.dart';
+import 'package:sosty/ui/components/general/load_data_error.dart';
+import 'package:sosty/ui/components/general/loading_indicator.dart';
 import 'package:sosty/ui/components/navbar/navbar.dart';
 import 'package:sosty/ui/components/navbar/navbar_clipper.dart';
+import 'package:sosty/ui/screens/login_screen.dart';
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
 
   @override
+  _AccountScreenState createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
+  String userId = "";
+
+  Future<void> _loadUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userId = prefs.getString(SharedPreferencesEnum.userId.value) ??
+          SharedPreferencesEnum.keyNotFound.value;
+    });
+  }
+
+  void _logout(context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(SharedPreferencesEnum.accessToken.value);
+    await prefs.remove(SharedPreferencesEnum.userId.value);
+    await prefs.remove(SharedPreferencesEnum.userType.value);
+
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ),
+        (route) => false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserId();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+
     return CustomScrollView(
       slivers: <Widget>[
         const Navbar(),
         SliverToBoxAdapter(
           child: Column(
-            children: [
+            children: <Widget>[
               const NavbarClipper(),
               ContentSection(
                 offsetY: -70.0,
                 paddingH: 0.0,
-                child: Column(
-                  children: [
-                    const AccountInfo(
-                      imageUrl:
-                          "https://sosty.blob.core.windows.net/sosty-public-files/20220520215423.jpeg",
-                      name: "Jose Miguel Moreno López",
-                      email: "jose@gmail.com",
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 15.0,
-                        ),
-                        child: Row(
-                          children: [
-                            ClipOval(
-                              child: Material(
-                                color: Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.1),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.exit_to_app_outlined,
-                                    size: 24,
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                ),
-                              ),
+                child: FutureBuilder<User>(
+                  future: userProvider.userUseCase.getUserByID(userId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasData) {
+                        final user = snapshot.data!;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            AccountInfo(
+                              imageUrl: user.profilePictureUrl,
+                              name:
+                                  "${user.profileDetails[0].firstName} ${user.profileDetails[0].lastName}",
+                              email: user.email,
                             ),
                             const SizedBox(
-                              width: 10,
+                              height: 50,
                             ),
-                            Text(
-                              "Cerrar sesión",
-                              style: Styles.bodyText1.copyWith(
-                                fontSize: 17.0,
+                            ContentSection(
+                              offsetY: 0.0,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    "Celular",
+                                    style: Styles.bodyText1Bold,
+                                  ),
+                                  Text(
+                                    user.profileDetails[0].contactCellphone,
+                                    style: Styles.bodyText1,
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text(
+                                    "Ubicación",
+                                    style: Styles.bodyText1Bold,
+                                  ),
+                                  Text(
+                                    "${user.profileDetails[0].city ?? ""} - ${user.profileDetails[0].state ?? ""}",
+                                    style: Styles.bodyText1,
+                                  ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  const Divider(),
+                                ],
                               ),
                             ),
+                            ProfileMenuItem(
+                              title: "Cerrar sesión",
+                              icon: Icons.exit_to_app_outlined,
+                              onTap: () {
+                                return _logout(context);
+                              },
+                            ),
                           ],
-                        ),
-                      ),
-                    ),
-                  ],
+                        );
+                      }
+                    } else if (snapshot.hasError) {
+                      if (kDebugMode) {
+                        print("GET_USER_BY_ID_ERROR => ${snapshot.error}");
+                      }
+                      return const LoadDataError();
+                    }
+                    return const LoadingIndicator();
+                  },
                 ),
               ),
             ],

@@ -1,5 +1,6 @@
-/// Respuesta que devuelve la petición a los los microservicios de
-/// Contactabilidad
+import 'dart:typed_data';
+
+/// Respuesta que devuelve la petición a las APIs
 class ServiceResponse {
   /// Código de estado de la respuesta HTTP
   final int status;
@@ -7,7 +8,18 @@ class ServiceResponse {
   /// Cuerpo de la respuesta HTTP
   final String body;
 
-  ServiceResponse({required this.status, required this.body});
+  /// Cuerpo de la respuesta HTTP en bytes
+  final Uint8List bodyBytes;
 
-  Map<String, Object?> toJson() => {'status': status, 'body': body};
+  ServiceResponse({
+    required this.status,
+    required this.body,
+    required this.bodyBytes,
+  });
+
+  Map<String, Object?> toJson() => {
+        'status': status,
+        'body': body,
+        'bodyBytes': bodyBytes,
+      };
 }

@@ -11,10 +11,13 @@ abstract class BaseException implements Exception {
 
   @override
   String toString() {
-    final String codeStr = 'code: ${_errorItem.code}';
-    final String domainStr = 'domain: ${_errorItem.domain}';
-    final String messageStr = 'message: ${_errorItem.message}';
-    final String reasonStr = 'reason: ${_errorItem.reason}';
-    return '$codeStr - $domainStr - $messageStr - $reasonStr';
+    return '''
+      {
+        "code": "${_errorItem.code}",
+        "domain": "${_errorItem.domain}",
+        "message": "${_errorItem.message}",
+        "reason": "${_errorItem.reason}"
+      }
+     ''';
   }
 }

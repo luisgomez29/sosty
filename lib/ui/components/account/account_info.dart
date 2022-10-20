@@ -5,24 +5,36 @@ import 'package:sosty/ui/components/general/content_section.dart';
 class AccountInfo extends StatelessWidget {
   const AccountInfo({
     Key? key,
-    required this.imageUrl,
+    this.imageUrl,
     required this.name,
     required this.email,
   }) : super(key: key);
 
-  final String imageUrl;
+  final String? imageUrl;
   final String name;
   final String email;
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: ContentSection.padding,
-      ),
-      child: Column(
-        children: [
-          Container(
+  Container _getProfileImage(context) {
+    return imageUrl == null
+        ? Container(
+            height: 150,
+            width: 150,
+            margin: const EdgeInsets.only(bottom: 10.0),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.white,
+                width: 6,
+              ),
+            ),
+            child: const Icon(
+              Icons.person_outline,
+              color: Colors.white,
+              size: 100,
+            ),
+          )
+        : Container(
             height: 150,
             width: 150,
             margin: const EdgeInsets.only(bottom: 10.0),
@@ -35,23 +47,36 @@ class AccountInfo extends StatelessWidget {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                  imageUrl,
+                  imageUrl!,
                 ),
               ),
             ),
-          ),
-          Text(
-            name,
-            style: Styles.headline3,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
-            email,
-            style: Styles.bodyText1,
-          ),
-        ],
+          );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: ContentSection.padding,
+        ),
+        child: Column(
+          children: [
+            _getProfileImage(context),
+            Text(
+              name,
+              style: Styles.headline3,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              email,
+              style: Styles.bodyText1,
+            ),
+          ],
+        ),
       ),
     );
   }

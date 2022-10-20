@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/cards/custom_card.dart';
 import 'package:sosty/ui/components/general/custom_rich_text.dart';
+import 'package:sosty/ui/helpers/formatter_helper.dart';
 import 'package:sosty/ui/screens/investments/investments_detail.dart';
 
 class InvestmentsCard extends StatelessWidget {
@@ -15,6 +16,7 @@ class InvestmentsCard extends StatelessWidget {
     required this.investedAmount,
     required this.participation,
     required this.paymentConfirmed,
+    required this.investmentDate,
     required this.phase,
   }) : super(key: key);
 
@@ -24,7 +26,8 @@ class InvestmentsCard extends StatelessWidget {
   final String progress;
   final double progressIndicator;
   final String investedAmount;
-  final String participation;
+  final double participation;
+  final DateTime investmentDate;
   final bool paymentConfirmed;
   final String phase;
 
@@ -58,9 +61,11 @@ class InvestmentsCard extends StatelessWidget {
                   Icons.location_pin,
                   color: Theme.of(context).primaryColor,
                 ),
-                Text(
-                  location,
-                  style: Styles.bodyText1,
+                Expanded(
+                  child: Text(
+                    location,
+                    style: Styles.bodyText1,
+                  ),
                 ),
               ],
             ),
@@ -98,7 +103,14 @@ class InvestmentsCard extends StatelessWidget {
             ),
             CustomRichText(
               text: "Participación",
-              textSpan: participation,
+              textSpan: "$participation Kg",
+            ),
+            const SizedBox(
+              height: 7,
+            ),
+            CustomRichText(
+              text: "Fecha de inversión",
+              textSpan: FormatterHelper.date(investmentDate),
             ),
             Row(
               children: [
@@ -107,10 +119,14 @@ class InvestmentsCard extends StatelessWidget {
                   style: Styles.bodyText2Bold,
                 ),
                 Chip(
-                  label: const Text('SI'),
-                  backgroundColor: Styles.primaryColor.withOpacity(0.1),
-                  labelStyle: const TextStyle(
-                    color: Styles.primaryColor,
+                  label: Text(paymentConfirmed ? 'SI' : "NO"),
+                  backgroundColor: paymentConfirmed
+                      ? Styles.primaryColor.withOpacity(0.1)
+                      : Colors.deepOrange.withOpacity(0.1),
+                  labelStyle: TextStyle(
+                    color: paymentConfirmed
+                        ? Styles.primaryColor
+                        : Colors.deepOrange.withOpacity(0.7),
                   ),
                 ),
               ],

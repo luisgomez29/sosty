@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sosty/ui/common/constants/constants.dart';
+import 'package:sosty/ui/common/enums/assets_enum.dart';
 
 class Navbar extends StatelessWidget {
   const Navbar({Key? key}) : super(key: key);
@@ -13,8 +13,8 @@ class Navbar extends StatelessWidget {
       elevation: 0.0,
       automaticallyImplyLeading: false,
       backgroundColor: Theme.of(context).primaryColor,
-      leading: const Image(
-        image: AssetImage(assetLogo),
+      leading: Image(
+        image: AssetImage(AssetsEnum.logo.value),
       ),
       leadingWidth: 130,
       actions: [

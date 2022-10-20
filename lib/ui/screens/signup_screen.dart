@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sosty/app_bottom_navigation_bar.dart';
+import 'package:sosty/config/provider/user_provider.dart';
+import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
+import 'package:sosty/domain/models/common/enums/user_role_enum.dart';
+import 'package:sosty/domain/models/user/user.dart';
+import 'package:sosty/infraestructure/helpers/api_client/exception/api_exception.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/common/validations/form_validations.dart';
 import 'package:sosty/ui/common/validations/validation_messages.dart';
 import 'package:sosty/ui/components/buttons/large_button.dart';
 import 'package:sosty/ui/components/buttons/small_button_navigation.dart';
+import 'package:sosty/ui/components/fields/checkbox_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_password_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
-import 'package:sosty/ui/components/fields/checkbox_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
 import 'package:sosty/ui/components/general/section_with_bg_logo.dart';
 import 'package:sosty/ui/screens/login_screen.dart';
@@ -20,6 +28,55 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
+  final emailCtrl = TextEditingController();
+  final passwordCtrl = TextEditingController();
+  final firstNameCtrl = TextEditingController();
+  final lastNameCtrl = TextEditingController();
+  final phoneNumberCtrl = TextEditingController();
+
+  void _signup() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final userProvider = Provider.of<UserProvider>(context, listen: false);
+        User user = await userProvider.userUseCase.signup(
+          emailCtrl.text,
+          passwordCtrl.text,
+          UserRoleEnum.investor.value,
+          firstNameCtrl.text,
+          lastNameCtrl.text,
+          phoneNumberCtrl.text,
+        );
+
+        // Store user session data
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString(
+          SharedPreferencesEnum.accessToken.value,
+          user.accessToken,
+        );
+        await prefs.setString(
+          SharedPreferencesEnum.userId.value,
+          user.userId,
+        );
+        await prefs.setString(
+          SharedPreferencesEnum.userType.value,
+          user.userType.value,
+        );
+
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AppBottomNavigationBar(),
+            ),
+            (route) => false);
+      } on ApiException catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.getError().reason),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +103,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 CustomTextFormField(
                   labelText: 'Email',
                   prefixIcon: const Icon(Icons.email),
+                  controller: emailCtrl,
                   inputType: TextInputType.emailAddress,
                   validator: (value) {
                     if (FormValidations.isEmpty(value!)) {
@@ -57,17 +115,19 @@ class _SignupScreenState extends State<SignupScreen> {
                     return null;
                   },
                 ),
-                const CustomPasswordFormField(
-                  prefixIcon: Icon(Icons.lock_outline),
+                CustomPasswordFormField(
+                  prefixIcon: const Icon(Icons.lock_outline),
                   labelText: 'Contraseña',
+                  controller: passwordCtrl,
                 ),
                 CustomTextFormField(
                   labelText: 'Nombre(s)',
                   prefixIcon: const Icon(Icons.perm_identity_rounded),
+                  controller: firstNameCtrl,
                   inputType: TextInputType.name,
                   validator: (value) {
                     if (FormValidations.isEmpty(value!)) {
-                      return ValidationMessages.nameRequired;
+                      return ValidationMessages.firstNameRequired;
                     }
                     if (!FormValidations.isMinLengthValid(value, 3)) {
                       return ValidationMessages.fieldMinLength(3);
@@ -81,10 +141,11 @@ class _SignupScreenState extends State<SignupScreen> {
                 CustomTextFormField(
                   labelText: 'Apellido(s)',
                   prefixIcon: const Icon(Icons.perm_identity_rounded),
+                  controller: lastNameCtrl,
                   inputType: TextInputType.text,
                   validator: (value) {
                     if (FormValidations.isEmpty(value!)) {
-                      return ValidationMessages.lastnameRequired;
+                      return ValidationMessages.lastNameRequired;
                     }
                     if (!FormValidations.isMinLengthValid(value, 3)) {
                       return ValidationMessages.fieldMinLength(3);
@@ -98,13 +159,14 @@ class _SignupScreenState extends State<SignupScreen> {
                 CustomTextFormField(
                   labelText: 'Celular',
                   prefixIcon: const Icon(Icons.call),
+                  controller: phoneNumberCtrl,
                   inputType: TextInputType.phone,
                   validator: (value) {
                     if (FormValidations.isEmpty(value!)) {
-                      return ValidationMessages.cellphoneRequired;
+                      return ValidationMessages.cellPhoneRequired;
                     }
                     if (!FormValidations.isCellPhoneValid(value)) {
-                      return ValidationMessages.cellphoneInvalid;
+                      return ValidationMessages.cellPhoneInvalid;
                     }
                     return null;
                   },
@@ -127,13 +189,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 LargeButton(
                   text: "Registrarme",
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
-                      );
-                    }
-                  },
+                  onPressed: _signup,
                 ),
                 const SizedBox(
                   height: 50,
