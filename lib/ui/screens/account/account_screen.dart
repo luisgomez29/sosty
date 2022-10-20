@@ -23,7 +23,8 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  String userId = "";
+  String? userId;
+  Future<User>? futureUser;
 
   Future<void> _loadUserId() async {
     final prefs = await SharedPreferences.getInstance();
@@ -31,6 +32,11 @@ class _AccountScreenState extends State<AccountScreen> {
       userId = prefs.getString(SharedPreferencesEnum.userId.value) ??
           SharedPreferencesEnum.keyNotFound.value;
     });
+  }
+
+  Future<User> fetchUser() {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    return userProvider.userUseCase.getUserByID(userId!);
   }
 
   void _logout(context) async {
@@ -50,13 +56,13 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   void initState() {
     super.initState();
-    _loadUserId();
+    _loadUserId().then((_) {
+      futureUser = fetchUser();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-
     return CustomScrollView(
       slivers: <Widget>[
         const Navbar(),
@@ -68,7 +74,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 offsetY: -70.0,
                 paddingH: 0.0,
                 child: FutureBuilder<User>(
-                  future: userProvider.userUseCase.getUserByID(userId),
+                  future: futureUser,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasData) {

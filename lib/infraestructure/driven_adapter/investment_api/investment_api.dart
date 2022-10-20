@@ -16,7 +16,7 @@ class InvestmentApi extends InvestmentGateway {
 
   @override
   Future<List<Item>> getInvestmentsInProgressByInvestor(
-      String investorID) async {
+      String investorId) async {
     final prefs = await SharedPreferences.getInstance();
 
     final accessToken =
@@ -28,7 +28,7 @@ class InvestmentApi extends InvestmentGateway {
       headers: {
         HttpHeaders.authorizationHeader: 'Bearer $accessToken',
       },
-      params: {'investorID': investorID},
+      params: {'investorID': investorId},
     );
 
     if (response.status == HttpStatus.ok) {

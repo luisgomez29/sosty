@@ -2,12 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sosty/app_bottom_navigation_bar.dart';
 import 'package:sosty/config/provider/InvestmentProvider.dart';
 import 'package:sosty/domain/models/Item/item.dart';
 import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
-import 'package:sosty/ui/components/buttons/large_button.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
 import 'package:sosty/ui/components/general/content_section.dart';
 import 'package:sosty/ui/components/general/load_data_error.dart';
@@ -17,7 +15,6 @@ import 'package:sosty/ui/components/investments/investments_card.dart';
 import 'package:sosty/ui/components/navbar/navbar.dart';
 import 'package:sosty/ui/components/navbar/navbar_clipper.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
-import 'package:sosty/ui/screens/projets/project_screen.dart';
 
 class InvestmentsScreen extends StatefulWidget {
   const InvestmentsScreen({Key? key}) : super(key: key);
@@ -27,7 +24,9 @@ class InvestmentsScreen extends StatefulWidget {
 }
 
 class _InvestmentsScreenState extends State<InvestmentsScreen> {
-  String userId = "";
+  String? userId;
+  Future<List<Item>>? futureInvestments;
+
   final totalInvestedText = 'Total Invertido';
   final totalGain = 'Total Ganancia';
   final totalReceivedText = 'Total Recibido';
@@ -39,6 +38,13 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
       userId = prefs.getString(SharedPreferencesEnum.userId.value) ??
           SharedPreferencesEnum.keyNotFound.value;
     });
+  }
+
+  Future<List<Item>> fetchInvestments() async {
+    final investmentProvider =
+        Provider.of<InvestmentProvider>(context, listen: false);
+    return investmentProvider.investmentUseCase
+        .getInvestmentsInProgressByInvestor(userId!);
   }
 
   double _getPercent(double investmentCollected, int investmentRequired) {
@@ -56,12 +62,13 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
   @override
   void initState() {
     super.initState();
-    _loadUserId();
+    _loadUserId().then((_) {
+      futureInvestments = fetchInvestments();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final investmentProvider = Provider.of<InvestmentProvider>(context);
     return CustomScrollView(
       slivers: <Widget>[
         const Navbar(),
@@ -74,8 +81,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                 child: Column(
                   children: [
                     FutureBuilder<List<Item>>(
-                      future: investmentProvider.investmentUseCase
-                          .getInvestmentsInProgressByInvestor(userId),
+                      future: futureInvestments,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
