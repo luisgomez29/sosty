@@ -45,7 +45,7 @@ class _ToolState extends State<ToolCircular> {
         style: Styles.headline3,
       ),
     );
-  }
+  } //
 
   @override
   Widget build(BuildContext context) {
