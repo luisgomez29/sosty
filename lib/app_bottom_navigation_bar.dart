@@ -5,7 +5,11 @@ import 'package:sosty/ui/screens/investments/investments_screen.dart';
 import 'package:sosty/ui/screens/projets/project_screen.dart';
 
 class AppBottomNavigationBar extends StatefulWidget {
-  const AppBottomNavigationBar({Key? key}) : super(key: key);
+  const AppBottomNavigationBar({
+    Key? key,
+    this.indexPage,
+  }) : super(key: key);
+  final int? indexPage;
 
   @override
   _AppBottomNavigationBarState createState() => _AppBottomNavigationBarState();
@@ -16,7 +20,7 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
 
   void _onDestinationSelectedState(int index) {
     setState(() {
-      currentPageIndex = index;
+      currentPageIndex = widget.indexPage ?? index;
     });
   }
 

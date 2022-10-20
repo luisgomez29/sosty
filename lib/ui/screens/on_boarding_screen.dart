@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sosty/ui/common/constants/constants.dart';
+import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
+import 'package:sosty/ui/common/enums/assets_enum.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/buttons/large_button.dart';
 import 'package:sosty/ui/components/clippers/wave_clipper.dart';
-import 'package:sosty/ui/helpers/on_boarding.dart';
+import 'package:sosty/ui/helpers/on_boarding_helper.dart';
 import 'package:sosty/ui/screens/login_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -22,12 +23,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   /// Set value to not show on boarding screens again
   Future<void> _setSeenOnboard() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(Constants.seenOnboardPref, true);
+    await prefs.setBool(SharedPreferencesEnum.seenOnboard.value, true);
   }
 
   AnimatedContainer _dotIndicator(index) {
     final isActive = _currentPage == index;
-
     return AnimatedContainer(
       height: isActive ? 20 : 10,
       width: 10,
@@ -155,12 +155,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Image(
-                                    image: AssetImage(Constants.assetLogo),
+                                    image: AssetImage(AssetsEnum.logo.value),
                                     height: 100,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 50,
                                   ),
                                 ],

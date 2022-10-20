@@ -13,9 +13,23 @@ class UserApi extends UserGateway {
   final ApiClient _apiClient = ApiClient();
 
   @override
-  Future<User> getByID(String userID) {
-    // TODO: implement getByID
-    throw UnimplementedError();
+  Future<User> getUserByID(String userId) async {
+    final response = await _apiClient.get(
+      ApiEndpoint.getUserById,
+      params: {'userID': userId},
+    );
+
+    if (response.status == HttpStatus.ok) {
+      return User.fromJson(jsonDecode(response.body));
+    } else {
+      throw ApiException(
+        ErrorItem(
+          domain: ApiEndpoint.getUserById,
+          reason: response.body,
+          message: UserApiError.getUserByIdFailed,
+        ),
+      );
+    }
   }
 
   @override
@@ -26,14 +40,47 @@ class UserApi extends UserGateway {
     );
 
     if (response.status == HttpStatus.ok) {
-      Map<String, dynamic> res = jsonDecode(response.body);
-      return User.fromJson(res);
+      return User.fromJson(jsonDecode(response.body));
     } else {
       throw ApiException(
         ErrorItem(
           domain: ApiEndpoint.login,
           reason: response.body,
           message: UserApiError.loginFailed,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<User> signup(
+    String email,
+    String password,
+    String userType,
+    String firstName,
+    String lastName,
+    String phoneNumber,
+  ) async {
+    final response = await _apiClient.post(
+      ApiEndpoint.signup,
+      body: {
+        'email': email,
+        'password': password,
+        'userType': userType,
+        'firstName': firstName,
+        'lastName': lastName,
+        'phoneNumber': phoneNumber,
+      },
+    );
+
+    if (response.status == HttpStatus.ok) {
+      return User.fromJson(jsonDecode(response.body));
+    } else {
+      throw ApiException(
+        ErrorItem(
+          domain: ApiEndpoint.signup,
+          reason: response.body,
+          message: UserApiError.signupFailed,
         ),
       );
     }

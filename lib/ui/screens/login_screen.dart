@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/app_bottom_navigation_bar.dart';
 import 'package:sosty/config/provider/user_provider.dart';
+import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/domain/models/user/user.dart';
 import 'package:sosty/infraestructure/helpers/api_client/exception/api_exception.dart';
-import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/common/validations/form_validations.dart';
 import 'package:sosty/ui/common/validations/validation_messages.dart';
@@ -29,6 +29,46 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
 
+  void _login() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final userProvider = Provider.of<UserProvider>(context, listen: false);
+        User user = await userProvider.userUseCase.login(
+          emailCtrl.text,
+          passwordCtrl.text,
+        );
+
+        // Store user session data
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString(
+          SharedPreferencesEnum.accessToken.value,
+          user.accessToken,
+        );
+        await prefs.setString(
+          SharedPreferencesEnum.userId.value,
+          user.userId,
+        );
+        await prefs.setString(
+          SharedPreferencesEnum.userType.value,
+          user.userType.value,
+        );
+
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AppBottomNavigationBar(),
+            ),
+            (route) => false);
+      } on ApiException catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.getError().reason),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -39,47 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-
-    void _login() async {
-      if (_formKey.currentState!.validate()) {
-        try {
-          User user = await userProvider.userUseCase.login(
-            emailCtrl.text,
-            passwordCtrl.text,
-          );
-
-          // Store user session data
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString(
-            Constants.accessTokenPref,
-            user.accessToken,
-          );
-          await prefs.setString(
-            Constants.userIdPref,
-            user.userID,
-          );
-          await prefs.setString(
-            Constants.userTypePref,
-            user.userType,
-          );
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AppBottomNavigationBar(),
-            ),
-          );
-        } on ApiException catch (e) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(e.getError().reason),
-            ),
-          );
-        }
-      }
-    }
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

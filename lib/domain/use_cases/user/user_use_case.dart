@@ -6,11 +6,29 @@ class UserUseCase {
 
   UserUseCase(this._userGateway);
 
-  Future<User> getByID(String userID) async {
-    return _userGateway.getByID(userID);
+  Future<User> getUserByID(String userId) async {
+    return _userGateway.getUserByID(userId);
   }
 
   Future<User> login(String email, String password) async {
     return _userGateway.login(email, password);
+  }
+
+  Future<User> signup(
+    String email,
+    String password,
+    String userType,
+    String firstName,
+    String lastName,
+    String phoneNumber,
+  ) async {
+    return _userGateway.signup(
+      email,
+      password,
+      userType,
+      firstName,
+      lastName,
+      phoneNumber,
+    );
   }
 }

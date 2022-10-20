@@ -7,19 +7,30 @@ class LargeButton extends StatelessWidget {
     required this.text,
     required this.onPressed,
     this.bgColor = Styles.primaryColor,
+    this.icon,
   }) : super(key: key);
 
   final String text;
   final Color bgColor;
   final VoidCallback onPressed;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onPressed,
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (icon != null) Icon(icon),
+          SizedBox(
+            width: icon != null ? 5 : 0,
+          ),
+          Text(
+            text,
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
       style: TextButton.styleFrom(
         backgroundColor: bgColor,
