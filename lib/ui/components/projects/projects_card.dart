@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/cards/custom_card.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
-import 'package:sosty/ui/screens/investments/investments_detail.dart';
+import 'package:sosty/ui/screens/investments/investments_detail_screen.dart';
 
 class ProjectsCard extends StatelessWidget {
   const ProjectsCard({
