@@ -8,6 +8,8 @@ import 'package:sosty/ui/components/general/timeline.dart';
 import 'package:sosty/ui/components/investments/investments_timeline_item.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
 import 'package:sosty/ui/components/navbar/navbar_detail.dart';
+import 'package:sosty/ui/components/charts/circular_chart.dart';
+import 'package:sosty/ui/components/charts/bar_chart.dart';
 
 class InvestmentsDetail extends StatelessWidget {
   const InvestmentsDetail({Key? key}) : super(key: key);
@@ -119,6 +121,8 @@ class InvestmentsDetail extends StatelessWidget {
                         ],
                       ),
                     ),
+                    const CustomCard(child: ToolBar()),
+                    const CustomCard(child: ToolCircular()),
                     CustomCard(
                       child: Column(
                         children: [
