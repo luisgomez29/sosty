@@ -49,5 +49,7 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<true/>
+		<key>NSDownloadsFolderUsageDescription</key>
+        <string>App wants to access your downloads folder</string>
 	</dict>
 </plist>

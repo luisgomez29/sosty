@@ -3,11 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/app_bottom_navigation_bar.dart';
-import 'package:sosty/config/provider/InvestmentProvider.dart';
+import 'package:sosty/config/provider/investment_provider.dart';
+import 'package:sosty/config/provider/project_provider.dart';
 import 'package:sosty/config/provider/user_provider.dart';
 import 'package:sosty/domain/use_cases/investment/investment_use_case.dart';
+import 'package:sosty/domain/use_cases/project/project_use_case.dart';
 import 'package:sosty/domain/use_cases/user/user_use_case.dart';
 import 'package:sosty/infraestructure/driven_adapter/investment_api/investment_api.dart';
+import 'package:sosty/infraestructure/driven_adapter/project_api/project_api.dart';
 import 'package:sosty/infraestructure/driven_adapter/user_api/user_api.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/config/theme/app_theme.dart';
@@ -79,6 +82,11 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(
           create: (context) => InvestmentProvider(
             investmentUseCase: InvestmentUseCase(InvestmentApi()),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProjectProvider(
+            projectUseCase: ProjectUseCase(ProjectApi()),
           ),
         ),
       ],
