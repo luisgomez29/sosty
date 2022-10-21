@@ -11,7 +11,7 @@ class Project {
     this.projectImageUrl3,
     this.projectImageUrl4,
     required this.investmentRequired,
-    required this.minimumInvestmentRequired,
+    this.minimumInvestmentRequired,
     required this.investmentCollected,
     required this.collectDeadline,
     required this.createDate,
@@ -20,56 +20,56 @@ class Project {
     this.submitDate,
     required this.startDate,
     required this.endDate,
-    required this.details,
-    required this.risksManagement,
-    required this.communicationPlan,
+    this.details,
+    this.risksManagement,
+    this.communicationPlan,
     this.objectivesAndDetails,
     required this.projectType,
-    required this.projectSex,
+    this.projectSex,
     required this.projectCattleType,
-    required this.cattleWeightAverageGain,
-    required this.totalBatchWeight,
-    required this.amountOfCattles,
+    this.cattleWeightAverageGain,
+    this.totalBatchWeight,
+    this.amountOfCattles,
     required this.projectProfitability,
     this.hasSostyAudit,
     this.hasSostyInsurance,
-    required this.farmName,
+    this.farmName,
     required this.locationAddress,
     required this.locationState,
     this.locationCity,
     this.locationArrivalLIndications,
     this.locationSize,
     required this.producerCommission,
-    required this.estimatedFreightCost,
+    this.estimatedFreightCost,
     this.locationLatitude,
     this.locationLongitude,
     this.locationIsRented,
     this.financialProjectionUrl,
-    required this.libertadYTradicionCertificateUrl,
+    this.libertadYTradicionCertificateUrl,
     this.usoDelSueloCertificateUrl,
     this.registroSanitarioUrl,
     this.ultimoSoporteVacunacionUrl,
     this.contratoDeArriendoUrl,
-    required this.contratoColaboracionUrl,
-    required this.contratoPrestacionServiciosUrl,
-    required this.determinantesRiesgosAmbientalesYSocialesUrl,
-    required this.suraRelacionHatoGanaderoUrl,
+    this.contratoColaboracionUrl,
+    this.contratoPrestacionServiciosUrl,
+    this.determinantesRiesgosAmbientalesYSocialesUrl,
+    this.suraRelacionHatoGanaderoUrl,
     this.suraDeclaracionBovinoUrl,
     this.suraDeclaracionTipoDeProductorUrl,
     this.suraCotizacionSeguroUrl,
     required this.sostyComission,
-    required this.initialKilogramPrice,
-    required this.finalKilogramPrice,
-    required this.initialWeight,
-    required this.finalWeight,
-    required this.projectStory,
-    required this.insurancePricePerKilogram,
+    this.initialKilogramPrice,
+    this.finalKilogramPrice,
+    this.initialWeight,
+    this.finalWeight,
+    this.projectStory,
+    this.insurancePricePerKilogram,
     required this.totalMoneyCollected,
     required this.mandatoPercentage,
     required this.isBlockedForInvestment,
-    required this.fourPerThousandPerKilogram,
-    required this.orejerasPerKilogram,
-    required this.totalPricePerKilogram,
+    this.fourPerThousandPerKilogram,
+    this.orejerasPerKilogram,
+    this.totalPricePerKilogram,
     required this.sostyComissionOnSale,
     required this.calvesPercentage,
     required this.calveWeigthAtWeaning,
@@ -88,9 +88,9 @@ class Project {
     this.calvesRevenue,
     this.liquidationRevenue,
     this.amountOfCalvesToSell,
-    required this.whatsappGroupLink,
+    this.whatsappGroupLink,
     required this.rutNotificationSent,
-    required this.clickUpTaskId,
+    this.clickUpTaskId,
   });
 
   String projectId;
@@ -104,7 +104,7 @@ class Project {
   String? projectImageUrl3;
   String? projectImageUrl4;
   int investmentRequired;
-  int minimumInvestmentRequired;
+  int? minimumInvestmentRequired;
   double investmentCollected;
   DateTime collectDeadline;
   DateTime createDate;
@@ -113,56 +113,56 @@ class Project {
   DateTime? submitDate;
   DateTime startDate;
   DateTime endDate;
-  String details;
-  String risksManagement;
-  String communicationPlan;
+  String? details;
+  String? risksManagement;
+  String? communicationPlan;
   String? objectivesAndDetails;
   String projectType;
-  String projectSex;
+  String? projectSex;
   String projectCattleType;
-  int cattleWeightAverageGain;
-  int totalBatchWeight;
-  int amountOfCattles;
+  int? cattleWeightAverageGain;
+  int? totalBatchWeight;
+  int? amountOfCattles;
   double projectProfitability;
   bool? hasSostyAudit;
   bool? hasSostyInsurance;
-  String farmName;
+  String? farmName;
   String locationAddress;
   String locationState;
   String? locationCity;
   String? locationArrivalLIndications;
   String? locationSize;
   int producerCommission;
-  int estimatedFreightCost;
+  int? estimatedFreightCost;
   double? locationLatitude;
   double? locationLongitude;
   bool? locationIsRented;
   String? financialProjectionUrl;
-  String libertadYTradicionCertificateUrl;
+  String? libertadYTradicionCertificateUrl;
   String? usoDelSueloCertificateUrl;
   String? registroSanitarioUrl;
   String? ultimoSoporteVacunacionUrl;
   String? contratoDeArriendoUrl;
-  String contratoColaboracionUrl;
-  String contratoPrestacionServiciosUrl;
-  String determinantesRiesgosAmbientalesYSocialesUrl;
-  String suraRelacionHatoGanaderoUrl;
+  String? contratoColaboracionUrl;
+  String? contratoPrestacionServiciosUrl;
+  String? determinantesRiesgosAmbientalesYSocialesUrl;
+  String? suraRelacionHatoGanaderoUrl;
   String? suraDeclaracionBovinoUrl;
   String? suraDeclaracionTipoDeProductorUrl;
   String? suraCotizacionSeguroUrl;
   int sostyComission;
-  int initialKilogramPrice;
-  int finalKilogramPrice;
-  int initialWeight;
-  int finalWeight;
-  String projectStory;
-  int insurancePricePerKilogram;
-  int totalMoneyCollected;
+  int? initialKilogramPrice;
+  int? finalKilogramPrice;
+  int? initialWeight;
+  int? finalWeight;
+  String? projectStory;
+  int? insurancePricePerKilogram;
+  double totalMoneyCollected;
   int mandatoPercentage;
   bool isBlockedForInvestment;
-  int fourPerThousandPerKilogram;
-  int orejerasPerKilogram;
-  int totalPricePerKilogram;
+  int? fourPerThousandPerKilogram;
+  int? orejerasPerKilogram;
+  int? totalPricePerKilogram;
   int sostyComissionOnSale;
   int calvesPercentage;
   int calveWeigthAtWeaning;
@@ -181,9 +181,9 @@ class Project {
   dynamic calvesRevenue;
   dynamic liquidationRevenue;
   dynamic amountOfCalvesToSell;
-  String whatsappGroupLink;
+  String? whatsappGroupLink;
   bool rutNotificationSent;
-  String clickUpTaskId;
+  String? clickUpTaskId;
 
   factory Project.fromJson(Map<String, dynamic> json) => Project(
         projectId: json["projectID"],
@@ -257,7 +257,7 @@ class Project {
         finalWeight: json["finalWeight"],
         projectStory: json["projectStory"],
         insurancePricePerKilogram: json["insurancePricePerKilogram"],
-        totalMoneyCollected: json["totalMoneyCollected"],
+        totalMoneyCollected: json["totalMoneyCollected"].toDouble(),
         mandatoPercentage: json["mandatoPercentage"],
         isBlockedForInvestment: json["isBlockedForInvestment"],
         fourPerThousandPerKilogram: json["fourPerThousandPerKilogram"],
