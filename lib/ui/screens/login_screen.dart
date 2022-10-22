@@ -25,6 +25,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
@@ -32,6 +33,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void _login() async {
     if (_formKey.currentState!.validate()) {
       try {
+        setState(() {
+          _isLoading = true;
+        });
+
         final userProvider = Provider.of<UserProvider>(context, listen: false);
         User user = await userProvider.userUseCase.login(
           emailCtrl.text,
@@ -60,6 +65,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             (route) => false);
       } on ApiException catch (e) {
+        setState(() {
+          _isLoading = false;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(e.getError().reason),
@@ -124,6 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 LargeButton(
                   text: "Iniciar sesión",
+                  isLoading: _isLoading,
                   onPressed: _login,
                 ),
                 const SizedBox(

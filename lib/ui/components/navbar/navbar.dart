@@ -13,27 +13,32 @@ class Navbar extends StatelessWidget {
       elevation: 0.0,
       automaticallyImplyLeading: false,
       backgroundColor: Theme.of(context).primaryColor,
-      leading: Image(
+      centerTitle: true,
+      title: Image(
         image: AssetImage(AssetsEnum.logo.value),
+        height: 50,
       ),
-      leadingWidth: 130,
-      actions: [
-        IconButton(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          icon: const Icon(
-            Icons.search,
-            color: Colors.white,
-          ),
-          tooltip: 'Buscar',
-          onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('This is a snackbar'),
-              ),
-            );
-          },
-        ),
-      ],
+      // leading: Image(
+      //   image: AssetImage(AssetsEnum.logo.value),
+      // ),
+      // leadingWidth: 130,
+      // actions: [
+      //   IconButton(
+      //     padding: const EdgeInsets.symmetric(horizontal: 16),
+      //     icon: const Icon(
+      //       Icons.search,
+      //       color: Colors.white,
+      //     ),
+      //     tooltip: 'Buscar',
+      //     onPressed: () {
+      //       ScaffoldMessenger.of(context).showSnackBar(
+      //         const SnackBar(
+      //           content: Text('This is a snackbar'),
+      //         ),
+      //       );
+      //     },
+      //   ),
+      // ],
     );
   }
 }

@@ -44,6 +44,7 @@ class DownloadFileHelper {
     }
     return true;
   }
+
   //
   // Future<bool> _checkPermission() async {
   //   if (_platform == TargetPlatform.android) {
@@ -96,13 +97,14 @@ class DownloadFileHelper {
   void downloadFile({
     required BuildContext context,
     required String url,
+    Map<String, String?>? params,
     String? fileName,
   }) async {
     _permissionReady = await _checkStoragePermission();
     if (_permissionReady) {
       try {
         await _prepareSaveDir();
-        final response = await _apiClient.get(url);
+        final response = await _apiClient.get(url, params: params);
         if (response.status == HttpStatus.ok) {
           const uuid = Uuid();
           final fName = fileName ?? url.split('/').last;

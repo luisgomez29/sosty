@@ -11,14 +11,8 @@ import 'package:sosty/ui/components/general/carousel_image.dart';
 import 'package:sosty/ui/components/general/content_section.dart';
 import 'package:sosty/ui/components/general/custom_rich_text.dart';
 import 'package:sosty/ui/components/navbar/navbar_detail.dart';
-import 'package:sosty/ui/components/projects/project_support_document_card.dart';
-import 'package:sosty/ui/helpers/download_file_helper.dart';
+import 'package:sosty/ui/components/projects/project_support_documents_section.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'package:permission_handler/permission_handler.dart';
-import 'package:uuid/uuid.dart';
 
 class ProjectDetailScreen extends StatefulWidget {
   const ProjectDetailScreen({
@@ -34,7 +28,6 @@ class ProjectDetailScreen extends StatefulWidget {
 
 class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   final _sizedBoxValue = 10.0;
-  late DownloadFileHelper _downloadFileHelper;
 
   String _getPercentageCurrentAnimals(
     String investmentCollected,
@@ -90,7 +83,6 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
   @override
   void initState() {
     super.initState();
-    _downloadFileHelper = DownloadFileHelper();
   }
 
   @override
@@ -606,35 +598,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                         SizedBox(
                           height: _sizedBoxValue * 2,
                         ),
-                        CustomCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Documentos de Soporte",
-                                style: Styles.headline2,
-                              ),
-                              SizedBox(
-                                height: _sizedBoxValue,
-                              ),
-                              ProjectSupportDocumentCard(
-                                title: "Certificado de Libertad y Tradición",
-                                onTap: () {
-                                  _downloadFileHelper.downloadFile(
-                                    context: context,
-                                    url: widget.project.financialProjectionUrl,
-                                  );
-                                },
-                              ),
-                              ProjectSupportDocumentCard(
-                                title:
-                                    "Determinantes Riesgos Ambientales y Sociales",
-                              ),
-                              ProjectSupportDocumentCard(
-                                title: "Condicionado Seguro Bovino y Bufalino",
-                              ),
-                            ],
-                          ),
+                        ProjectSupportDocumentsSection(
+                          project: widget.project,
                         ),
                         SizedBox(
                           height: _sizedBoxValue * 5,

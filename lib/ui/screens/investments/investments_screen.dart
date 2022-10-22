@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/config/provider/investment_provider.dart';
-import 'package:sosty/domain/models/Item/item.dart';
 import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
+import 'package:sosty/domain/models/item/item.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
 import 'package:sosty/ui/components/general/content_section.dart';
@@ -27,11 +27,6 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
   String? userId;
   Future<List<Item>>? futureInvestments;
 
-  final _totalInvestedText = 'Total Invertido';
-  final _totalGain = 'Total Ganancia';
-  final _totalReceivedText = 'Total Recibido';
-  final _balanceSostyText = 'Saldo Sosty';
-
   Future<void> _loadUserId() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -47,16 +42,37 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
         .getInvestmentsInProgressByInvestor(userId!);
   }
 
-  double _getPercent(double investmentCollected, int investmentRequired) {
-    return investmentCollected / investmentRequired;
+  String _incrementTotalInvested(List<Item> investments) {
+    int total = investments.fold(
+      0,
+      (previousValue, element) =>
+          previousValue + element.investment.amountInvested,
+    );
+    return FormatterHelper.money(total);
   }
 
-  String _getProgress(double investmentCollected, int investmentRequired) {
-    final String percent =
-        (_getPercent(investmentCollected, investmentRequired) * 100.0)
-            .toStringAsFixed(2);
-    return '${investmentCollected.toStringAsFixed(2)} de '
-        '${FormatterHelper.money(investmentRequired)} Kg ($percent%)';
+  Column _getTotalCards(List<Item> investments) {
+    return Column(
+      children: [
+        IconCard(
+          title: _incrementTotalInvested(investments),
+          subtitle: 'Total Invertido',
+        ),
+        IconCard(
+          title: FormatterHelper.money(0),
+          subtitle: 'Total Ganancia',
+        ),
+        IconCard(
+          title: FormatterHelper.money(0),
+          subtitle: 'Total Recibido',
+        ),
+        IconCard(
+          title: FormatterHelper.money(0),
+          subtitle: 'Saldo Sosty',
+          tintColor: true,
+        ),
+      ],
+    );
   }
 
   @override
@@ -78,129 +94,68 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
               const NavbarClipper(),
               ContentSection(
                 offsetY: -70.0,
-                child: Column(
-                  children: [
-                    FutureBuilder<List<Item>>(
-                      future: futureInvestments,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasData) {
-                            if (snapshot.data?.isEmpty ?? false) {
-                              return Column(
-                                children: [
-                                  IconCard(
-                                    title: FormatterHelper.money(0),
-                                    subtitle: _totalInvestedText,
-                                  ),
-                                  IconCard(
-                                    title: FormatterHelper.money(0),
-                                    subtitle: _totalGain,
-                                  ),
-                                  IconCard(
-                                    title: FormatterHelper.money(0),
-                                    subtitle: _totalReceivedText,
-                                  ),
-                                  IconCard(
-                                    title: FormatterHelper.money(0),
-                                    subtitle: _balanceSostyText,
-                                    tintColor: true,
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  const SectionTitle(
+                child: FutureBuilder<List<Item>>(
+                  future: futureInvestments,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasData) {
+                        return Column(
+                          children: [
+                            _getTotalCards(snapshot.data!),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            // Show message if there aren't investments
+                            (snapshot.data?.isEmpty ?? false)
+                                ? const SectionTitle(
                                     title: "Busca proyectos \n para participar",
+                                  )
+                                : Column(
+                                    children: [
+                                      Divider(
+                                        height: 50,
+                                        thickness: 1,
+                                        indent: 0,
+                                        endIndent: 0,
+                                        color: Styles.secondaryColor
+                                            .withOpacity(0.1),
+                                      ),
+                                      const SectionTitle(
+                                        title: "Inversiones actuales",
+                                      ),
+                                      ListView.builder(
+                                        scrollDirection: Axis.vertical,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: snapshot.data?.length,
+                                        itemBuilder: (context, index) {
+                                          Item item = snapshot.data![index];
+                                          return Column(
+                                            children: [
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              InvestmentsCard(
+                                                investment: item,
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              );
-                            }
-                            return ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: snapshot.data?.length,
-                              itemBuilder: (context, index) {
-                                Item item = snapshot.data![index];
-                                return Column(
-                                  children: [
-                                    IconCard(
-                                      title: FormatterHelper.money(
-                                        item.investment.amountInvested,
-                                      ),
-                                      subtitle: _totalInvestedText,
-                                    ),
-                                    IconCard(
-                                      title: FormatterHelper.money(
-                                        item.investment.amountReceived,
-                                      ),
-                                      subtitle: _totalGain,
-                                    ),
-                                    IconCard(
-                                      title: FormatterHelper.money(
-                                        item.investment.amountReceived,
-                                      ),
-                                      subtitle: _totalReceivedText,
-                                    ),
-                                    IconCard(
-                                      title: FormatterHelper.money(
-                                        item.investment.balanceToInvest,
-                                      ),
-                                      subtitle: _balanceSostyText,
-                                      tintColor: true,
-                                    ),
-                                    Divider(
-                                      height: 50,
-                                      thickness: 1,
-                                      indent: 0,
-                                      endIndent: 0,
-                                      color: Styles.secondaryColor
-                                          .withOpacity(0.1),
-                                    ),
-                                    const SectionTitle(
-                                      title: "Inversiones actuales",
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    InvestmentsCard(
-                                      title: item.project.projectName,
-                                      code: item.project.projectCode,
-                                      location:
-                                          "${item.project.locationAddress}, ${item.project.locationState}",
-                                      progress: _getProgress(
-                                        item.project.investmentCollected,
-                                        item.project.investmentRequired,
-                                      ),
-                                      progressIndicator: _getPercent(
-                                        item.project.investmentCollected,
-                                        item.project.investmentRequired,
-                                      ),
-                                      investedAmount: FormatterHelper.money(
-                                        item.investment.amountInvested,
-                                      ),
-                                      participation:
-                                          item.investment.totalKilograms,
-                                      investmentDate:
-                                          item.investment.createDate,
-                                      paymentConfirmed:
-                                          item.investment.isConfirmed,
-                                      phase: item.project.projectStatus,
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          } else if (snapshot.hasError) {
-                            if (kDebugMode) {
-                              print("INVESTMENT_ERROR => ${snapshot.error}");
-                            }
-                            return const LoadDataError();
-                          }
+                          ],
+                        );
+                      } else if (snapshot.hasError) {
+                        if (kDebugMode) {
+                          print("INVESTMENT_ERROR => ${snapshot.error}");
                         }
-                        return const LoadingIndicator();
-                      },
-                    ),
-                  ],
+                        return const LoadDataError();
+                      }
+                    }
+                    return const LoadingIndicator();
+                  },
                 ),
               ),
             ],
