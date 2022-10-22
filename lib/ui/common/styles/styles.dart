@@ -13,6 +13,7 @@ class Styles {
   static const primaryColor = Color(primaryColorValue);
   static const secondaryColor = Color(secondaryColorValue);
   static const warningColor = Color(0xFFFF9F43);
+  static const infoColor = Color(0xFF00CFE8);
 
   // Padding
   static const paddingContent = 30.0;

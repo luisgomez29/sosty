@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
-import 'package:sosty/ui/components/cards/custom_card.dart';
+import 'package:sosty/ui/components/cards/custom_ink_well_card.dart';
 
 class SectionTitle extends StatelessWidget {
   const SectionTitle({
@@ -14,7 +14,7 @@ class SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCard(
+    return CustomInkWellCard(
       child: Container(
         padding: const EdgeInsets.all(10.0),
         width: MediaQuery.of(context).size.width,
