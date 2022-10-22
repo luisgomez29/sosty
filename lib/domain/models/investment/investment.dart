@@ -14,7 +14,7 @@ class Investment {
     required this.createDate,
     this.deleteDate,
     required this.totalKilograms,
-    required this.totalCattles,
+    this.totalCattles,
     required this.reviewMade,
     required this.totalUnits,
     this.epaycoTransactionRef,
@@ -39,9 +39,9 @@ class Investment {
   DateTime createDate;
   DateTime? deleteDate;
   double totalKilograms;
-  double totalCattles;
+  double? totalCattles;
   bool reviewMade;
-  int totalUnits;
+  double totalUnits;
   dynamic epaycoTransactionRef;
   dynamic epaycoTransactionStatus;
   bool isPreInvestment;
@@ -66,9 +66,9 @@ class Investment {
             ? DateTime.parse(json["deleteDate"])
             : null,
         totalKilograms: json["totalKilograms"].toDouble(),
-        totalCattles: json["totalCattles"].toDouble(),
+        totalCattles: json["totalCattles"]?.toDouble(),
         reviewMade: json["reviewMade"],
-        totalUnits: json["totalUnits"],
+        totalUnits: json["totalUnits"].toDouble(),
         epaycoTransactionRef: json["epaycoTransactionRef"],
         epaycoTransactionStatus: json["epaycoTransactionStatus"],
         isPreInvestment: json["isPreInvestment"],
