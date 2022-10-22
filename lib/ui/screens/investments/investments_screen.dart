@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sosty/config/provider/InvestmentProvider.dart';
+import 'package:sosty/config/provider/investment_provider.dart';
 import 'package:sosty/domain/models/Item/item.dart';
 import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
@@ -27,10 +27,10 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
   String? userId;
   Future<List<Item>>? futureInvestments;
 
-  final totalInvestedText = 'Total Invertido';
-  final totalGain = 'Total Ganancia';
-  final totalReceivedText = 'Total Recibido';
-  final balanceSostyText = 'Saldo Sosty';
+  final _totalInvestedText = 'Total Invertido';
+  final _totalGain = 'Total Ganancia';
+  final _totalReceivedText = 'Total Recibido';
+  final _balanceSostyText = 'Saldo Sosty';
 
   Future<void> _loadUserId() async {
     final prefs = await SharedPreferences.getInstance();
@@ -90,26 +90,26 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                                 children: [
                                   IconCard(
                                     title: FormatterHelper.money(0),
-                                    subtitle: totalInvestedText,
+                                    subtitle: _totalInvestedText,
                                   ),
                                   IconCard(
                                     title: FormatterHelper.money(0),
-                                    subtitle: totalGain,
+                                    subtitle: _totalGain,
                                   ),
                                   IconCard(
                                     title: FormatterHelper.money(0),
-                                    subtitle: totalReceivedText,
+                                    subtitle: _totalReceivedText,
                                   ),
                                   IconCard(
                                     title: FormatterHelper.money(0),
-                                    subtitle: balanceSostyText,
+                                    subtitle: _balanceSostyText,
                                     tintColor: true,
                                   ),
                                   const SizedBox(
                                     height: 20,
                                   ),
                                   const SectionTitle(
-                                    title: "Busca proyectos \n para invertir",
+                                    title: "Busca proyectos \n para participar",
                                   ),
                                 ],
                               );
@@ -127,25 +127,25 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                                       title: FormatterHelper.money(
                                         item.investment.amountInvested,
                                       ),
-                                      subtitle: totalInvestedText,
+                                      subtitle: _totalInvestedText,
                                     ),
                                     IconCard(
                                       title: FormatterHelper.money(
                                         item.investment.amountReceived,
                                       ),
-                                      subtitle: totalGain,
+                                      subtitle: _totalGain,
                                     ),
                                     IconCard(
                                       title: FormatterHelper.money(
                                         item.investment.amountReceived,
                                       ),
-                                      subtitle: totalReceivedText,
+                                      subtitle: _totalReceivedText,
                                     ),
                                     IconCard(
                                       title: FormatterHelper.money(
                                         item.investment.balanceToInvest,
                                       ),
-                                      subtitle: balanceSostyText,
+                                      subtitle: _balanceSostyText,
                                       tintColor: true,
                                     ),
                                     Divider(

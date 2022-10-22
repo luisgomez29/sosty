@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
-import 'package:sosty/ui/components/cards/custom_card.dart';
+import 'package:sosty/ui/components/cards/custom_ink_well_card.dart';
 
 class IconCard extends StatelessWidget {
   const IconCard({
@@ -30,10 +30,10 @@ class IconCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomCard(
+    return CustomInkWellCard(
       tintColor: tintColor,
       elevation: elevation ?? CardTheme.of(context).elevation,
-      margin: margin ?? CustomCard.defaultMargin,
+      margin: margin ?? CustomInkWellCard.defaultMargin,
       color: color,
       child: Padding(
         padding: padding != null

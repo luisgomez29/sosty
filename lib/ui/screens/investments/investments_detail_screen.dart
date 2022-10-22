@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/cards/custom_card.dart';
+import 'package:sosty/ui/components/cards/custom_ink_well_card.dart';
+import 'package:sosty/ui/components/cards/icon_card.dart';
+import 'package:sosty/ui/components/charts/bar_chart.dart';
+import 'package:sosty/ui/components/charts/circular_chart.dart';
 import 'package:sosty/ui/components/general/content_section.dart';
 import 'package:sosty/ui/components/general/custom_rich_text.dart';
 import 'package:sosty/ui/components/general/section_title.dart';
 import 'package:sosty/ui/components/general/timeline.dart';
 import 'package:sosty/ui/components/investments/investments_timeline_item.dart';
-import 'package:sosty/ui/components/cards/icon_card.dart';
 import 'package:sosty/ui/components/navbar/navbar_detail.dart';
-import 'package:sosty/ui/components/charts/circular_chart.dart';
-import 'package:sosty/ui/components/charts/bar_chart.dart';
 
 class InvestmentsDetail extends StatelessWidget {
   const InvestmentsDetail({Key? key}) : super(key: key);
@@ -68,7 +69,7 @@ class InvestmentsDetail extends StatelessWidget {
                       subtitle: 'Ganancia Estimada',
                       icon: Icons.trending_up_sharp,
                     ),
-                    CustomCard(
+                    CustomInkWellCard(
                       child: Column(
                         children: [
                           _getCardTitle("Información Proyecto"),
@@ -123,7 +124,7 @@ class InvestmentsDetail extends StatelessWidget {
                     ),
                     const CustomCard(child: ToolBar()),
                     const CustomCard(child: ToolCircular()),
-                    CustomCard(
+                    CustomInkWellCard(
                       child: Column(
                         children: [
                           _getCardTitle("Actualizaciones y \n Documentos"),

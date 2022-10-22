@@ -4,12 +4,12 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/config/api/api_endpoint.dart';
 import 'package:sosty/domain/models/Item/item.dart';
+import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/domain/models/error_item/error_item.dart';
 import 'package:sosty/domain/models/investment/gateway/investment_gateway.dart';
-import 'package:sosty/infraestructure/driven_adapter/investment_api/errors/investment_error_api.dart';
+import 'package:sosty/infraestructure/driven_adapter/investment_api/errors/investment_api_error.dart';
 import 'package:sosty/infraestructure/helpers/api_client/api_client.dart';
 import 'package:sosty/infraestructure/helpers/api_client/exception/api_exception.dart';
-import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
 
 class InvestmentApi extends InvestmentGateway {
   final ApiClient _apiClient = ApiClient();
@@ -39,7 +39,7 @@ class InvestmentApi extends InvestmentGateway {
         ErrorItem(
           domain: ApiEndpoint.getInvestmentsInProgressByInvestor,
           reason: response.body,
-          message: InvestmentErrorApi.getInvestmentsInProgressByInvestorFailed,
+          message: InvestmentApiError.getInvestmentsInProgressByInvestorFailed,
         ),
       );
     }
