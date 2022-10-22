@@ -127,9 +127,25 @@ class _AccountScreenState extends State<AccountScreen> {
                             ProfileMenuItem(
                               title: "Cerrar sesión",
                               icon: Icons.exit_to_app_outlined,
-                              onTap: () {
-                                return _logout(context);
-                              },
+                              onTap: () => showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text(
+                                    '¿Quieres cerrar sesión?',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('No'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => _logout(context),
+                                      child: const Text('Si'),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         );

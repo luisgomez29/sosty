@@ -1,4 +1,4 @@
-import 'package:sosty/domain/models/Item/item.dart';
+import 'package:sosty/domain/models/item/item.dart';
 import 'package:sosty/domain/models/investment/gateway/investment_gateway.dart';
 
 class InvestmentUseCase {

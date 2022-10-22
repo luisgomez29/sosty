@@ -39,15 +39,15 @@ class ProjectItem {
     required this.risksManagement,
     required this.communicationPlan,
     required this.projectStory,
-    required this.financialProjectionUrl,
+    this.financialProjectionUrl,
     this.libertadYTradicionCertificateUrl,
     this.usoDelSueloCertificateUrl,
     this.registroSanitarioUrl,
     this.ultimoSoporteVacunacionUrl,
     this.contratoDeArriendoUrl,
-    required this.contratoColaboracionUrl,
+    this.contratoColaboracionUrl,
     this.contratoPrestacionServiciosUrl,
-    required this.determinantesRiesgosAmbientalesYSocialesUrl,
+    this.determinantesRiesgosAmbientalesYSocialesUrl,
     this.suraRelacionHatoGanaderoUrl,
     this.suraDeclaracionBovinoUrl,
     this.suraDeclaracionTipoDeProductorUrl,
@@ -125,15 +125,15 @@ class ProjectItem {
   final String risksManagement;
   final String communicationPlan;
   final String projectStory;
-  final String financialProjectionUrl;
+  final String? financialProjectionUrl;
   final String? libertadYTradicionCertificateUrl;
   final String? usoDelSueloCertificateUrl;
   final String? registroSanitarioUrl;
   final String? ultimoSoporteVacunacionUrl;
   final String? contratoDeArriendoUrl;
-  final String contratoColaboracionUrl;
+  final String? contratoColaboracionUrl;
   final String? contratoPrestacionServiciosUrl;
-  final String determinantesRiesgosAmbientalesYSocialesUrl;
+  final String? determinantesRiesgosAmbientalesYSocialesUrl;
   final String? suraRelacionHatoGanaderoUrl;
   final String? suraDeclaracionBovinoUrl;
   final String? suraDeclaracionTipoDeProductorUrl;

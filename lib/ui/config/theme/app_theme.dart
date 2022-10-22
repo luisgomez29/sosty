@@ -7,7 +7,6 @@ class AppTheme {
 
   static ThemeData light(context) {
     return ThemeData(
-      // scaffoldBackgroundColor: Styles.screenBackgroundColor,
       useMaterial3: true,
       brightness: Brightness.light,
       primaryColor: Styles.primaryColor,
@@ -17,6 +16,7 @@ class AppTheme {
       navigationBarTheme: NavigationBarThemeData(
         indicatorColor: Styles.primaryColor.withOpacity(0.6),
       ),
+      // scaffoldBackgroundColor: Styles.screenBackgroundColor,
       // snackBarTheme: SnackBarThemeData(
       //   contentTextStyle: TextStyle(
       //     fontSize: 16.0

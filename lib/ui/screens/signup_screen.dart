@@ -27,6 +27,7 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
@@ -37,6 +38,10 @@ class _SignupScreenState extends State<SignupScreen> {
   void _signup() async {
     if (_formKey.currentState!.validate()) {
       try {
+        setState(() {
+          _isLoading = true;
+        });
+
         final userProvider = Provider.of<UserProvider>(context, listen: false);
         User user = await userProvider.userUseCase.signup(
           emailCtrl.text,
@@ -69,6 +74,9 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             (route) => false);
       } on ApiException catch (e) {
+        setState(() {
+          _isLoading = false;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(e.getError().reason),
@@ -189,6 +197,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 LargeButton(
                   text: "Registrarme",
+                  isLoading: _isLoading,
                   onPressed: _signup,
                 ),
                 const SizedBox(
