@@ -40,6 +40,11 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
     return "${FormatterHelper.doubleFormat(percentage)} Animales (${FormatterHelper.doubleFormat(investmentCollected)}) Kg";
   }
 
+  String _getMonthlyFattening(String cattleWeightAverageGain) {
+    final total = (int.parse(cattleWeightAverageGain) * 30) / 1000;
+    return "$total Kg";
+  }
+
   Widget _getAlert(String projectProgress) {
     return double.parse(projectProgress) == 100.0
         ? AlertWarning(
@@ -353,7 +358,9 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                 color: Colors.transparent,
                               ),
                               IconCard(
-                                title: "11.4 Kg",
+                                title: _getMonthlyFattening(
+                                  widget.project.cattleWeightAverageGain,
+                                ),
                                 subtitle: "Engorde mensual",
                                 elevation: 0,
                                 padding: 0,
@@ -361,6 +368,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                 icon: Icons.trending_up_outlined,
                                 color: Colors.transparent,
                               ),
+                              // TODO
                               IconCard(
                                 title: "210 Kg",
                                 subtitle: "Peso del lote actual",

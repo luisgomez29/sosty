@@ -1,5 +1,5 @@
 import 'package:sosty/domain/models/common/enums/user_role_enum.dart';
-import 'package:sosty/domain/models/profile_detail/profile_detail.dart';
+import 'package:sosty/domain/models/user/profile_detail.dart';
 
 /// User model
 class User {

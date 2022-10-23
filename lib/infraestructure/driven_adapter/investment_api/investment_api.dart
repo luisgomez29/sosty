@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/config/api/api_endpoint.dart';
-import 'package:sosty/domain/models/item/item.dart';
+import 'package:sosty/domain/models/investment/investment_item.dart';
 import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/domain/models/error_item/error_item.dart';
 import 'package:sosty/domain/models/investment/gateway/investment_gateway.dart';
@@ -15,10 +15,9 @@ class InvestmentApi extends InvestmentGateway {
   final ApiClient _apiClient = ApiClient();
 
   @override
-  Future<List<Item>> getInvestmentsInProgressByInvestor(
+  Future<List<InvestmentItem>> getInvestmentsInProgressByInvestor(
       String investorId) async {
     final prefs = await SharedPreferences.getInstance();
-
     final accessToken =
         prefs.getString(SharedPreferencesEnum.accessToken.value) ??
             SharedPreferencesEnum.keyNotFound.value;
@@ -33,7 +32,7 @@ class InvestmentApi extends InvestmentGateway {
 
     if (response.status == HttpStatus.ok) {
       Map<String, dynamic> res = jsonDecode(response.body);
-      return List<Item>.from(res["items"].map((x) => Item.fromJson(x)));
+      return List<InvestmentItem>.from(res["items"].map((x) => InvestmentItem.fromJson(x)));
     } else {
       throw ApiException(
         ErrorItem(

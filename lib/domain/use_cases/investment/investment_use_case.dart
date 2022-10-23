@@ -1,4 +1,4 @@
-import 'package:sosty/domain/models/item/item.dart';
+import 'package:sosty/domain/models/investment/investment_item.dart';
 import 'package:sosty/domain/models/investment/gateway/investment_gateway.dart';
 
 class InvestmentUseCase {
@@ -6,7 +6,7 @@ class InvestmentUseCase {
 
   InvestmentUseCase(this._investmentGateway);
 
-  Future<List<Item>> getInvestmentsInProgressByInvestor(
+  Future<List<InvestmentItem>> getInvestmentsInProgressByInvestor(
     String investorID,
   ) async {
     return _investmentGateway.getInvestmentsInProgressByInvestor(investorID);

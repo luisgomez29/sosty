@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:sosty/domain/models/item/item.dart';
+import 'package:sosty/domain/models/investment/investment_item.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/cards/custom_ink_well_card.dart';
 import 'package:sosty/ui/components/general/custom_rich_text.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
-import 'package:sosty/ui/screens/investments/investments_detail_screen.dart';
+import 'package:sosty/ui/screens/projets/project_progress_screen.dart';
 
 class InvestmentsCard extends StatelessWidget {
   const InvestmentsCard({
     Key? key,
-    required this.investment,
+    required this.investmentItem,
   }) : super(key: key);
 
-  final Item investment;
+  final InvestmentItem investmentItem;
 
   static const _sizedBoxValue = 7.0;
 
@@ -30,13 +30,15 @@ class InvestmentsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool paymentConfirmed = investment.investment.isConfirmed;
+    final bool paymentConfirmed = investmentItem.investment.isConfirmed;
     return CustomInkWellCard(
       navigator: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const InvestmentsDetail(),
+            builder: (context) => ProjectProgressScreen(
+              investmentId: investmentItem.investment.investmendId,
+            ),
           ),
         );
       },
@@ -47,7 +49,7 @@ class InvestmentsCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              investment.project.projectName,
+              investmentItem.project.projectName,
               style: Styles.bodyText1Bold,
             ),
             const SizedBox(
@@ -55,7 +57,7 @@ class InvestmentsCard extends StatelessWidget {
             ),
             CustomRichText(
               text: "Código",
-              textSpan: investment.project.projectCode,
+              textSpan: investmentItem.project.projectCode,
             ),
             const SizedBox(
               height: _sizedBoxValue,
@@ -63,7 +65,7 @@ class InvestmentsCard extends StatelessWidget {
             CustomRichText(
               text: "Productor",
               textSpan:
-                  "${investment.producer.firstName} ${investment.producer.lastName}",
+                  "${investmentItem.producer.firstName} ${investmentItem.producer.lastName}",
             ),
             const SizedBox(
               height: _sizedBoxValue,
@@ -71,8 +73,8 @@ class InvestmentsCard extends StatelessWidget {
             CustomRichText(
               text: "Progreso",
               textSpan: _getProgress(
-                investment.project.investmentCollected,
-                investment.project.investmentRequired,
+                investmentItem.project.investmentCollected,
+                investmentItem.project.investmentRequired,
               ),
             ),
             const SizedBox(
@@ -80,8 +82,8 @@ class InvestmentsCard extends StatelessWidget {
             ),
             LinearProgressIndicator(
               value: _getPercent(
-                investment.project.investmentCollected,
-                investment.project.investmentRequired,
+                investmentItem.project.investmentCollected,
+                investmentItem.project.investmentRequired,
               ),
               minHeight: 5,
               semanticsLabel: 'Progreso',
@@ -92,7 +94,7 @@ class InvestmentsCard extends StatelessWidget {
             CustomRichText(
               text: "Monto invertido",
               textSpan: FormatterHelper.money(
-                investment.investment.amountInvested,
+                investmentItem.investment.amountInvested,
               ),
             ),
             const SizedBox(
@@ -100,14 +102,15 @@ class InvestmentsCard extends StatelessWidget {
             ),
             CustomRichText(
               text: "Participación",
-              textSpan: "${investment.investment.totalKilograms} Kg",
+              textSpan: "${investmentItem.investment.totalKilograms} Kg",
             ),
             const SizedBox(
               height: _sizedBoxValue,
             ),
             CustomRichText(
               text: "Fecha de inversión",
-              textSpan: FormatterHelper.date(investment.investment.createDate),
+              textSpan:
+                  FormatterHelper.shortDate(investmentItem.investment.createDate),
             ),
             Row(
               children: [
@@ -135,7 +138,7 @@ class InvestmentsCard extends StatelessWidget {
                   style: Styles.bodyText2Bold,
                 ),
                 Chip(
-                  label: Text(investment.project.projectStatus),
+                  label: Text(investmentItem.project.projectStatus),
                   backgroundColor: const Color(0xFF82868B),
                   labelStyle: const TextStyle(
                     color: Colors.white,

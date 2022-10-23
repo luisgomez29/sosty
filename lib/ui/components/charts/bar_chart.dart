@@ -4,6 +4,7 @@ import 'package:sosty/ui/common/styles/styles.dart';
 
 class BarChart {
   const BarChart(this.x, this.y);
+
   final String x;
   final int y;
 }
@@ -49,17 +50,19 @@ class _ToolState extends State<ToolBar> {
         _getCardTitle("Evolución Peso Lote"),
         //Initialize the chart widget
         SfCartesianChart(
-            primaryXAxis: CategoryAxis(interval: 1),
-            primaryYAxis: NumericAxis(interval: 20000),
-            tooltipBehavior: _toolBarBehavior,
-            series: <ChartSeries<BarChart, String>>[
-              // Renders column chart
-              ColumnSeries<BarChart, String>(
-                  color: Styles.primaryColor,
-                  dataSource: barChar,
-                  xValueMapper: (BarChart data, _) => data.x,
-                  yValueMapper: (BarChart data, _) => data.y)
-            ])
+          primaryXAxis: CategoryAxis(interval: 1),
+          primaryYAxis: NumericAxis(interval: 20000),
+          tooltipBehavior: _toolBarBehavior,
+          series: <ChartSeries<BarChart, String>>[
+            // Renders column chart
+            ColumnSeries<BarChart, String>(
+              color: Styles.primaryColor,
+              dataSource: barChar,
+              xValueMapper: (BarChart data, _) => data.x,
+              yValueMapper: (BarChart data, _) => data.y,
+            )
+          ],
+        )
       ],
     );
   }

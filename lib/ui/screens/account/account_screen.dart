@@ -78,7 +78,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasData) {
-                        final user = snapshot.data!;
+                        final User user = snapshot.data!;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/config/provider/investment_provider.dart';
 import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
-import 'package:sosty/domain/models/item/item.dart';
+import 'package:sosty/domain/models/investment/investment_item.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
 import 'package:sosty/ui/components/general/content_section.dart';
@@ -25,7 +25,7 @@ class InvestmentsScreen extends StatefulWidget {
 
 class _InvestmentsScreenState extends State<InvestmentsScreen> {
   String? userId;
-  Future<List<Item>>? futureInvestments;
+  Future<List<InvestmentItem>>? futureInvestments;
 
   Future<void> _loadUserId() async {
     final prefs = await SharedPreferences.getInstance();
@@ -35,14 +35,14 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
     });
   }
 
-  Future<List<Item>> fetchInvestments() async {
+  Future<List<InvestmentItem>> _fetchInvestments() async {
     final investmentProvider =
         Provider.of<InvestmentProvider>(context, listen: false);
     return investmentProvider.investmentUseCase
         .getInvestmentsInProgressByInvestor(userId!);
   }
 
-  String _incrementTotalInvested(List<Item> investments) {
+  String _incrementTotalInvested(List<InvestmentItem> investments) {
     int total = investments.fold(
       0,
       (previousValue, element) =>
@@ -51,7 +51,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
     return FormatterHelper.money(total);
   }
 
-  Column _getTotalCards(List<Item> investments) {
+  Column _getTotalCards(List<InvestmentItem> investments) {
     return Column(
       children: [
         IconCard(
@@ -79,7 +79,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
   void initState() {
     super.initState();
     _loadUserId().then((_) {
-      futureInvestments = fetchInvestments();
+      futureInvestments = _fetchInvestments();
     });
   }
 
@@ -94,7 +94,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
               const NavbarClipper(),
               ContentSection(
                 offsetY: -70.0,
-                child: FutureBuilder<List<Item>>(
+                child: FutureBuilder<List<InvestmentItem>>(
                   future: futureInvestments,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
@@ -130,14 +130,14 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                                         shrinkWrap: true,
                                         itemCount: snapshot.data?.length,
                                         itemBuilder: (context, index) {
-                                          Item item = snapshot.data![index];
+                                          InvestmentItem item = snapshot.data![index];
                                           return Column(
                                             children: [
                                               const SizedBox(
                                                 height: 10,
                                               ),
                                               InvestmentsCard(
-                                                investment: item,
+                                                investmentItem: item,
                                               ),
                                             ],
                                           );

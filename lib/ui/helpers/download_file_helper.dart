@@ -16,15 +16,6 @@ class DownloadFileHelper {
 
   static const _downloadFilerError = "Error al descargar el archivo";
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> _showMessage(
-      BuildContext context, String text) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(text),
-      ),
-    );
-  }
-
   DownloadFileHelper() {
     _apiClient = ApiClient();
     if (Platform.isAndroid) {
@@ -32,6 +23,15 @@ class DownloadFileHelper {
     } else {
       _platform = TargetPlatform.iOS;
     }
+  }
+
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> _showMessage(
+      BuildContext context, String text) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(text),
+      ),
+    );
   }
 
   Future<bool> _checkStoragePermission() async {
@@ -44,24 +44,6 @@ class DownloadFileHelper {
     }
     return true;
   }
-
-  //
-  // Future<bool> _checkPermission() async {
-  //   if (_platform == TargetPlatform.android) {
-  //     final status = await Permission.storage.status;
-  //     if (status != PermissionStatus.granted) {
-  //       final result = await Permission.storage.request();
-  //       if (result == PermissionStatus.granted) {
-  //         return true;
-  //       }
-  //     } else {
-  //       return true;
-  //     }
-  //   } else {
-  //     return true;
-  //   }
-  //   return false;
-  // }
 
   Future<String?> _findLocalPath() async {
     if (_platform == TargetPlatform.android) {
@@ -76,7 +58,6 @@ class DownloadFileHelper {
   Future<void> _prepareSaveDir() async {
     _localPath = (await _findLocalPath())!;
 
-    print(_localPath);
     final savedDir = Directory(_localPath);
     bool hasExisted = await savedDir.exists();
     if (!hasExisted) {
@@ -108,7 +89,6 @@ class DownloadFileHelper {
         if (response.status == HttpStatus.ok) {
           const uuid = Uuid();
           final fName = fileName ?? url.split('/').last;
-
           final fileMap = _getFileNameAndExtension(fName);
 
           File("$_localPath/${fileMap['name']}_${uuid.v4()}.${fileMap['extension']}")
