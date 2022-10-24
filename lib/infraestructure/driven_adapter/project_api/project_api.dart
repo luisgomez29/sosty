@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/config/api/api_endpoint.dart';
-import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
+import 'package:sosty/ui/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/domain/models/error_item/error_item.dart';
 import 'package:sosty/domain/models/project/gateway/project_gateway.dart';
 import 'package:sosty/domain/models/project/project_item.dart';

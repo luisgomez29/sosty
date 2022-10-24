@@ -12,11 +12,11 @@ import 'package:sosty/domain/use_cases/user/user_use_case.dart';
 import 'package:sosty/infraestructure/driven_adapter/investment_api/investment_api.dart';
 import 'package:sosty/infraestructure/driven_adapter/project_api/project_api.dart';
 import 'package:sosty/infraestructure/driven_adapter/user_api/user_api.dart';
+import 'package:sosty/ui/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/screens/login_screen.dart';
 import 'package:sosty/ui/screens/on_boarding_screen.dart';
-import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);

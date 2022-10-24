@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sosty/config/provider/project_provider.dart';
 import 'package:sosty/domain/models/project/project_progress.dart';
+import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/cards/custom_card.dart';
-import 'package:sosty/ui/components/cards/custom_ink_well_card.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
 import 'package:sosty/ui/components/charts/bar_chart.dart';
 import 'package:sosty/ui/components/charts/circular_chart.dart';
@@ -18,7 +18,6 @@ import 'package:sosty/ui/components/general/timeline.dart';
 import 'package:sosty/ui/components/investments/investments_timeline_item.dart';
 import 'package:sosty/ui/components/navbar/navbar_detail.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
-import 'package:sosty/ui/common/constants/constants.dart';
 
 class ProjectProgressScreen extends StatefulWidget {
   const ProjectProgressScreen({
@@ -38,10 +37,10 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
   void _fetchProjectProgress() {
     final projectProvider =
         Provider.of<ProjectProvider>(context, listen: false);
-    // final response = projectProvider.projectUseCase
-    //     .getProjectProgressInformation(widget.investmentId);
     final response = projectProvider.projectUseCase
-        .getProjectProgressInformation('d9392cc2-987e-4fb5-a9fc-e374ac49d912');
+        .getProjectProgressInformation(widget.investmentId);
+    // final response = projectProvider.projectUseCase
+    //     .getProjectProgressInformation('d9392cc2-987e-4fb5-a9fc-e374ac49d912');
     setState(() {
       futureProjectProgress = response;
     });
@@ -73,7 +72,8 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
     const months = 12.0;
     final monthsInProgress = endDate.difference(DateTime.now()).inDays / 30;
     final double estimatedGain =
-        ((projectProfitability / months) * monthsInProgress) * Constants.minimumInvestment;
+        ((projectProfitability / months) * monthsInProgress) *
+            Constants.minimumInvestment;
     return FormatterHelper.money(estimatedGain);
   }
 
@@ -127,7 +127,7 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                               subtitle: 'Ganancia Estimada',
                               icon: Icons.trending_up_sharp,
                             ),
-                            CustomInkWellCard(
+                            CustomCard(
                               child: Column(
                                 children: [
                                   _getCardTitle("Información Proyecto"),
@@ -200,59 +200,51 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                             const CustomCard(
                               child: ToolCircular(),
                             ),
-                            CustomInkWellCard(
-                              child: Column(
-                                children: [
-                                  _getCardTitle(
-                                      "Actualizaciones y \n Documentos"),
-                                  Timeline(
-                                    lineColor: Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(0.3),
-                                    lineGap: 0,
-                                    children: const <Widget>[
-                                      InvestmentsTimelineItem(
-                                        title: "Nuevo Pesaje",
-                                        date: "2022-02-02",
-                                        description:
-                                            "Se realiza carga de documentos para entrega en finca",
-                                      ),
-                                      Card(
-                                        child: SizedBox(
-                                          height: 50,
-                                        ),
-                                      ),
-                                      Card(
-                                        child: SizedBox(
-                                          height: 200,
-                                        ),
-                                      ),
-                                      Card(
-                                        child: SizedBox(
-                                          height: 100,
-                                        ),
-                                      ),
-                                    ],
-                                    indicators: <Widget>[
-                                      Icon(
-                                        Icons.adjust_outlined,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                      Icon(
-                                        Icons.adjust_outlined,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                      Icon(
-                                        Icons.adjust_outlined,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                      Icon(
-                                        Icons.adjust_outlined,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: CustomCard(
+                                child: Column(
+                                  children: [
+                                    _getCardTitle(
+                                        "Actualizaciones y \n Documentos"),
+                                    (projectProgress.events?.isEmpty ?? false)
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 20.0,
+                                            ),
+                                            child: Text(
+                                              "No hay actualizaciones",
+                                              style:
+                                                  Styles.bodyText1Bold.copyWith(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                            ),
+                                          )
+                                        : Timeline(
+                                            lineColor: Theme.of(context)
+                                                .primaryColor
+                                                .withOpacity(0.3),
+                                            lineGap: 0,
+                                            children: List.generate(
+                                              projectProgress.events!.length,
+                                              (index) =>
+                                                  InvestmentsTimelineItem(
+                                                event: projectProgress
+                                                    .events![index],
+                                              ),
+                                            ),
+                                            indicators: List.generate(
+                                              projectProgress.events!.length,
+                                              (index) => Icon(
+                                                Icons.adjust_outlined,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                            ),
+                                          ),
+                                  ],
+                                ),
                               ),
                             ),
                             const SizedBox(

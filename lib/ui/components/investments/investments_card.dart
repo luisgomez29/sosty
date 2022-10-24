@@ -16,22 +16,52 @@ class InvestmentsCard extends StatelessWidget {
 
   static const _sizedBoxValue = 7.0;
 
-  double _getPercent(double investmentCollected, int investmentRequired) {
-    return investmentCollected / investmentRequired;
+  /// Check if the total kilograms is greater than 0
+  bool isTotalKilograms() {
+    return investmentItem.investment.totalKilograms > 0;
   }
 
-  String _getProgress(double investmentCollected, int investmentRequired) {
-    final String percent =
-        (_getPercent(investmentCollected, investmentRequired) * 100.0)
-            .toStringAsFixed(2);
-    return '${investmentCollected.toStringAsFixed(2)} de '
-        '${FormatterHelper.money(investmentRequired)} Kg ($percent%)';
+  String getKilogramsOrSostycs(String sostyUnit) {
+    return isTotalKilograms() ? 'Kg' : sostyUnit;
+  }
+
+  double _getPercent() {
+    return investmentItem.project.investmentCollected /
+        investmentItem.project.investmentRequired;
+  }
+
+  String _getProgress() {
+    final String percent = (_getPercent() * 100.0).toStringAsFixed(2);
+    return '${investmentItem.project.investmentCollected.toStringAsFixed(2)} de '
+        '${FormatterHelper.money(investmentItem.project.investmentRequired)} '
+        '${getKilogramsOrSostycs('Sostycs')} ($percent%)';
+  }
+
+  String _getParticipation() {
+    var participation = investmentItem.investment.totalUnits;
+    if (isTotalKilograms()) {
+      participation = investmentItem.investment.totalKilograms;
+    }
+    return "$participation ${getKilogramsOrSostycs('Sty')}";
+  }
+
+  String _getPercentage() {
+    double percentage = (investmentItem.investment.totalUnits * 100) /
+        investmentItem.project.investmentRequired;
+
+    if (isTotalKilograms()) {
+      percentage = (investmentItem.investment.totalKilograms * 100) /
+          investmentItem.project.investmentCollected;
+    }
+
+    return "${FormatterHelper.doubleFormat(percentage)} %";
   }
 
   @override
   Widget build(BuildContext context) {
     final bool paymentConfirmed = investmentItem.investment.isConfirmed;
     return CustomInkWellCard(
+      margin: 5.0,
       navigator: () {
         Navigator.push(
           context,
@@ -72,19 +102,13 @@ class InvestmentsCard extends StatelessWidget {
             ),
             CustomRichText(
               text: "Progreso",
-              textSpan: _getProgress(
-                investmentItem.project.investmentCollected,
-                investmentItem.project.investmentRequired,
-              ),
+              textSpan: _getProgress(),
             ),
             const SizedBox(
               height: _sizedBoxValue,
             ),
             LinearProgressIndicator(
-              value: _getPercent(
-                investmentItem.project.investmentCollected,
-                investmentItem.project.investmentRequired,
-              ),
+              value: _getPercent(),
               minHeight: 5,
               semanticsLabel: 'Progreso',
             ),
@@ -101,16 +125,23 @@ class InvestmentsCard extends StatelessWidget {
               height: _sizedBoxValue,
             ),
             CustomRichText(
+              text: "Porcentaje",
+              textSpan: _getPercentage(),
+            ),
+            const SizedBox(
+              height: _sizedBoxValue,
+            ),
+            CustomRichText(
               text: "Participación",
-              textSpan: "${investmentItem.investment.totalKilograms} Kg",
+              textSpan: _getParticipation(),
             ),
             const SizedBox(
               height: _sizedBoxValue,
             ),
             CustomRichText(
               text: "Fecha de inversión",
-              textSpan:
-                  FormatterHelper.shortDate(investmentItem.investment.createDate),
+              textSpan: FormatterHelper.shortDate(
+                  investmentItem.investment.createDate),
             ),
             Row(
               children: [

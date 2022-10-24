@@ -27,21 +27,19 @@ class ProjectDetailScreen extends StatefulWidget {
 }
 
 class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
-  final _sizedBoxValue = 10.0;
+  final _sizedBoxValue = 5.0;
 
-  String _getPercentageCurrentAnimals(
-    String investmentCollected,
-    String investmentRequired,
-    String amountOfCattles,
-  ) {
-    final percentage =
-        (double.parse(investmentCollected) / double.parse(investmentRequired)) *
-            double.parse(amountOfCattles);
+  String _getPercentageCurrentAnimals() {
+    final investmentCollected = widget.project.investmentCollected;
+    final percentage = (double.parse(investmentCollected) /
+            double.parse(widget.project.investmentRequired)) *
+        double.parse(widget.project.amountOfCattles);
     return "${FormatterHelper.doubleFormat(percentage)} Animales (${FormatterHelper.doubleFormat(investmentCollected)}) Kg";
   }
 
-  String _getMonthlyFattening(String cattleWeightAverageGain) {
-    final total = (int.parse(cattleWeightAverageGain) * 30) / 1000;
+  String _getMonthlyFattening() {
+    final total =
+        (int.parse(widget.project.cattleWeightAverageGain) * 30) / 1000;
     return "$total Kg";
   }
 
@@ -124,7 +122,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 30,
                   ),
                   ContentSection(
                     offsetY: 0.0,
@@ -218,11 +216,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                               ),
                               CustomRichText(
                                 text: "Actual",
-                                textSpan: _getPercentageCurrentAnimals(
-                                  widget.project.investmentCollected,
-                                  widget.project.investmentRequired,
-                                  widget.project.amountOfCattles,
-                                ),
+                                textSpan: _getPercentageCurrentAnimals(),
                               ),
                               SizedBox(
                                 height: _sizedBoxValue,
@@ -358,24 +352,12 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                 color: Colors.transparent,
                               ),
                               IconCard(
-                                title: _getMonthlyFattening(
-                                  widget.project.cattleWeightAverageGain,
-                                ),
+                                title: _getMonthlyFattening(),
                                 subtitle: "Engorde mensual",
                                 elevation: 0,
                                 padding: 0,
                                 margin: 0,
                                 icon: Icons.trending_up_outlined,
-                                color: Colors.transparent,
-                              ),
-                              // TODO
-                              IconCard(
-                                title: "210 Kg",
-                                subtitle: "Peso del lote actual",
-                                elevation: 0,
-                                padding: 0,
-                                margin: 0,
-                                icon: Icons.layers_outlined,
                                 color: Colors.transparent,
                               ),
                               IconCard(
@@ -610,7 +592,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                           project: widget.project,
                         ),
                         SizedBox(
-                          height: _sizedBoxValue * 5,
+                          height: _sizedBoxValue * 8,
                         ),
                       ],
                     ),

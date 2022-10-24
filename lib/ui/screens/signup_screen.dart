@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/app_bottom_navigation_bar.dart';
 import 'package:sosty/config/provider/user_provider.dart';
-import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/domain/models/common/enums/user_role_enum.dart';
 import 'package:sosty/domain/models/user/user.dart';
 import 'package:sosty/infraestructure/helpers/api_client/exception/api_exception.dart';
@@ -17,6 +15,7 @@ import 'package:sosty/ui/components/fields/custom_password_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
 import 'package:sosty/ui/components/general/section_with_bg_logo.dart';
+import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
 import 'package:sosty/ui/screens/login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -53,18 +52,11 @@ class _SignupScreenState extends State<SignupScreen> {
         );
 
         // Store user session data
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString(
-          SharedPreferencesEnum.accessToken.value,
+        await SharedPreferencesHelper.saveUserSessionData(
           user.accessToken,
-        );
-        await prefs.setString(
-          SharedPreferencesEnum.userId.value,
           user.userId,
-        );
-        await prefs.setString(
-          SharedPreferencesEnum.userType.value,
           user.userType.value,
+          user.balance ?? 0,
         );
 
         Navigator.pushAndRemoveUntil(

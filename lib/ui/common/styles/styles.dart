@@ -18,6 +18,9 @@ class Styles {
   // Padding
   static const paddingContent = 30.0;
 
+  // Margin
+  static const cardMargin = 8.0;
+
   // Borders radius
   static const buttonBorderRadius = 5.0;
   static const checkboxBorderRadius = 4.0;
