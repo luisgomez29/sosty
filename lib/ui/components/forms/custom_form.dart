@@ -6,10 +6,12 @@ class CustomForm extends StatefulWidget {
     Key? key,
     required this.formKey,
     required this.children,
+    this.padding,
   }) : super(key: key);
 
   final GlobalKey<FormState> formKey;
   final List<Widget> children;
+  final EdgeInsetsGeometry? padding;
 
   @override
   _CustomFormState createState() => _CustomFormState();
@@ -22,7 +24,10 @@ class _CustomFormState extends State<CustomForm> {
       key: widget.formKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Styles.paddingContent),
+        padding: widget.padding ??
+            const EdgeInsets.symmetric(
+              horizontal: Styles.paddingContent,
+            ),
         child: Column(
           children: widget.children,
         ),

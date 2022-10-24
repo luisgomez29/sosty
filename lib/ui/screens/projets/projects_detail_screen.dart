@@ -6,11 +6,11 @@ import 'package:sosty/ui/components/alerts/alert_info.dart';
 import 'package:sosty/ui/components/alerts/alert_warning.dart';
 import 'package:sosty/ui/components/cards/custom_card.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
-import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/general/carousel_image.dart';
 import 'package:sosty/ui/components/general/content_section.dart';
 import 'package:sosty/ui/components/general/custom_rich_text.dart';
 import 'package:sosty/ui/components/navbar/navbar_detail.dart';
+import 'package:sosty/ui/components/projects/project_participation_simulator.dart';
 import 'package:sosty/ui/components/projects/project_support_documents_section.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
 
@@ -241,82 +241,11 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                         SizedBox(
                           height: _sizedBoxValue * 2,
                         ),
-                        CustomCard(
-                          child: Column(
-                            children: [
-                              Text(
-                                "Simula tu participación, digita el valor:",
-                                style: Styles.headline2.copyWith(
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
-                              SizedBox(
-                                height: _sizedBoxValue * 2,
-                              ),
-                              CustomTextFormField(
-                                labelText: "",
-                                inputType: TextInputType.number,
-                                prefixIcon: Icon(
-                                  Icons.paid_outlined,
-                                ),
-                              ),
-                              SizedBox(
-                                height: _sizedBoxValue,
-                              ),
-                              AlertWarning(
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "Ganarás ",
-                                    style: TextStyle(
-                                      color: AlertWarning.textColor,
-                                      fontSize: 16.0,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: "\$ 91,667 COP, ",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: "en ",
-                                      ),
-                                      TextSpan(
-                                        text: "11 Meses ",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text:
-                                            "aproximadamente, equivalentes a una rentabilidad total estimada del ",
-                                      ),
-                                      TextSpan(
-                                        text: "(1.83%).\n",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: "Recibirás aproximadamente ",
-                                      ),
-                                      TextSpan(
-                                        text: "\$ 5,091,667 COP,",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text:
-                                            "al momento de liquidar el proyecto.",
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
+                        if (double.parse(widget.project.projectProgres) < 100)
+                          ProjectParticipationSimulator(
+                            profitability: widget.project.projectProfitability,
+                            duration: widget.project.projectDuration,
                           ),
-                        ),
                         SizedBox(
                           height: _sizedBoxValue * 2,
                         ),

@@ -28,11 +28,11 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
-  final emailCtrl = TextEditingController();
-  final passwordCtrl = TextEditingController();
-  final firstNameCtrl = TextEditingController();
-  final lastNameCtrl = TextEditingController();
-  final phoneNumberCtrl = TextEditingController();
+  final _emailCtrl = TextEditingController();
+  final _passwordCtrl = TextEditingController();
+  final _firstNameCtrl = TextEditingController();
+  final _lastNameCtrl = TextEditingController();
+  final _phoneNumberCtrl = TextEditingController();
 
   void _signup() async {
     if (_formKey.currentState!.validate()) {
@@ -43,12 +43,12 @@ class _SignupScreenState extends State<SignupScreen> {
 
         final userProvider = Provider.of<UserProvider>(context, listen: false);
         User user = await userProvider.userUseCase.signup(
-          emailCtrl.text,
-          passwordCtrl.text,
+          _emailCtrl.text,
+          _passwordCtrl.text,
           UserRoleEnum.investor.value,
-          firstNameCtrl.text,
-          lastNameCtrl.text,
-          phoneNumberCtrl.text,
+          _firstNameCtrl.text,
+          _lastNameCtrl.text,
+          _phoneNumberCtrl.text,
         );
 
         // Store user session data
@@ -103,7 +103,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 CustomTextFormField(
                   labelText: 'Email',
                   prefixIcon: const Icon(Icons.email),
-                  controller: emailCtrl,
+                  controller: _emailCtrl,
                   inputType: TextInputType.emailAddress,
                   validator: (value) {
                     if (FormValidations.isEmpty(value!)) {
@@ -118,12 +118,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 CustomPasswordFormField(
                   prefixIcon: const Icon(Icons.lock_outline),
                   labelText: 'Contraseña',
-                  controller: passwordCtrl,
+                  controller: _passwordCtrl,
                 ),
                 CustomTextFormField(
                   labelText: 'Nombre(s)',
                   prefixIcon: const Icon(Icons.perm_identity_rounded),
-                  controller: firstNameCtrl,
+                  controller: _firstNameCtrl,
                   inputType: TextInputType.name,
                   validator: (value) {
                     if (FormValidations.isEmpty(value!)) {
@@ -141,7 +141,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 CustomTextFormField(
                   labelText: 'Apellido(s)',
                   prefixIcon: const Icon(Icons.perm_identity_rounded),
-                  controller: lastNameCtrl,
+                  controller: _lastNameCtrl,
                   inputType: TextInputType.text,
                   validator: (value) {
                     if (FormValidations.isEmpty(value!)) {
@@ -159,7 +159,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 CustomTextFormField(
                   labelText: 'Celular',
                   prefixIcon: const Icon(Icons.call),
-                  controller: phoneNumberCtrl,
+                  controller: _phoneNumberCtrl,
                   inputType: TextInputType.phone,
                   validator: (value) {
                     if (FormValidations.isEmpty(value!)) {

@@ -26,8 +26,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
-  final emailCtrl = TextEditingController();
-  final passwordCtrl = TextEditingController();
+  final _emailCtrl = TextEditingController();
+  final _passwordCtrl = TextEditingController();
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
@@ -38,8 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
         final userProvider = Provider.of<UserProvider>(context, listen: false);
         User user = await userProvider.userUseCase.login(
-          emailCtrl.text,
-          passwordCtrl.text,
+          _emailCtrl.text,
+          _passwordCtrl.text,
         );
 
         // Store user session data
@@ -72,8 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    emailCtrl.dispose();
-    passwordCtrl.dispose();
+    _emailCtrl.dispose();
+    _passwordCtrl.dispose();
     super.dispose();
   }
 
@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   labelText: 'Correo electrónico',
                   prefixIcon: const Icon(Icons.email),
                   inputType: TextInputType.emailAddress,
-                  controller: emailCtrl,
+                  controller: _emailCtrl,
                   validator: (value) {
                     if (FormValidations.isEmpty(value!)) {
                       return ValidationMessages.emailRequired;
@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 CustomPasswordFormField(
                   prefixIcon: const Icon(Icons.lock_outline),
                   labelText: "Contraseña",
-                  controller: passwordCtrl,
+                  controller: _passwordCtrl,
                 ),
                 const SizedBox(
                   height: 30,

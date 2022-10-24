@@ -69,10 +69,9 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
   }
 
   String _getEstimatedGain(double projectProfitability, DateTime endDate) {
-    const months = 12.0;
     final monthsInProgress = endDate.difference(DateTime.now()).inDays / 30;
     final double estimatedGain =
-        ((projectProfitability / months) * monthsInProgress) *
+        ((projectProfitability / Constants.monthsOfYear) * monthsInProgress) *
             Constants.minimumInvestment;
     return FormatterHelper.money(estimatedGain);
   }
