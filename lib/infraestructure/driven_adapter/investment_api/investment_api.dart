@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/config/api/api_endpoint.dart';
 import 'package:sosty/domain/models/investment/investment_item.dart';
-import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
+import 'package:sosty/ui/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/domain/models/error_item/error_item.dart';
 import 'package:sosty/domain/models/investment/gateway/investment_gateway.dart';
 import 'package:sosty/infraestructure/driven_adapter/investment_api/errors/investment_api_error.dart';

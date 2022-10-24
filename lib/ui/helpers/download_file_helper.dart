@@ -35,14 +35,17 @@ class DownloadFileHelper {
   }
 
   Future<bool> _checkStoragePermission() async {
-    if (await Permission.contacts.request().isDenied) {
-      final permissionResponse = await Permission.storage.request();
-      if (permissionResponse.isGranted) {
+    final status = await Permission.storage.request();
+    switch (status) {
+      case PermissionStatus.granted:
         return true;
-      }
-      return false;
+      case PermissionStatus.denied:
+      case PermissionStatus.restricted:
+      case PermissionStatus.limited:
+      case PermissionStatus.permanentlyDenied:
+        openAppSettings();
+        return false;
     }
-    return true;
   }
 
   Future<String?> _findLocalPath() async {

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/app_bottom_navigation_bar.dart';
 import 'package:sosty/config/provider/user_provider.dart';
-import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/domain/models/user/user.dart';
 import 'package:sosty/infraestructure/helpers/api_client/exception/api_exception.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
@@ -15,6 +13,7 @@ import 'package:sosty/ui/components/fields/custom_password_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
 import 'package:sosty/ui/components/general/section_with_bg_logo.dart';
+import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
 import 'package:sosty/ui/screens/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -27,8 +26,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
-  final emailCtrl = TextEditingController();
-  final passwordCtrl = TextEditingController();
+  final _emailCtrl = TextEditingController();
+  final _passwordCtrl = TextEditingController();
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
@@ -39,23 +38,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
         final userProvider = Provider.of<UserProvider>(context, listen: false);
         User user = await userProvider.userUseCase.login(
-          emailCtrl.text,
-          passwordCtrl.text,
+          _emailCtrl.text,
+          _passwordCtrl.text,
         );
 
         // Store user session data
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString(
-          SharedPreferencesEnum.accessToken.value,
+        await SharedPreferencesHelper.saveUserSessionData(
           user.accessToken,
-        );
-        await prefs.setString(
-          SharedPreferencesEnum.userId.value,
           user.userId,
-        );
-        await prefs.setString(
-          SharedPreferencesEnum.userType.value,
           user.userType.value,
+          user.balance ?? 0,
         );
 
         Navigator.pushAndRemoveUntil(
@@ -80,8 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    emailCtrl.dispose();
-    passwordCtrl.dispose();
+    _emailCtrl.dispose();
+    _passwordCtrl.dispose();
     super.dispose();
   }
 
@@ -111,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   labelText: 'Correo electrónico',
                   prefixIcon: const Icon(Icons.email),
                   inputType: TextInputType.emailAddress,
-                  controller: emailCtrl,
+                  controller: _emailCtrl,
                   validator: (value) {
                     if (FormValidations.isEmpty(value!)) {
                       return ValidationMessages.emailRequired;
@@ -125,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 CustomPasswordFormField(
                   prefixIcon: const Icon(Icons.lock_outline),
                   labelText: "Contraseña",
-                  controller: passwordCtrl,
+                  controller: _passwordCtrl,
                 ),
                 const SizedBox(
                   height: 30,

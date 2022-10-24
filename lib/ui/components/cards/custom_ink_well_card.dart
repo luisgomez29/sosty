@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:sosty/ui/common/styles/styles.dart';
 
 class CustomInkWellCard extends StatelessWidget {
   const CustomInkWellCard({
     Key? key,
     required this.child,
+    this.navigator,
     this.margin,
-    this.tintColor = false,
     this.elevation,
     this.color,
-    this.navigator,
+    this.tintColor = false,
   }) : super(key: key);
 
   final Widget child;
@@ -17,8 +18,6 @@ class CustomInkWellCard extends StatelessWidget {
   final double? margin;
   final Color? color;
   final VoidCallback? navigator;
-
-  static const defaultMargin = 8.0;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class CustomInkWellCard extends StatelessWidget {
               onTap: navigator,
             ),
       elevation: elevation ?? CardTheme.of(context).elevation,
-      margin: EdgeInsets.symmetric(vertical: margin ?? defaultMargin),
+      margin: EdgeInsets.symmetric(vertical: margin ?? Styles.cardMargin),
     );
   }
 }

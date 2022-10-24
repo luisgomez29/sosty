@@ -11,11 +11,11 @@ class FormatterHelper {
       } else if (number is String) {
         amount = int.parse(number);
       } else if (number is double) {
-        return '\$ ${doubleFormat(number)}';
+        return '\$${doubleFormat(number)}';
       }
     }
     final formatter = NumberFormat('###,###,###', 'es_CO');
-    return '\$ ${formatter.format(amount)}';
+    return '\$${formatter.format(amount)}';
   }
 
   static String doubleFormat(dynamic number) {

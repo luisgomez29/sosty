@@ -3,6 +3,8 @@ class Constants {
 
   static const minimumInvestment = 700000;
 
+  static const monthsOfYear = 12;
+
   static const projectIncompleteText =
       "Ayúdanos a completar el mínimo para comenzar el proyecto";
 
