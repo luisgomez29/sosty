@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/screens/account/account_screen.dart';
 import 'package:sosty/ui/screens/investments/investments_screen.dart';
-import 'package:sosty/ui/screens/projets/projects_screen.dart';
+import 'package:sosty/ui/screens/projects/projects_screen.dart';
 
 class AppBottomNavigationBar extends StatefulWidget {
   const AppBottomNavigationBar({

@@ -4,7 +4,7 @@ import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/cards/custom_ink_well_card.dart';
 import 'package:sosty/ui/components/general/custom_rich_text.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
-import 'package:sosty/ui/screens/projets/project_progress_screen.dart';
+import 'package:sosty/ui/screens/projects/project_progress_screen.dart';
 
 class InvestmentsCard extends StatelessWidget {
   const InvestmentsCard({
