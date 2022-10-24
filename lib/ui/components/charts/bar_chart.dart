@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sosty/domain/models/project/project_progress_weight.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 
@@ -12,7 +13,8 @@ class BarChart {
 late TooltipBehavior _toolBarBehavior;
 
 class ToolBar extends StatefulWidget {
-  const ToolBar({Key? key}) : super(key: key);
+  const ToolBar(List<ProjectProgressWeight>? weights, {Key? key})
+      : super(key: key);
 
   @override
   _ToolState createState() => _ToolState();

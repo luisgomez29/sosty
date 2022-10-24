@@ -73,7 +73,8 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
     const months = 12.0;
     final monthsInProgress = endDate.difference(DateTime.now()).inDays / 30;
     final double estimatedGain =
-        ((projectProfitability / months) * monthsInProgress) * Constants.minimumInvestment;
+        ((projectProfitability / months) * monthsInProgress) *
+            Constants.minimumInvestment;
     return FormatterHelper.money(estimatedGain);
   }
 
@@ -194,11 +195,12 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                                 ],
                               ),
                             ),
-                            const CustomCard(
-                              child: ToolBar(),
+                            CustomCard(
+                              child: ToolBar(projectProgress.weights),
                             ),
-                            const CustomCard(
-                              child: ToolCircular(),
+                            CustomCard(
+                              child:
+                                  ToolCircular(wghts: projectProgress.weights),
                             ),
                             CustomInkWellCard(
                               child: Column(
