@@ -36,7 +36,7 @@ class ProjectsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomInkWellCard(
-      navigator: navigator,
+      navigator: navigator!,
       child: Column(
         children: [
           ClipRRect(

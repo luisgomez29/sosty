@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/config/provider/user_provider.dart';
-import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
+import 'package:sosty/ui/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/domain/models/user/user.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/account/account_info.dart';
@@ -13,6 +13,7 @@ import 'package:sosty/ui/components/general/load_data_error.dart';
 import 'package:sosty/ui/components/general/loading_indicator.dart';
 import 'package:sosty/ui/components/navbar/navbar.dart';
 import 'package:sosty/ui/components/navbar/navbar_clipper.dart';
+import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
 import 'package:sosty/ui/screens/login_screen.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -40,11 +41,7 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   void _logout(context) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(SharedPreferencesEnum.accessToken.value);
-    await prefs.remove(SharedPreferencesEnum.userId.value);
-    await prefs.remove(SharedPreferencesEnum.userType.value);
-
+    await SharedPreferencesHelper.deleteUserSessionData();
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
@@ -78,7 +75,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasData) {
-                        final user = snapshot.data!;
+                        final User user = snapshot.data!;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,

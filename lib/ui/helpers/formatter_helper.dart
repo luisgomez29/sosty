@@ -10,10 +10,12 @@ class FormatterHelper {
         amount = number;
       } else if (number is String) {
         amount = int.parse(number);
+      } else if (number is double) {
+        return '\$${doubleFormat(number)}';
       }
     }
     final formatter = NumberFormat('###,###,###', 'es_CO');
-    return "\$ ${formatter.format(amount)}";
+    return '\$${formatter.format(amount)}';
   }
 
   static String doubleFormat(dynamic number) {
@@ -23,7 +25,7 @@ class FormatterHelper {
         amount = number.toDouble();
       } else if (number is String) {
         amount = double.parse(number);
-      } else if (number is double){
+      } else if (number is double) {
         amount = number;
       }
     }
@@ -31,7 +33,7 @@ class FormatterHelper {
     return formatter.format(amount);
   }
 
-  static String date(DateTime date) {
-    return "${date.year}-${date.month}-${date.day}";
+  static String shortDate(DateTime date) {
+    return '${date.year}-${date.month}-${date.day}';
   }
 }

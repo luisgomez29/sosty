@@ -55,7 +55,7 @@ class _ProjectSupportDocumentsSectionState
           ),
           if (widget.project.financialProjectionUrl != null)
             ProjectSupportDocumentCard(
-              title: "Proyeccion Financiera",
+              title: "Proyección Financiera",
               onTap: () => _downloadFileHelper.downloadFile(
                 context: context,
                 url: widget.project.financialProjectionUrl!,

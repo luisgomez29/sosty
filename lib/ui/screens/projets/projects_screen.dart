@@ -23,7 +23,7 @@ class ProjectsScreen extends StatefulWidget {
 class _ProjectsScreenState extends State<ProjectsScreen> {
   Future<List<ProjectItem>>? futureProjects;
 
-  void _fetchProjectsList() async {
+  void _fetchProjectsList() {
     final projectProvider =
         Provider.of<ProjectProvider>(context, listen: false);
 

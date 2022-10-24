@@ -1,5 +1,7 @@
-import 'package:sosty/domain/models/item/item.dart';
+import 'package:sosty/domain/models/investment/investment_item.dart';
 
 abstract class InvestmentGateway {
-  Future<List<Item>> getInvestmentsInProgressByInvestor(String investorId);
+  Future<List<InvestmentItem>> getInvestmentsInProgressByInvestor(
+    String investorId,
+  );
 }

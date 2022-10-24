@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/config/provider/investment_provider.dart';
-import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
-import 'package:sosty/domain/models/item/item.dart';
+import 'package:sosty/ui/common/enums/shared_preferences_enum.dart';
+import 'package:sosty/domain/models/investment/investment_item.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
 import 'package:sosty/ui/components/general/content_section.dart';
@@ -24,25 +24,27 @@ class InvestmentsScreen extends StatefulWidget {
 }
 
 class _InvestmentsScreenState extends State<InvestmentsScreen> {
-  String? userId;
-  Future<List<Item>>? futureInvestments;
+  String? _userId;
+  int? _balance;
+  Future<List<InvestmentItem>>? futureInvestments;
 
-  Future<void> _loadUserId() async {
+  Future<void> _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      userId = prefs.getString(SharedPreferencesEnum.userId.value) ??
+      _userId = prefs.getString(SharedPreferencesEnum.userId.value) ??
           SharedPreferencesEnum.keyNotFound.value;
+      _balance = prefs.getInt(SharedPreferencesEnum.balance.value) ?? 0;
     });
   }
 
-  Future<List<Item>> fetchInvestments() async {
+  Future<List<InvestmentItem>> _fetchInvestments() async {
     final investmentProvider =
         Provider.of<InvestmentProvider>(context, listen: false);
     return investmentProvider.investmentUseCase
-        .getInvestmentsInProgressByInvestor(userId!);
+        .getInvestmentsInProgressByInvestor(_userId!);
   }
 
-  String _incrementTotalInvested(List<Item> investments) {
+  String _incrementTotalInvested(List<InvestmentItem> investments) {
     int total = investments.fold(
       0,
       (previousValue, element) =>
@@ -51,7 +53,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
     return FormatterHelper.money(total);
   }
 
-  Column _getTotalCards(List<Item> investments) {
+  Column _getTotalCards(List<InvestmentItem> investments) {
     return Column(
       children: [
         IconCard(
@@ -67,7 +69,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
           subtitle: 'Total Recibido',
         ),
         IconCard(
-          title: FormatterHelper.money(0),
+          title: FormatterHelper.money(_balance),
           subtitle: 'Saldo Sosty',
           tintColor: true,
         ),
@@ -78,8 +80,8 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
   @override
   void initState() {
     super.initState();
-    _loadUserId().then((_) {
-      futureInvestments = fetchInvestments();
+    _loadUserData().then((_) {
+      futureInvestments = _fetchInvestments();
     });
   }
 
@@ -94,7 +96,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
               const NavbarClipper(),
               ContentSection(
                 offsetY: -70.0,
-                child: FutureBuilder<List<Item>>(
+                child: FutureBuilder<List<InvestmentItem>>(
                   future: futureInvestments,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
@@ -103,7 +105,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                           children: [
                             _getTotalCards(snapshot.data!),
                             const SizedBox(
-                              height: 20,
+                              height: 10,
                             ),
                             // Show message if there aren't investments
                             (snapshot.data?.isEmpty ?? false)
@@ -113,7 +115,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                                 : Column(
                                     children: [
                                       Divider(
-                                        height: 50,
+                                        height: 60,
                                         thickness: 1,
                                         indent: 0,
                                         endIndent: 0,
@@ -129,19 +131,17 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                                             const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         itemCount: snapshot.data?.length,
-                                        itemBuilder: (context, index) {
-                                          Item item = snapshot.data![index];
-                                          return Column(
-                                            children: [
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              InvestmentsCard(
-                                                investment: item,
-                                              ),
-                                            ],
-                                          );
-                                        },
+                                        itemBuilder: (context, index) => Column(
+                                          children: [
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            InvestmentsCard(
+                                              investmentItem:
+                                                  snapshot.data![index],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),

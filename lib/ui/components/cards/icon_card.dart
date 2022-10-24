@@ -33,7 +33,7 @@ class IconCard extends StatelessWidget {
     return CustomInkWellCard(
       tintColor: tintColor,
       elevation: elevation ?? CardTheme.of(context).elevation,
-      margin: margin ?? CustomInkWellCard.defaultMargin,
+      margin: margin ?? Styles.cardMargin,
       color: color,
       child: Padding(
         padding: padding != null

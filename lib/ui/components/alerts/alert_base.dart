@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sosty/ui/common/styles/styles.dart';
 
 class AlertBase extends StatelessWidget {
   const AlertBase({

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sosty/domain/models/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/ui/common/enums/assets_enum.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/buttons/large_button.dart';
 import 'package:sosty/ui/components/clippers/wave_clipper.dart';
 import 'package:sosty/ui/helpers/on_boarding_helper.dart';
+import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
 import 'package:sosty/ui/screens/login_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -17,14 +16,8 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int _currentPage = 0;
-  final Duration animatedDuration = const Duration(milliseconds: 300);
+  final Duration _animatedDuration = const Duration(milliseconds: 300);
   final PageController _pageController = PageController(initialPage: 0);
-
-  /// Set value to not show on boarding screens again
-  Future<void> _setSeenOnboard() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(SharedPreferencesEnum.seenOnboard.value, true);
-  }
 
   AnimatedContainer _dotIndicator(index) {
     final isActive = _currentPage == index;
@@ -32,7 +25,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       height: isActive ? 20 : 10,
       width: 10,
       margin: const EdgeInsets.only(right: 5),
-      duration: animatedDuration,
+      duration: _animatedDuration,
       decoration: BoxDecoration(
         color:
             isActive ? Theme.of(context).primaryColor : Styles.secondaryColor,
@@ -101,7 +94,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   void initState() {
     super.initState();
-    _setSeenOnboard();
+    SharedPreferencesHelper.saveSeenOnboard();
   }
 
   @override

@@ -25,29 +25,29 @@ class Investment {
     this.allowedToLoadBalance,
   });
 
-  String investmendId;
-  String investorId;
-  String projectId;
-  int amountInvested;
-  dynamic amountReceived;
-  String? contractUrl;
-  bool isConfirmed;
-  dynamic balanceLoaded;
-  String? paymentProofUrl;
-  String? contratoColaboracionUrl;
-  String? contratoMandatoUrl;
-  DateTime createDate;
-  DateTime? deleteDate;
-  double totalKilograms;
-  double? totalCattles;
-  bool reviewMade;
-  double totalUnits;
-  dynamic epaycoTransactionRef;
-  dynamic epaycoTransactionStatus;
-  bool isPreInvestment;
-  bool agreeToInvestTheBalance;
-  int balanceToInvest;
-  dynamic allowedToLoadBalance;
+  final String investmendId;
+  final String investorId;
+  final String projectId;
+  final int amountInvested;
+  final dynamic amountReceived;
+  final String? contractUrl;
+  final bool isConfirmed;
+  final dynamic balanceLoaded;
+  final String? paymentProofUrl;
+  final String? contratoColaboracionUrl;
+  final String? contratoMandatoUrl;
+  final DateTime createDate;
+  final DateTime? deleteDate;
+  final double totalKilograms;
+  final double? totalCattles;
+  final bool reviewMade;
+  final double totalUnits;
+  final dynamic epaycoTransactionRef;
+  final dynamic epaycoTransactionStatus;
+  final bool isPreInvestment;
+  final bool agreeToInvestTheBalance;
+  final int balanceToInvest;
+  final dynamic allowedToLoadBalance;
 
   factory Investment.fromJson(Map<String, dynamic> json) => Investment(
         investmendId: json["investmendID"],

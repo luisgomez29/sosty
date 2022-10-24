@@ -7,6 +7,7 @@ enum SharedPreferencesEnum {
   userId('userId'),
   userType('userType'),
   accessToken('accessToken'),
+  balance('balance'),
   keyNotFound('No se encontró la llave de preferencia');
 
   const SharedPreferencesEnum(this.value);
