@@ -5,10 +5,12 @@ class SelectTextFormField extends StatefulWidget {
     Key? key,
     required this.options,
     this.validator,
+    this.onSaved,
   }) : super(key: key);
 
   final List<String> options;
   final FormFieldValidator<String>? validator;
+  final ValueChanged<String?>? onSaved;
 
   @override
   _SelectTextFormFieldState createState() => _SelectTextFormFieldState();
@@ -28,6 +30,7 @@ class _SelectTextFormFieldState extends State<SelectTextFormField> {
     return FormField<String>(
       validator: widget.validator,
       initialValue: _currentSelectedValue,
+      onSaved: widget.onSaved,
       builder: (FormFieldState<String> state) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),

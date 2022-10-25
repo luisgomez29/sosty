@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
@@ -11,6 +13,7 @@ import 'package:sosty/ui/components/general/content_section.dart';
 import 'package:sosty/ui/components/general/section_title.dart';
 import 'package:sosty/ui/components/navbar/navbar_clipper.dart';
 import 'package:sosty/ui/components/navbar/navbar_detail.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
@@ -21,6 +24,7 @@ class ContactScreen extends StatefulWidget {
 
 class _ContactScreenState extends State<ContactScreen> {
   bool _isLoading = false;
+  late String _foundUs;
   final _formKey = GlobalKey<FormState>();
   final _emailCtrl = TextEditingController();
   final _nameCtrl = TextEditingController();
@@ -30,9 +34,42 @@ class _ContactScreenState extends State<ContactScreen> {
 
   void _sendInfo() async {
     if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
       setState(() {
         _isLoading = true;
       });
+      //https://api.whatsapp.com/send?phone=573204357649
+
+      final String formText =
+          "Buen dia, quiero mas información de SOSTY. A continuación mis datos: "
+          "\nNombre: ${_nameCtrl.text},\nCorreo electronico: ${_emailCtrl.text}"
+          "\nCelular: ${_phoneNumberCtrl.text} \n Ciudad: ${_cityCtrl.text}"
+          "\nCómo nos encontraste:  $_foundUs \nMensaje: ${_messageCtrl.text}";
+
+      await _launchWhatsapp(formText);
+    }
+  }
+
+  Future<void> _launchWhatsapp(String text) async {
+    var contact = "573144823086";
+    var androidUrl = "whatsapp://send?phone=$contact&text=$text";
+    // var iosUrl = "https://wa.me/$contact?text=${Uri.parse(text)}";
+
+    try {
+      if (Platform.isAndroid) {
+        print("ENTRO => $androidUrl");
+        await launchUrl(Uri.parse(androidUrl));
+      }
+
+      // else {
+      //   await launchUrl(Uri.parse(iosUrl));
+      // }
+    } on Exception {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("WhatsApp no esta instalada en el dispositivo"),
+        ),
+      );
     }
   }
 
@@ -153,8 +190,13 @@ class _ContactScreenState extends State<ContactScreen> {
                                 return null;
                               },
                             ),
-                            const SelectTextFormField(
+                            SelectTextFormField(
                               options: Constants.foundUsOptions,
+                              onSaved: (String? value) {
+                                setState(() {
+                                  _foundUs = value!;
+                                });
+                              },
                             ),
                             CustomTextFormField(
                               labelText: 'Mensaje',
