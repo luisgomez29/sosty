@@ -39,8 +39,6 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
         Provider.of<ProjectProvider>(context, listen: false);
     final response = projectProvider.projectUseCase
         .getProjectProgressInformation(widget.investmentId);
-    // final response = projectProvider.projectUseCase
-    //     .getProjectProgressInformation('d9392cc2-987e-4fb5-a9fc-e374ac49d912');
     setState(() {
       futureProjectProgress = response;
     });
@@ -68,12 +66,28 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
     );
   }
 
-  String _getEstimatedGain(double projectProfitability, DateTime endDate) {
-    final monthsInProgress = endDate.difference(DateTime.now()).inDays / 30;
-    final double estimatedGain =
-        ((projectProfitability / Constants.monthsOfYear) * monthsInProgress) *
-            Constants.minimumInvestment;
-    return FormatterHelper.money(estimatedGain);
+  double _getEstimatedGain(
+    int amountInvested,
+    double projectProfitability,
+    String projectDuration,
+    DateTime startDate,
+    DateTime endDate,
+  ) {
+    double estimatedGain = 0;
+    double monthsProgress = 0;
+    int pendingDays = endDate.difference(DateTime.now()).inDays;
+
+    if (pendingDays <= 0) {
+      monthsProgress = double.parse(projectDuration);
+    } else {
+      monthsProgress = DateTime.now().difference(startDate).inDays / 30;
+    }
+
+    double profitabilityPercentage = projectProfitability / 100;
+    estimatedGain =
+        ((profitabilityPercentage / Constants.monthsOfYear) * monthsProgress) *
+            amountInvested;
+    return estimatedGain;
   }
 
   @override
@@ -98,6 +112,13 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                     if (snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasData) {
                         final ProjectProgress projectProgress = snapshot.data!;
+                        final estimatedGain = _getEstimatedGain(
+                          projectProgress.amountInvested,
+                          projectProgress.projectProfitability,
+                          projectProgress.projectDuration,
+                          projectProgress.startDate,
+                          projectProgress.endDate,
+                        );
                         return Column(
                           children: [
                             SectionTitle(
@@ -113,15 +134,16 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                               subtitle: 'Inversión Inicial',
                             ),
                             // TODO
-                            const IconCard(
-                              title: '\$ 1,095,562.50',
+                            IconCard(
+                              title: FormatterHelper.money(
+                                estimatedGain + projectProgress.amountInvested,
+                              ),
                               subtitle: 'Valor Actual Estimado',
                             ),
                             // TODO
                             IconCard(
-                              title: _getEstimatedGain(
-                                projectProgress.projectProfitability,
-                                projectProgress.endDate,
+                              title: FormatterHelper.money(
+                                estimatedGain,
                               ),
                               subtitle: 'Ganancia Estimada',
                               icon: Icons.trending_up_sharp,
