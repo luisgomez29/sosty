@@ -44,19 +44,21 @@ class _ToolState extends State<ToolCircular> {
 
   @override
   Widget build(BuildContext context) {
-    int position = (widget.wghts?.length)! - 1;
-    int totalCattles =
-        (widget.wghts?[position].cantidadDeAnimalesGanananDe0A7)! +
-            (widget.wghts?[position].cantidadDeAnimalesGanananDe7A10)! +
-            (widget.wghts?[position].cantidadDeAnimalesGanananMasDe10)!;
+    int de0a7 = 0, de7a10 = 0, deMas10 = 0, totalCattles = 0;
+    if (widget.wghts!.isNotEmpty) {
+      de0a7 = (widget.wghts?.last.cantidadDeAnimalesGanananDe0A7)!;
+      de7a10 = (widget.wghts?.last.cantidadDeAnimalesGanananDe7A10)!;
+      deMas10 = (widget.wghts?.last.cantidadDeAnimalesGanananMasDe10)!;
 
+      totalCattles = de0a7 + de7a10 + deMas10;
+    }
     List<CircularChart> circularChar = [
-      const CircularChart('Engordan entre 0 y 6kg mensuales: ', 60,
-          Color.fromARGB(255, 247, 142, 6)),
-      const CircularChart('Engordan entre 7 y 10kg mensuales: ', 80,
-          Color.fromARGB(255, 3, 217, 245)),
-      const CircularChart('Engordan mas de 10kg mensuales: ', 40,
-          Color.fromARGB(255, 0, 189, 86))
+      CircularChart('Engordan entre 0 y 6kg mensuales: ', de0a7,
+          const Color.fromARGB(255, 247, 142, 6)),
+      CircularChart('Engordan entrecamio 7 y 10kg mensuales: ', de7a10,
+          const Color.fromARGB(255, 3, 217, 245)),
+      CircularChart('Engordan mas de 10kg mensuales: ', deMas10,
+          const Color.fromARGB(255, 0, 189, 86))
     ];
     return Column(
       children: [

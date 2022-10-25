@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sosty/domain/models/project/project_progress_weight.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 
@@ -13,19 +12,16 @@ class BarChart {
 late TooltipBehavior _toolBarBehavior;
 
 class ToolBar extends StatefulWidget {
-  const ToolBar(List<ProjectProgressWeight>? weights, {Key? key})
-      : super(key: key);
+  const ToolBar({Key? key, this.wghts, this.wghtsDates}) : super(key: key);
+
+  final List? wghts;
+  final List? wghtsDates;
 
   @override
   _ToolState createState() => _ToolState();
 }
 
 class _ToolState extends State<ToolBar> {
-  static const List<BarChart> barChar = [
-    BarChart("01/01/2022", 40000),
-    BarChart("02/02/2022", 45000)
-  ];
-
   @override
   void initState() {
     _toolBarBehavior =
@@ -47,6 +43,14 @@ class _ToolState extends State<ToolBar> {
 
   @override
   Widget build(BuildContext context) {
+    final List<BarChart> barChar = [];
+    if (widget.wghts!.isNotEmpty && widget.wghtsDates!.isNotEmpty) {
+      widget.wghtsDates?.forEach((element1) {
+        int idx = (widget.wghtsDates)!.indexOf(element1);
+        int vlr = (widget.wghts)!.elementAt(idx);
+        barChar.add(BarChart(element1, vlr));
+      });
+    }
     return Column(
       children: [
         _getCardTitle("Evolución Peso Lote"),
