@@ -215,11 +215,14 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                                 ],
                               ),
                             ),
-                            const CustomCard(
-                              child: ToolBar(),
+                            CustomCard(
+                              child: ToolBar(
+                                  wghts: projectProgress.weightsList,
+                                  wghtsDates: projectProgress.weightsDatesList),
                             ),
-                            const CustomCard(
-                              child: ToolCircular(),
+                            CustomCard(
+                              child:
+                                  ToolCircular(wghts: projectProgress.weights),
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
