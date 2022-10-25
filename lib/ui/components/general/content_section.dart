@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sosty/ui/common/styles/styles.dart';
 
 class ContentSection extends StatelessWidget {
   const ContentSection({
@@ -12,14 +13,12 @@ class ContentSection extends StatelessWidget {
   final double offsetY;
   final double? paddingH;
 
-  static const padding = 30.0;
-
   @override
   Widget build(BuildContext context) {
     return Transform.translate(
       offset: Offset(0.0, offsetY),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: paddingH ?? padding),
+        padding: EdgeInsets.symmetric(horizontal: paddingH ?? Styles.paddingContent),
         child: child,
       ),
     );

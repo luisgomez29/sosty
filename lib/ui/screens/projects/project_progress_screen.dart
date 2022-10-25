@@ -7,16 +7,17 @@ import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/cards/custom_card.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
-import 'package:sosty/ui/components/charts/bar_chart.dart';
-import 'package:sosty/ui/components/charts/circular_chart.dart';
 import 'package:sosty/ui/components/general/content_section.dart';
 import 'package:sosty/ui/components/general/custom_rich_text.dart';
 import 'package:sosty/ui/components/general/load_data_error.dart';
 import 'package:sosty/ui/components/general/loading_indicator.dart';
 import 'package:sosty/ui/components/general/section_title.dart';
 import 'package:sosty/ui/components/general/timeline.dart';
-import 'package:sosty/ui/components/investments/investments_timeline_item.dart';
+import 'package:sosty/ui/components/investments/investment_timeline_item.dart';
 import 'package:sosty/ui/components/navbar/navbar_detail.dart';
+import 'package:sosty/ui/components/projects/project_message.dart';
+import 'package:sosty/ui/components/projects/project_weights_bar_chart.dart';
+import 'package:sosty/ui/components/projects/project_weights_circular_chart.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
 
 class ProjectProgressScreen extends StatefulWidget {
@@ -126,27 +127,24 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                                   "Seguimiento Proyecto # ${projectProgress.projectCode}",
                               subTitle: projectProgress.projectName,
                             ),
-                            // TODO
                             IconCard(
                               title: FormatterHelper.money(
                                 projectProgress.amountInvested,
                               ),
                               subtitle: 'Inversión Inicial',
                             ),
-                            // TODO
-                            IconCard(
-                              title: FormatterHelper.money(
-                                estimatedGain + projectProgress.amountInvested,
-                              ),
-                              subtitle: 'Valor Actual Estimado',
-                            ),
-                            // TODO
                             IconCard(
                               title: FormatterHelper.money(
                                 estimatedGain,
                               ),
                               subtitle: 'Ganancia Estimada',
                               icon: Icons.trending_up_sharp,
+                            ),
+                            IconCard(
+                              title: FormatterHelper.money(
+                                estimatedGain + projectProgress.amountInvested,
+                              ),
+                              subtitle: 'Valor Actual Estimado',
                             ),
                             CustomCard(
                               child: Column(
@@ -216,13 +214,15 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                               ),
                             ),
                             CustomCard(
-                              child: ToolBar(
-                                  wghts: projectProgress.weightsList,
-                                  wghtsDates: projectProgress.weightsDatesList),
+                              child: ProjectWeightsBarChart(
+                                weights: projectProgress.weightsList,
+                                weightsDates: projectProgress.weightsDatesList,
+                              ),
                             ),
                             CustomCard(
-                              child:
-                                  ToolCircular(wghts: projectProgress.weights),
+                              child: ProjectWeightsCircularChart(
+                                weights: projectProgress.weights,
+                              ),
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
@@ -231,19 +231,9 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                                   children: [
                                     _getCardTitle(
                                         "Actualizaciones y \n Documentos"),
-                                    (projectProgress.events?.isEmpty ?? false)
-                                        ? Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: 20.0,
-                                            ),
-                                            child: Text(
-                                              "No hay actualizaciones",
-                                              style:
-                                                  Styles.bodyText1Bold.copyWith(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                              ),
-                                            ),
+                                    (projectProgress.events.isEmpty)
+                                        ? const ProjectMessage(
+                                            text: "No hay actualizaciones",
                                           )
                                         : Timeline(
                                             lineColor: Theme.of(context)
@@ -251,15 +241,15 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                                                 .withOpacity(0.3),
                                             lineGap: 0,
                                             children: List.generate(
-                                              projectProgress.events!.length,
+                                              projectProgress.events.length,
                                               (index) =>
                                                   InvestmentsTimelineItem(
                                                 event: projectProgress
-                                                    .events![index],
+                                                    .events[index],
                                               ),
                                             ),
                                             indicators: List.generate(
-                                              projectProgress.events!.length,
+                                              projectProgress.events.length,
                                               (index) => Icon(
                                                 Icons.adjust_outlined,
                                                 color: Theme.of(context)

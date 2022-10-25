@@ -14,7 +14,7 @@ import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
 import 'package:sosty/ui/components/general/section_with_bg_logo.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
-import 'package:sosty/ui/screens/signup_screen.dart';
+import 'package:sosty/ui/screens/auth/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

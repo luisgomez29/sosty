@@ -9,7 +9,7 @@ import 'package:sosty/ui/components/general/loading_indicator.dart';
 import 'package:sosty/ui/components/general/section_title.dart';
 import 'package:sosty/ui/components/navbar/navbar.dart';
 import 'package:sosty/ui/components/navbar/navbar_clipper.dart';
-import 'package:sosty/ui/components/projects/projects_card.dart';
+import 'package:sosty/ui/components/projects/project_card.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
 import 'package:sosty/ui/screens/projects/projects_detail_screen.dart';
 

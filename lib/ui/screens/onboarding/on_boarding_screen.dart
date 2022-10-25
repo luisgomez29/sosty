@@ -5,7 +5,7 @@ import 'package:sosty/ui/components/buttons/large_button.dart';
 import 'package:sosty/ui/components/clippers/wave_clipper.dart';
 import 'package:sosty/ui/helpers/on_boarding_helper.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
-import 'package:sosty/ui/screens/login_screen.dart';
+import 'package:sosty/ui/screens/auth/login_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);

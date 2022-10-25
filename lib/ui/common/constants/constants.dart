@@ -10,4 +10,12 @@ class Constants {
 
   static const projectFullText =
       "Hemos completado el 100% de este proyecto! Te invitamos a estar atento a nuestros próximos proyectos.";
+
+  static const List<String> foundUsOptions = [
+    'Redes sociales',
+    'Canales de YouTube',
+    'Google',
+    'Referencia de amigo',
+    'Noticias',
+  ];
 }

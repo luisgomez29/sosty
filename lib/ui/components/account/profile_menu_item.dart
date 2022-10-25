@@ -7,10 +7,12 @@ class ProfileMenuItem extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.onTap,
+    this.chevron = false,
   }) : super(key: key);
 
   final String title;
   final IconData icon;
+  final bool? chevron;
   final VoidCallback onTap;
 
   @override
@@ -46,6 +48,13 @@ class ProfileMenuItem extends StatelessWidget {
                 fontSize: 17.0,
               ),
             ),
+            const Spacer(),
+            if (chevron!)
+              Icon(
+                Icons.chevron_right,
+                size: 24,
+                color: Theme.of(context).primaryColor,
+              ),
           ],
         ),
       ),

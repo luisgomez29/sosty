@@ -52,7 +52,7 @@ class ProjectsCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(
               right: 20.0,
-              bottom: 30.0,
+              bottom: 15.0,
               left: 20.0,
             ),
             child: Column(
@@ -139,31 +139,31 @@ class ProjectsCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      child: const Text(
-                        "Participar",
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "Más información",
-                      ),
-                    ),
-                  ],
-                ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: <Widget>[
+                //     OutlinedButton(
+                //       onPressed: () {},
+                //       style: OutlinedButton.styleFrom(
+                //         side: BorderSide(
+                //           color: Theme.of(context).primaryColor,
+                //         ),
+                //       ),
+                //       child: const Text(
+                //         "Participar",
+                //       ),
+                //     ),
+                //     ElevatedButton(
+                //       onPressed: () {},
+                //       child: const Text(
+                //         "Más información",
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           ),
