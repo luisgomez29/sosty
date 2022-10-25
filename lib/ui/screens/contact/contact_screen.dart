@@ -37,6 +37,16 @@ class _ContactScreenState extends State<ContactScreen> {
   }
 
   @override
+  void dispose() {
+    _emailCtrl.dispose();
+    _nameCtrl.dispose();
+    _phoneNumberCtrl.dispose();
+    _cityCtrl.dispose();
+    _messageCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     const double _sizedBoxValue = 30.0;
     return Scaffold(

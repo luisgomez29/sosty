@@ -12,6 +12,7 @@ import 'package:sosty/ui/components/buttons/small_button_navigation.dart';
 import 'package:sosty/ui/components/fields/custom_password_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
+import 'package:sosty/ui/components/general/footer.dart';
 import 'package:sosty/ui/components/general/section_with_bg_logo.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
 import 'package:sosty/ui/screens/auth/signup_screen.dart';
@@ -143,9 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 50,
-                ),
+                const Footer(),
               ],
             ),
           ],

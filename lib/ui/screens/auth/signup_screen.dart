@@ -14,6 +14,7 @@ import 'package:sosty/ui/components/fields/checkbox_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_password_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
+import 'package:sosty/ui/components/general/footer.dart';
 import 'package:sosty/ui/components/general/section_with_bg_logo.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
 import 'package:sosty/ui/screens/auth/login_screen.dart';
@@ -76,6 +77,17 @@ class _SignupScreenState extends State<SignupScreen> {
         );
       }
     }
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    _emailCtrl.dispose();
+    _passwordCtrl.dispose();
+    _firstNameCtrl.dispose();
+    _lastNameCtrl.dispose();
+    _phoneNumberCtrl.dispose();
+    super.dispose();
   }
 
   @override
@@ -208,9 +220,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 50,
-                ),
+                const Footer(),
               ],
             ),
           ],

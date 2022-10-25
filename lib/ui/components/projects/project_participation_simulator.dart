@@ -59,6 +59,12 @@ class _ProjectParticipationSimulatorState
   }
 
   @override
+  void dispose() {
+    _participationCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     const double titleFontSize = 18.0;
     const double subtitleFontSize = 14.0;
