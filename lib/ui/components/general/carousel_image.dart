@@ -4,15 +4,17 @@ class CarouselImage extends StatelessWidget {
   const CarouselImage({
     Key? key,
     required this.imageUrl,
+    this.width,
   }) : super(key: key);
 
   final String imageUrl;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 300.0,
-      width: 250.0,
+      width: width ?? 250.0,
       margin: const EdgeInsets.only(
         top: 20.0,
         left: 10.0,

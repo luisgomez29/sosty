@@ -5,4 +5,6 @@ abstract class ProjectGateway {
   Future<List<ProjectItem>> getAll();
 
   Future<ProjectProgress> getProjectProgressInformation(String investmentId);
+
+  Future<ProjectItem> getProjectPublicByCode(String projectCode);
 }

@@ -83,6 +83,32 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
           );
   }
 
+  ListView _getCarouselImage() {
+    final List<String> imagesUrl = [widget.project.projectImageUrl1];
+    if (widget.project.projectImageUrl2 != null) {
+      imagesUrl.add(widget.project.projectImageUrl2!);
+    }
+    if (widget.project.projectImageUrl3 != null) {
+      imagesUrl.add(widget.project.projectImageUrl3!);
+    }
+    if (widget.project.projectImageUrl4 != null) {
+      imagesUrl.add(widget.project.projectImageUrl4!);
+    }
+
+    return ListView.builder(
+      itemCount: imagesUrl.length,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) {
+        return CarouselImage(
+          imageUrl: imagesUrl[index],
+          width: imagesUrl.length == 1
+              ? (MediaQuery.of(context).size.width - 40)
+              : null,
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -103,23 +129,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                     padding: const EdgeInsets.only(
                       left: 10.0,
                     ),
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-                        CarouselImage(
-                          imageUrl: widget.project.projectImageUrl1,
-                        ),
-                        CarouselImage(
-                          imageUrl: widget.project.projectImageUrl2!,
-                        ),
-                        CarouselImage(
-                          imageUrl: widget.project.projectImageUrl3!,
-                        ),
-                        CarouselImage(
-                          imageUrl: widget.project.projectImageUrl4!,
-                        ),
-                      ],
-                    ),
+                    child: _getCarouselImage(),
                   ),
                   const SizedBox(
                     height: 30,

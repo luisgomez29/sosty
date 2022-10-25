@@ -4,8 +4,8 @@ class AlertBase extends StatelessWidget {
   const AlertBase({
     Key? key,
     required this.child,
-    this.padding,
     required this.surfaceTintColor,
+    this.padding,
   }) : super(key: key);
 
   final Widget child;

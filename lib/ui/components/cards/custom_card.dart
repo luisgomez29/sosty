@@ -21,9 +21,7 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: color,
-      surfaceTintColor: tintColor == false
-          ? Colors.white
-          : CardTheme.of(context).surfaceTintColor,
+      surfaceTintColor: tintColor == false ? Colors.white : null,
       margin: EdgeInsets.symmetric(vertical: margin ?? Styles.cardMargin),
       child: Padding(
         padding: padding ?? const EdgeInsets.all(20.0),
