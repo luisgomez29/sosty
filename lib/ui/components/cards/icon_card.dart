@@ -9,22 +9,25 @@ class IconCard extends StatelessWidget {
     required this.subtitle,
     this.icon,
     this.titleSpan,
-    this.tintColor = false,
     this.padding,
     this.elevation,
     this.margin,
     this.color,
+    this.iconSize, this.titleSize,
+    this.tintColor = false,
   }) : super(key: key);
 
   final String title;
-  final String? titleSpan;
   final String subtitle;
+  final String? titleSpan;
   final IconData? icon;
   final bool? tintColor;
   final double? padding;
   final double? elevation;
   final double? margin;
   final Color? color;
+  final double? iconSize;
+  final double? titleSize;
 
   static const defaultPadding = 8.0;
 
@@ -45,13 +48,18 @@ class IconCard extends StatelessWidget {
               padding: const EdgeInsets.all(defaultPadding),
               child: ClipOval(
                 child: Material(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme
+                      .of(context)
+                      .primaryColor
+                      .withOpacity(0.1),
                   child: Padding(
                     padding: const EdgeInsets.all(defaultPadding),
                     child: Icon(
                       icon ?? Icons.paid_outlined,
-                      size: 32,
-                      color: Theme.of(context).primaryColor,
+                      size: iconSize ?? 32.0,
+                      color: Theme
+                          .of(context)
+                          .primaryColor,
                     ),
                   ),
                 ),
@@ -67,7 +75,7 @@ class IconCard extends StatelessWidget {
                 Text(
                   title,
                   style: Styles.bodyText1Bold.copyWith(
-                    fontSize: 22.0,
+                    fontSize: titleSize ?? 22.0,
                   ),
                 ),
                 if (titleSpan != null)

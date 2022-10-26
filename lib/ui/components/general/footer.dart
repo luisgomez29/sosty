@@ -23,13 +23,6 @@ class Footer extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        Text(
-          "COPYRIGHT © 2022 SOSTY",
-          style: Styles.bodyText2,
-        ),
-        const SizedBox(
-          height: 20,
-        ),
       ],
     );
   }

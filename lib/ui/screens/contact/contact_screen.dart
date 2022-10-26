@@ -4,6 +4,8 @@ import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/common/validations/form_validations.dart';
 import 'package:sosty/ui/common/validations/validation_messages.dart';
 import 'package:sosty/ui/components/buttons/large_button.dart';
+import 'package:sosty/ui/components/cards/custom_card.dart';
+import 'package:sosty/ui/components/cards/icon_card.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/fields/select_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
@@ -62,7 +64,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const double _sizedBoxValue = 30.0;
+    const double _sizedBoxValue = 10.0;
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -77,7 +79,7 @@ class _ContactScreenState extends State<ContactScreen> {
                     child: Column(
                       children: [
                         const SizedBox(
-                          height: _sizedBoxValue,
+                          height: _sizedBoxValue * 3,
                         ),
                         const SectionTitle(
                           title: "Requiero información",
@@ -85,125 +87,154 @@ class _ContactScreenState extends State<ContactScreen> {
                         const SizedBox(
                           height: _sizedBoxValue,
                         ),
-                        CustomForm(
-                          formKey: _formKey,
-                          padding: const EdgeInsets.all(0.0),
-                          children: [
-                            Text(
-                              "Gracias por tu interés en Sosty y en la ganadería regenerativa, nos contactaremos contigo los más pronto posible.",
-                              style: Styles.bodyText2Bold,
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            CustomTextFormField(
-                              labelText: 'Correo electrónico',
-                              prefixIcon: const Icon(Icons.email),
-                              inputType: TextInputType.emailAddress,
-                              controller: _emailCtrl,
-                              validator: (value) {
-                                if (FormValidations.isEmpty(value!)) {
-                                  return ValidationMessages.emailRequired;
-                                }
-                                if (!FormValidations.isEmailValid(value)) {
-                                  return ValidationMessages.emailInvalid;
-                                }
-                                return null;
-                              },
-                            ),
-                            CustomTextFormField(
-                              labelText: 'Nombre',
-                              prefixIcon:
-                                  const Icon(Icons.perm_identity_rounded),
-                              controller: _nameCtrl,
-                              inputType: TextInputType.name,
-                              validator: (value) {
-                                if (FormValidations.isEmpty(value!)) {
-                                  return ValidationMessages.firstNameRequired;
-                                }
-                                if (!FormValidations.isMinLengthValid(
-                                    value, 3)) {
-                                  return ValidationMessages.fieldMinLength(3);
-                                }
-                                if (!FormValidations.isMaxLengthValid(
-                                    value, 30)) {
-                                  return ValidationMessages.fieldMaxLength(30);
-                                }
-                                return null;
-                              },
-                            ),
-                            CustomTextFormField(
-                              labelText: 'Celular',
-                              prefixIcon: const Icon(Icons.call),
-                              controller: _phoneNumberCtrl,
-                              inputType: TextInputType.phone,
-                              validator: (value) {
-                                if (FormValidations.isEmpty(value!)) {
-                                  return ValidationMessages.cellPhoneRequired;
-                                }
-                                if (!FormValidations.isCellPhoneValid(value)) {
-                                  return ValidationMessages.cellPhoneInvalid;
-                                }
-                                return null;
-                              },
-                            ),
-                            CustomTextFormField(
-                              labelText: 'Ciudad',
-                              prefixIcon: const Icon(Icons.location_city),
-                              controller: _cityCtrl,
-                              inputType: TextInputType.text,
-                              validator: (value) {
-                                if (FormValidations.isEmpty(value!)) {
-                                  return ValidationMessages.cityRequired;
-                                }
-                                if (!FormValidations.isMinLengthValid(
-                                    value, 3)) {
-                                  return ValidationMessages.fieldMinLength(3);
-                                }
-                                if (!FormValidations.isMaxLengthValid(
-                                    value, 30)) {
-                                  return ValidationMessages.fieldMaxLength(30);
-                                }
-                                return null;
-                              },
-                            ),
-                            SelectTextFormField(
-                              options: Constants.foundUsOptions,
-                              onSaved: (String? value) {
-                                setState(() {
-                                  _foundUs = value!;
-                                });
-                              },
-                            ),
-                            CustomTextFormField(
-                              labelText: 'Mensaje',
-                              prefixIcon: const Icon(Icons.location_city),
-                              controller: _messageCtrl,
-                              inputType: TextInputType.text,
-                              maxLines: 5,
-                              validator: (value) {
-                                if (FormValidations.isEmpty(value!)) {
-                                  return ValidationMessages.messageRequired;
-                                }
-                                if (!FormValidations.isMinLengthValid(
-                                    value, 3)) {
-                                  return ValidationMessages.fieldMinLength(3);
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: _sizedBoxValue,
-                            ),
-                            LargeButton(
-                              text: "Enviar",
-                              isLoading: _isLoading,
-                              onPressed: _sendInfo,
-                            ),
-                            const SizedBox(
-                              height: _sizedBoxValue * 2,
-                            ),
-                          ],
+                        CustomCard(
+                          child: Column(
+                            children: const [
+                              IconCard(
+                                title: Constants.sostyPhone,
+                                subtitle: "Celular",
+                                elevation: 0,
+                                padding: 0,
+                                margin: 0,
+                                icon: Icons.whatsapp_outlined,
+                                color: Colors.transparent,
+                              ),
+                              IconCard(
+                                title: Constants.sostyEmail,
+                                subtitle: "Correo electrónico",
+                                elevation: 0,
+                                margin: 0,
+                                padding: 0,
+                                icon: Icons.email_outlined,
+                                color: Colors.transparent,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: _sizedBoxValue,
+                        ),
+                        CustomCard(
+                          child: CustomForm(
+                            formKey: _formKey,
+                            padding: const EdgeInsets.all(0.0),
+                            children: [
+                              Text(
+                                "Gracias por tu interés en Sosty y en la ganadería regenerativa, nos contactaremos contigo los más pronto posible.",
+                                style: Styles.bodyText2Bold,
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              CustomTextFormField(
+                                labelText: 'Correo electrónico',
+                                prefixIcon: const Icon(Icons.email),
+                                inputType: TextInputType.emailAddress,
+                                controller: _emailCtrl,
+                                validator: (value) {
+                                  if (FormValidations.isEmpty(value!)) {
+                                    return ValidationMessages.emailRequired;
+                                  }
+                                  if (!FormValidations.isEmailValid(value)) {
+                                    return ValidationMessages.emailInvalid;
+                                  }
+                                  return null;
+                                },
+                              ),
+                              CustomTextFormField(
+                                labelText: 'Nombre',
+                                prefixIcon:
+                                    const Icon(Icons.perm_identity_rounded),
+                                controller: _nameCtrl,
+                                inputType: TextInputType.name,
+                                validator: (value) {
+                                  if (FormValidations.isEmpty(value!)) {
+                                    return ValidationMessages.firstNameRequired;
+                                  }
+                                  if (!FormValidations.isMinLengthValid(
+                                      value, 3)) {
+                                    return ValidationMessages.fieldMinLength(3);
+                                  }
+                                  if (!FormValidations.isMaxLengthValid(
+                                      value, 30)) {
+                                    return ValidationMessages.fieldMaxLength(
+                                        30);
+                                  }
+                                  return null;
+                                },
+                              ),
+                              CustomTextFormField(
+                                labelText: 'Celular',
+                                prefixIcon: const Icon(Icons.call),
+                                controller: _phoneNumberCtrl,
+                                inputType: TextInputType.phone,
+                                validator: (value) {
+                                  if (FormValidations.isEmpty(value!)) {
+                                    return ValidationMessages.cellPhoneRequired;
+                                  }
+                                  if (!FormValidations.isCellPhoneValid(
+                                      value)) {
+                                    return ValidationMessages.cellPhoneInvalid;
+                                  }
+                                  return null;
+                                },
+                              ),
+                              CustomTextFormField(
+                                labelText: 'Ciudad',
+                                prefixIcon: const Icon(Icons.location_city),
+                                controller: _cityCtrl,
+                                inputType: TextInputType.text,
+                                validator: (value) {
+                                  if (FormValidations.isEmpty(value!)) {
+                                    return ValidationMessages.cityRequired;
+                                  }
+                                  if (!FormValidations.isMinLengthValid(
+                                      value, 3)) {
+                                    return ValidationMessages.fieldMinLength(3);
+                                  }
+                                  if (!FormValidations.isMaxLengthValid(
+                                      value, 30)) {
+                                    return ValidationMessages.fieldMaxLength(
+                                        30);
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SelectTextFormField(
+                                options: Constants.foundUsOptions,
+                                onSaved: (String? value) {
+                                  setState(() {
+                                    _foundUs = value!;
+                                  });
+                                },
+                              ),
+                              CustomTextFormField(
+                                labelText: 'Mensaje',
+                                prefixIcon: const Icon(Icons.location_city),
+                                controller: _messageCtrl,
+                                inputType: TextInputType.text,
+                                maxLines: 5,
+                                validator: (value) {
+                                  if (FormValidations.isEmpty(value!)) {
+                                    return ValidationMessages.messageRequired;
+                                  }
+                                  if (!FormValidations.isMinLengthValid(
+                                      value, 3)) {
+                                    return ValidationMessages.fieldMinLength(3);
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: _sizedBoxValue,
+                              ),
+                              LargeButton(
+                                text: "Enviar",
+                                isLoading: _isLoading,
+                                onPressed: _sendInfo,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

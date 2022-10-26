@@ -11,7 +11,9 @@ class Constants {
   static const projectFullText =
       "Hemos completado el 100% de este proyecto! Te invitamos a estar atento a nuestros próximos proyectos.";
 
-  static const whatsAppPhone= "573204357649";
+  static const sostyPhone = "3204357649";
+  static const sostyEmail = "hola@sosty.co";
+  static const whatsAppPhone = "57$sostyPhone";
 
   static const List<String> foundUsOptions = [
     'Redes sociales',
