@@ -16,4 +16,7 @@ class ApiEndpoint {
 
   static const getProjectProgressInformation =
       "https://sosty-api.azurewebsites.net/api/Project/GetProjectProgressInformation";
+
+  static const getProjectPublicByCode =
+      "https://sosty-api.azurewebsites.net/api/Project/GetProjectPublicByCode";
 }

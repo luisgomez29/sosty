@@ -25,13 +25,13 @@ class ProjectProgress {
     required this.totalProjectWeigthGain,
     this.amountOfCattles,
     required this.projectProfitability,
-    this.weights,
-    this.weightsList,
-    this.weightsDatesList,
+    required this.weights,
+    required this.weightsList,
+    required this.weightsDatesList,
     required this.firstName,
     required this.lastName,
     required this.contactEmail,
-    this.events,
+    required this.events,
   });
 
   final String investmendId;
@@ -56,13 +56,13 @@ class ProjectProgress {
   final int totalProjectWeigthGain;
   final int? amountOfCattles;
   final double projectProfitability;
-  final List<ProjectProgressWeight>? weights;
-  final List<int>? weightsList;
-  final List<String>? weightsDatesList;
+  final List<ProjectProgressWeight> weights;
+  final List<int> weightsList;
+  final List<String> weightsDatesList;
   final String firstName;
   final String lastName;
   final String contactEmail;
-  final List<ProjectProgressEvent>? events;
+  final List<ProjectProgressEvent> events;
 
   factory ProjectProgress.fromJson(Map<String, dynamic> json) =>
       ProjectProgress(

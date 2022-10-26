@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sosty/app_bottom_navigation_bar.dart';
 import 'package:sosty/config/provider/user_provider.dart';
+import 'package:sosty/domain/models/common/enums/user_role_enum.dart';
 import 'package:sosty/domain/models/user/user.dart';
 import 'package:sosty/infraestructure/helpers/api_client/exception/api_exception.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
@@ -9,27 +10,32 @@ import 'package:sosty/ui/common/validations/form_validations.dart';
 import 'package:sosty/ui/common/validations/validation_messages.dart';
 import 'package:sosty/ui/components/buttons/large_button.dart';
 import 'package:sosty/ui/components/buttons/small_button_navigation.dart';
+import 'package:sosty/ui/components/fields/checkbox_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_password_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
+import 'package:sosty/ui/components/general/footer.dart';
 import 'package:sosty/ui/components/general/section_with_bg_logo.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
-import 'package:sosty/ui/screens/signup_screen.dart';
+import 'package:sosty/ui/screens/auth/login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
+  final _firstNameCtrl = TextEditingController();
+  final _lastNameCtrl = TextEditingController();
+  final _phoneNumberCtrl = TextEditingController();
 
-  void _login() async {
+  void _signup() async {
     if (_formKey.currentState!.validate()) {
       try {
         setState(() {
@@ -37,9 +43,13 @@ class _LoginScreenState extends State<LoginScreen> {
         });
 
         final userProvider = Provider.of<UserProvider>(context, listen: false);
-        User user = await userProvider.userUseCase.login(
+        User user = await userProvider.userUseCase.signup(
           _emailCtrl.text,
           _passwordCtrl.text,
+          UserRoleEnum.investor.value,
+          _firstNameCtrl.text,
+          _lastNameCtrl.text,
+          _phoneNumberCtrl.text,
         );
 
         // Store user session data
@@ -74,6 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
     // Clean up the controller when the widget is disposed.
     _emailCtrl.dispose();
     _passwordCtrl.dispose();
+    _firstNameCtrl.dispose();
+    _lastNameCtrl.dispose();
+    _phoneNumberCtrl.dispose();
     super.dispose();
   }
 
@@ -95,15 +108,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     vertical: 40.0,
                   ),
                   child: Text(
-                    "Por favor, entra con tu correo electrónico y contraseña",
+                    "Por favor, crea una cuenta con tu email y contraseña",
                     style: Styles.bodyText2Bold,
                   ),
                 ),
                 CustomTextFormField(
-                  labelText: 'Correo electrónico',
+                  labelText: 'Email',
                   prefixIcon: const Icon(Icons.email),
-                  inputType: TextInputType.emailAddress,
                   controller: _emailCtrl,
+                  inputType: TextInputType.emailAddress,
                   validator: (value) {
                     if (FormValidations.isEmpty(value!)) {
                       return ValidationMessages.emailRequired;
@@ -116,16 +129,80 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 CustomPasswordFormField(
                   prefixIcon: const Icon(Icons.lock_outline),
-                  labelText: "Contraseña",
+                  labelText: 'Contraseña',
                   controller: _passwordCtrl,
+                ),
+                CustomTextFormField(
+                  labelText: 'Nombre(s)',
+                  prefixIcon: const Icon(Icons.perm_identity_rounded),
+                  controller: _firstNameCtrl,
+                  inputType: TextInputType.name,
+                  validator: (value) {
+                    if (FormValidations.isEmpty(value!)) {
+                      return ValidationMessages.firstNameRequired;
+                    }
+                    if (!FormValidations.isMinLengthValid(value, 3)) {
+                      return ValidationMessages.fieldMinLength(3);
+                    }
+                    if (!FormValidations.isMaxLengthValid(value, 30)) {
+                      return ValidationMessages.fieldMaxLength(30);
+                    }
+                    return null;
+                  },
+                ),
+                CustomTextFormField(
+                  labelText: 'Apellido(s)',
+                  prefixIcon: const Icon(Icons.perm_identity_rounded),
+                  controller: _lastNameCtrl,
+                  inputType: TextInputType.text,
+                  validator: (value) {
+                    if (FormValidations.isEmpty(value!)) {
+                      return ValidationMessages.lastNameRequired;
+                    }
+                    if (!FormValidations.isMinLengthValid(value, 3)) {
+                      return ValidationMessages.fieldMinLength(3);
+                    }
+                    if (!FormValidations.isMaxLengthValid(value, 30)) {
+                      return ValidationMessages.fieldMaxLength(30);
+                    }
+                    return null;
+                  },
+                ),
+                CustomTextFormField(
+                  labelText: 'Celular',
+                  prefixIcon: const Icon(Icons.call),
+                  controller: _phoneNumberCtrl,
+                  inputType: TextInputType.phone,
+                  validator: (value) {
+                    if (FormValidations.isEmpty(value!)) {
+                      return ValidationMessages.cellPhoneRequired;
+                    }
+                    if (!FormValidations.isCellPhoneValid(value)) {
+                      return ValidationMessages.cellPhoneInvalid;
+                    }
+                    return null;
+                  },
+                ),
+                CheckboxFormField(
+                  title: Text(
+                    "Acepto Política de Privacidad y Términos y Condiciones",
+                    style: Styles.bodyText2,
+                  ),
+                  validator: (bool? value) {
+                    if (!value!) {
+                      return ValidationMessages.termsAndConditionsRequired;
+                    }
+                    return null;
+                  },
+                  onSaved: (bool? newValue) {},
                 ),
                 const SizedBox(
                   height: 30,
                 ),
                 LargeButton(
-                  text: "Iniciar sesión",
+                  text: "Registrarme",
                   isLoading: _isLoading,
-                  onPressed: _login,
+                  onPressed: _signup,
                 ),
                 const SizedBox(
                   height: 50,
@@ -134,18 +211,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Nuevo en Sosty? ",
+                      "Ya tienes una cuenta? ",
                       style: Styles.bodyText2Bold,
                     ),
                     const SmallButtonNavigation(
-                      buttonText: "Crear una cuenta",
-                      page: SignupScreen(),
+                      buttonText: "Entra",
+                      page: LoginScreen(),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 50,
-                ),
+                const Footer(),
               ],
             ),
           ],

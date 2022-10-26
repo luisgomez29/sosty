@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/config/provider/user_provider.dart';
-import 'package:sosty/ui/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/domain/models/user/user.dart';
+import 'package:sosty/ui/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/account/account_info.dart';
 import 'package:sosty/ui/components/account/profile_menu_item.dart';
@@ -14,7 +14,8 @@ import 'package:sosty/ui/components/general/loading_indicator.dart';
 import 'package:sosty/ui/components/navbar/navbar.dart';
 import 'package:sosty/ui/components/navbar/navbar_clipper.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
-import 'package:sosty/ui/screens/login_screen.dart';
+import 'package:sosty/ui/screens/contact/contact_screen.dart';
+import 'package:sosty/ui/screens/auth/login_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -48,6 +49,10 @@ class _AccountScreenState extends State<AccountScreen> {
           builder: (context) => const LoginScreen(),
         ),
         (route) => false);
+  }
+
+  void _goToScreen(Widget screen) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
   }
 
   @override
@@ -120,6 +125,12 @@ class _AccountScreenState extends State<AccountScreen> {
                                   const Divider(),
                                 ],
                               ),
+                            ),
+                            ProfileMenuItem(
+                              title: "Contacto",
+                              icon: Icons.contact_support_outlined,
+                              chevron: true,
+                              onTap: () => _goToScreen(const ContactScreen()),
                             ),
                             ProfileMenuItem(
                               title: "Cerrar sesión",

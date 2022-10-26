@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
-import 'package:sosty/ui/components/general/content_section.dart';
 
 class AccountInfo extends StatelessWidget {
   const AccountInfo({
@@ -59,7 +58,7 @@ class AccountInfo extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          horizontal: ContentSection.padding,
+          horizontal: Styles.paddingContent,
         ),
         child: Column(
           children: [

@@ -5,4 +5,7 @@ class ProjectApiError {
 
   static const progressInformationFailed =
       "Error al obtener la información de progreso del proyecto";
+
+  static const getProjectPublicByCodeFailed =
+      "Error al obtener la información del proyecto";
 }

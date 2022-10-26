@@ -23,9 +23,7 @@ class CustomInkWellCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: color,
-      surfaceTintColor: tintColor == false
-          ? Colors.white
-          : CardTheme.of(context).surfaceTintColor,
+      surfaceTintColor: tintColor == false ? Colors.white : null,
       child: navigator == null
           ? child
           : InkWell(
@@ -33,7 +31,7 @@ class CustomInkWellCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               onTap: navigator,
             ),
-      elevation: elevation ?? CardTheme.of(context).elevation,
+      elevation: elevation,
       margin: EdgeInsets.symmetric(vertical: margin ?? Styles.cardMargin),
     );
   }

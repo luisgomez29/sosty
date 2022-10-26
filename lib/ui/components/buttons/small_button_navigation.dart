@@ -5,10 +5,12 @@ class SmallButtonNavigation extends StatelessWidget {
     Key? key,
     required this.buttonText,
     required this.page,
+    this.textStyle,
   }) : super(key: key);
 
   final String buttonText;
   final Widget page;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +20,7 @@ class SmallButtonNavigation extends StatelessWidget {
       },
       child: Text(
         buttonText,
+        style: textStyle,
       ),
     );
   }

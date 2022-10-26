@@ -32,7 +32,7 @@ class IconCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomInkWellCard(
       tintColor: tintColor,
-      elevation: elevation ?? CardTheme.of(context).elevation,
+      elevation: elevation,
       margin: margin ?? Styles.cardMargin,
       color: color,
       child: Padding(

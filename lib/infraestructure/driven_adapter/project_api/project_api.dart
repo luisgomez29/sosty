@@ -64,4 +64,24 @@ class ProjectApi extends ProjectGateway {
       );
     }
   }
+
+  @override
+  Future<ProjectItem> getProjectPublicByCode(String projectCode) async {
+    final response = await _apiClient.get(
+      ApiEndpoint.getProjectPublicByCode,
+      params: {'projectCode': projectCode},
+    );
+
+    if (response.status == HttpStatus.ok) {
+      return ProjectItem.fromJson(jsonDecode(response.body));
+    } else {
+      throw ApiException(
+        ErrorItem(
+          domain: ApiEndpoint.getProjectPublicByCode,
+          reason: response.body,
+          message: ProjectApiError.getProjectPublicByCodeFailed,
+        ),
+      );
+    }
+  }
 }

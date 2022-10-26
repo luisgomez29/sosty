@@ -1,3 +1,6 @@
+import 'package:sosty/ui/common/constants/constants.dart';
+import 'package:sosty/ui/helpers/formatter_helper.dart';
+
 class ValidationMessages {
   ValidationMessages._();
 
@@ -14,11 +17,21 @@ class ValidationMessages {
   static String firstNameRequired = "El nombre es requerido";
 
   // LastName
-  static String lastNameRequired = "El apellido es requerido";
+  static String lastNameRequired = "Los apellidos son requeridos";
 
   // Cellphone
   static String cellPhoneRequired = "El celular es requerido";
   static String cellPhoneInvalid = "El celular no es valido";
+
+  // City
+  static String cityRequired = "La ciudad es requerida";
+
+  // Message
+  static String messageRequired = "El mensaje es requerido";
+
+  // Investment participation
+  static String minimumInvestmentRequired =
+      "Inversión minima de ${FormatterHelper.money(Constants.minimumInvestment)}";
 
   // General
   static const String termsAndConditionsRequired =

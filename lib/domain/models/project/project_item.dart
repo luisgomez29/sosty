@@ -239,7 +239,9 @@ class ProjectItem {
         mandatoPercentage: json["mandatoPercentage"].toDouble(),
         isBlockedForInvestment: json["isBlockedForInvestment"],
         totalMoneyCollected: json["totalMoneyCollected"].toDouble(),
-        fourPerThousandPerKilogram: json["fourPerThousandPerKilogram"],
+        fourPerThousandPerKilogram: json["fourPerThousandPerKilogram"] != null
+            ? double.parse(json["fourPerThousandPerKilogram"].toString())
+            : null,
         orejerasPerKilogram: json["orejerasPerKilogram"]?.toDouble(),
         totalPricePerKilogram: json["totalPricePerKilogram"]?.toDouble(),
         sostyComissionOnSale: json["sostyComissionOnSale"]?.toDouble(),

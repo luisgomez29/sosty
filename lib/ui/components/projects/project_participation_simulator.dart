@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/common/validations/form_validations.dart';
+import 'package:sosty/ui/common/validations/validation_messages.dart';
 import 'package:sosty/ui/components/alerts/alert_warning.dart';
 import 'package:sosty/ui/components/cards/custom_card.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
@@ -58,6 +59,12 @@ class _ProjectParticipationSimulatorState
   }
 
   @override
+  void dispose() {
+    _participationCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     const double titleFontSize = 18.0;
     const double subtitleFontSize = 14.0;
@@ -86,11 +93,11 @@ class _ProjectParticipationSimulatorState
                 ),
                 validator: (value) {
                   if (FormValidations.isEmpty(value!)) {
-                    return "Inversión minima de ${FormatterHelper.money(Constants.minimumInvestment)}";
+                    return ValidationMessages.minimumInvestmentRequired;
                   }
                   if (int.parse(value.replaceAll('.', '')) <
                       Constants.minimumInvestment) {
-                    return "Inversión minima de ${FormatterHelper.money(Constants.minimumInvestment)}";
+                    return ValidationMessages.minimumInvestmentRequired;
                   }
                   return null;
                 },

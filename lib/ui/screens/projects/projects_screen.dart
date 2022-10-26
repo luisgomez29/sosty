@@ -9,7 +9,7 @@ import 'package:sosty/ui/components/general/loading_indicator.dart';
 import 'package:sosty/ui/components/general/section_title.dart';
 import 'package:sosty/ui/components/navbar/navbar.dart';
 import 'package:sosty/ui/components/navbar/navbar_clipper.dart';
-import 'package:sosty/ui/components/projects/projects_card.dart';
+import 'package:sosty/ui/components/projects/project_card.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
 import 'package:sosty/ui/screens/projects/projects_detail_screen.dart';
 
@@ -22,6 +22,7 @@ class ProjectsScreen extends StatefulWidget {
 
 class _ProjectsScreenState extends State<ProjectsScreen> {
   Future<List<ProjectItem>>? futureProjects;
+  Future<ProjectItem>? futureProjectOpen;
 
   void _fetchProjectsList() {
     final projectProvider =
@@ -33,10 +34,21 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
     });
   }
 
+  void _fetchProjectOpen() {
+    final projectProvider =
+        Provider.of<ProjectProvider>(context, listen: false);
+    final project =
+        projectProvider.projectUseCase.getProjectPublicByCode("1110");
+    setState(() {
+      futureProjectOpen = project;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _fetchProjectsList();
+    _fetchProjectOpen();
   }
 
   @override
@@ -59,6 +71,50 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                       children: [
                         const SizedBox(
                           height: 20,
+                        ),
+                        // TODO: Eliminar ya que solo se usa para simular la participación
+                        FutureBuilder<ProjectItem>(
+                          future: futureProjectOpen,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (snapshot.hasData) {
+                                ProjectItem project = snapshot.data!;
+                                return ProjectsCard(
+                                  imageUrl: project.projectImageUrl1,
+                                  title:
+                                      "${project.projectName} (${project.projectCode})",
+                                  estimatedProfitability:
+                                      project.projectProfitability,
+                                  neoGanaderosCount: project.amountOfInvestors,
+                                  hoursLeft: project.daysLeft,
+                                  animals:
+                                      "${project.amountOfCattles}  Animales (${FormatterHelper.doubleFormat(project.investmentCollected)} Kg)",
+                                  animalsProgress:
+                                      "Meta: ${project.amountOfCattles} Animales (${project.investmentRequired} Kg)",
+                                  raisedPercentage: "123.08",
+                                  progressIndicator: 1.0,
+                                  navigator: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProjectDetailScreen(
+                                          project: project,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              } else if (snapshot.hasError) {
+                                if (kDebugMode) {
+                                  print(
+                                      "PROJECT_OPEN_ERROR => ${snapshot.error}");
+                                }
+                              }
+                            }
+                            return const SizedBox();
+                          },
                         ),
                         FutureBuilder<List<ProjectItem>>(
                           future: futureProjects,
