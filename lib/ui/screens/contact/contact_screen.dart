@@ -38,7 +38,7 @@ class _ContactScreenState extends State<ContactScreen> {
       });
       final String formText =
           "Buen dia, quiero mas información de SOSTY. A continuación mis datos: "
-          "\nNombre: ${_nameCtrl.text},\nCorreo electronico: ${_emailCtrl.text}"
+          "\nNombre: ${_nameCtrl.text},\nCorreo electrónico: ${_emailCtrl.text}"
           "\nCelular: ${_phoneNumberCtrl.text} \n Ciudad: ${_cityCtrl.text}"
           "\nCómo nos encontraste:  $_foundUs \nMensaje: ${_messageCtrl.text}";
 

@@ -5,8 +5,8 @@ class ValidationMessages {
   ValidationMessages._();
 
   // Email
-  static String emailRequired = "El email es requerido";
-  static String emailInvalid = "El email no es valido";
+  static String emailRequired = "El correo electrónico es requerido";
+  static String emailInvalid = "El correo electrónico no es valido";
 
   // Password
   static String passwordRequired = "La contraseña es requerida";
@@ -31,11 +31,11 @@ class ValidationMessages {
 
   // Investment participation
   static String minimumInvestmentRequired =
-      "Inversión minima de ${FormatterHelper.money(Constants.minimumInvestment)}";
+      "Inversión mínima de ${FormatterHelper.money(Constants.minimumInvestment)}";
 
   // General
   static const String termsAndConditionsRequired =
-      "Debes aceptar la politica de privacidad y los temrinos y condiciones";
+      "Debes aceptar la política de privacidad y los temrinos y condiciones";
 
   static String fieldMinLength(int length) {
     return "Valor mínimo $length caracteres";
