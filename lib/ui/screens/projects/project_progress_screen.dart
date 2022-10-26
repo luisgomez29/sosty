@@ -235,27 +235,43 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                                         ? const ProjectMessage(
                                             text: "No hay actualizaciones",
                                           )
-                                        : Timeline(
-                                            lineColor: Theme.of(context)
-                                                .primaryColor
-                                                .withOpacity(0.3),
-                                            lineGap: 0,
-                                            children: List.generate(
-                                              projectProgress.events.length,
-                                              (index) =>
-                                                  InvestmentsTimelineItem(
-                                                event: projectProgress
-                                                    .events[index],
+                                        : Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 20.0,
+                                                ),
+                                                child: Text(
+                                                  "Haz clic sobre la imagen o archivo para descargarlo",
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                            indicators: List.generate(
-                                              projectProgress.events.length,
-                                              (index) => Icon(
-                                                Icons.adjust_outlined,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
+                                              Timeline(
+                                                lineColor: Theme.of(context)
+                                                    .primaryColor
+                                                    .withOpacity(0.3),
+                                                lineGap: 0,
+                                                children: List.generate(
+                                                  projectProgress.events.length,
+                                                  (index) =>
+                                                      InvestmentsTimelineItem(
+                                                    event: projectProgress
+                                                        .events[index],
+                                                  ),
+                                                ),
+                                                indicators: List.generate(
+                                                  projectProgress.events.length,
+                                                  (index) => Icon(
+                                                    Icons.adjust_outlined,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
                                   ],
                                 ),

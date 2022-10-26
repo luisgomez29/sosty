@@ -138,7 +138,7 @@ class ProjectItem {
   final String? suraDeclaracionBovinoUrl;
   final String? suraDeclaracionTipoDeProductorUrl;
   final String? suraCotizacionSeguroUrl;
-  final int sostyComission;
+  final double sostyComission;
   final int initialKilogramPrice;
   final int finalKilogramPrice;
   final int initialWeight;
@@ -230,7 +230,7 @@ class ProjectItem {
         suraDeclaracionTipoDeProductorUrl:
             json["suraDeclaracionTipoDeProductorUrl"],
         suraCotizacionSeguroUrl: json["suraCotizacionSeguroUrl"],
-        sostyComission: json["sostyComission"],
+        sostyComission: json["sostyComission"].toDouble(),
         initialKilogramPrice: json["initialKilogramPrice"],
         finalKilogramPrice: json["finalKilogramPrice"],
         initialWeight: json["initialWeight"],

@@ -39,12 +39,12 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
 
   String _getMonthlyFattening() {
     final total =
-        (int.parse(widget.project.cattleWeightAverageGain) * 30) / 1000;
+        (double.parse(widget.project.cattleWeightAverageGain) * 30) / 1000;
     return "$total Kg";
   }
 
   Widget _getAlert(String projectProgress) {
-    return double.parse(projectProgress) == 100.0
+    return double.parse(projectProgress) >= 100.0
         ? AlertWarning(
             child: Text(
               Constants.projectFullText,
@@ -251,7 +251,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                         SizedBox(
                           height: _sizedBoxValue * 2,
                         ),
-                        if (double.parse(widget.project.projectProgres) < 100)
+                        if (double.parse(widget.project.projectProgres) < 100.0)
                           ProjectParticipationSimulator(
                             profitability: widget.project.projectProfitability,
                             duration: widget.project.projectDuration,

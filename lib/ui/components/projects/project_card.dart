@@ -4,6 +4,7 @@ import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/alerts/alert_warning.dart';
 import 'package:sosty/ui/components/cards/custom_ink_well_card.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
+import 'package:sosty/ui/components/network_image/custom_network_image.dart';
 
 class ProjectsCard extends StatelessWidget {
   const ProjectsCard({
@@ -44,9 +45,8 @@ class ProjectsCard extends StatelessWidget {
               topLeft: Radius.circular(10.0),
               topRight: Radius.circular(10.0),
             ),
-            child: Image(
-              image: NetworkImage(imageUrl),
-              fit: BoxFit.cover,
+            child: CustomNetworkImage(
+              imageUrl: imageUrl,
             ),
           ),
           Padding(

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 
@@ -45,7 +46,7 @@ class AccountInfo extends StatelessWidget {
               ),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(
+                image: CachedNetworkImageProvider(
                   imageUrl!,
                 ),
               ),
