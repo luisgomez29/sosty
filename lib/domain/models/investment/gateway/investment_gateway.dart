@@ -4,4 +4,8 @@ abstract class InvestmentGateway {
   Future<List<InvestmentItem>> getInvestmentsInProgressByInvestor(
     String investorId,
   );
+
+  Future<List<InvestmentItem>> getInvestmentsFinishedByInvestor(
+    String investorId,
+  );
 }

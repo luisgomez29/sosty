@@ -11,6 +11,9 @@ class ApiEndpoint {
   static const getInvestmentsInProgressByInvestor =
       "https://sosty-api.azurewebsites.net/api/Investment/GetInvestmentsInProgressByInvestor";
 
+  static const getInvestmentsFinishedByInvestor =
+      "https://sosty-api.azurewebsites.net/api/Investment/GetInvestmentsFinishedByInvestor";
+
   static const publicProjects =
       "https://sosty-api.azurewebsites.net/api/Project/GetPublicTopProjects";
 

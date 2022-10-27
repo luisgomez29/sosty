@@ -29,10 +29,10 @@ class Investment {
   final String investorId;
   final String projectId;
   final int amountInvested;
-  final dynamic amountReceived;
+  final double? amountReceived;
   final String? contractUrl;
   final bool isConfirmed;
-  final dynamic balanceLoaded;
+  final double? balanceLoaded;
   final String? paymentProofUrl;
   final String? contratoColaboracionUrl;
   final String? contratoMandatoUrl;
@@ -54,10 +54,10 @@ class Investment {
         investorId: json["investorID"],
         projectId: json["projectID"],
         amountInvested: json["amountInvested"],
-        amountReceived: json["amountReceived"],
+        amountReceived: json["amountReceived"]?.toDouble(),
         contractUrl: json["contractUrl"],
         isConfirmed: json["isConfirmed"],
-        balanceLoaded: json["balanceLoaded"],
+        balanceLoaded: json["balanceLoaded"]?.toDouble(),
         paymentProofUrl: json["paymentProofUrl"],
         contratoColaboracionUrl: json["contratoColaboracionUrl"],
         contratoMandatoUrl: json["contratoMandatoUrl"],

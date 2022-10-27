@@ -100,7 +100,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                                       MaterialPageRoute(
                                         builder: (context) =>
                                             ProjectDetailScreen(
-                                          project: project,
+                                          projectCode: project.projectCode,
                                         ),
                                       ),
                                     );
@@ -141,7 +141,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                                               project.amountOfInvestors,
                                           hoursLeft: project.daysLeft,
                                           animals:
-                                              "${project.amountOfCattles}  Animales (${FormatterHelper.doubleFormat(project.investmentCollected)} Kg)",
+                                              "${project.amountOfCattles} Animales (${FormatterHelper.doubleFormat(project.investmentCollected)} Kg)",
                                           animalsProgress:
                                               "Meta: ${project.amountOfCattles} Animales (${project.investmentRequired} Kg)",
                                           raisedPercentage: "123.08",
@@ -152,7 +152,8 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     ProjectDetailScreen(
-                                                  project: project,
+                                                  projectCode:
+                                                      project.projectCode,
                                                 ),
                                               ),
                                             );

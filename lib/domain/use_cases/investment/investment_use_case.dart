@@ -7,8 +7,14 @@ class InvestmentUseCase {
   InvestmentUseCase(this._investmentGateway);
 
   Future<List<InvestmentItem>> getInvestmentsInProgressByInvestor(
-    String investorID,
+    String investorId,
   ) async {
-    return _investmentGateway.getInvestmentsInProgressByInvestor(investorID);
+    return _investmentGateway.getInvestmentsInProgressByInvestor(investorId);
+  }
+
+  Future<List<InvestmentItem>> getInvestmentsFinishedByInvestor(
+    String investorId,
+  ) async {
+    return _investmentGateway.getInvestmentsFinishedByInvestor(investorId);
   }
 }

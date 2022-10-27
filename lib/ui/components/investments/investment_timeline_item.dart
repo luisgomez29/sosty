@@ -26,13 +26,17 @@ class _InvestmentsTimelineItemState extends State<InvestmentsTimelineItem> {
   void _getImages() {
     if (widget.event.picture1Url != null) {
       _images.add(widget.event.picture1Url!);
-    } else if (widget.event.picture2Url != null) {
+    }
+    if (widget.event.picture2Url != null) {
       _images.add(widget.event.picture2Url!);
-    } else if (widget.event.picture3Url != null) {
+    }
+    if (widget.event.picture3Url != null) {
       _images.add(widget.event.picture3Url!);
-    } else if (widget.event.picture4Url != null) {
+    }
+    if (widget.event.picture4Url != null) {
       _images.add(widget.event.picture4Url!);
-    } else if (widget.event.picture5Url != null) {
+    }
+    if (widget.event.picture5Url != null) {
       _images.add(widget.event.picture5Url!);
     }
   }
@@ -40,9 +44,11 @@ class _InvestmentsTimelineItemState extends State<InvestmentsTimelineItem> {
   void _getFiles() {
     if (widget.event.file1Url != null) {
       _files.add(widget.event.file1Url!);
-    } else if (widget.event.file2Url != null) {
+    }
+    if (widget.event.file2Url != null) {
       _files.add(widget.event.file2Url!);
-    } else if (widget.event.file3Url != null) {
+    }
+    if (widget.event.file3Url != null) {
       _files.add(widget.event.file3Url!);
     }
   }

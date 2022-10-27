@@ -53,14 +53,14 @@ class ProjectItem {
     this.suraDeclaracionTipoDeProductorUrl,
     this.suraCotizacionSeguroUrl,
     required this.sostyComission,
-    required this.initialKilogramPrice,
-    required this.finalKilogramPrice,
-    required this.initialWeight,
-    required this.finalWeight,
-    required this.insurancePricePerKilogram,
-    required this.mandatoPercentage,
+    this.initialKilogramPrice,
+    this.finalKilogramPrice,
+    this.initialWeight,
+    this.finalWeight,
+    this.insurancePricePerKilogram,
+    this.mandatoPercentage,
     this.isBlockedForInvestment,
-    required this.totalMoneyCollected,
+    this.totalMoneyCollected,
     this.fourPerThousandPerKilogram,
     this.orejerasPerKilogram,
     this.totalPricePerKilogram,
@@ -139,14 +139,14 @@ class ProjectItem {
   final String? suraDeclaracionTipoDeProductorUrl;
   final String? suraCotizacionSeguroUrl;
   final double sostyComission;
-  final int initialKilogramPrice;
-  final int finalKilogramPrice;
-  final int initialWeight;
-  final int finalWeight;
-  final double insurancePricePerKilogram;
-  final double mandatoPercentage;
+  final int? initialKilogramPrice;
+  final int? finalKilogramPrice;
+  final int? initialWeight;
+  final int? finalWeight;
+  final double? insurancePricePerKilogram;
+  final double? mandatoPercentage;
   final bool? isBlockedForInvestment;
-  final double totalMoneyCollected;
+  final double? totalMoneyCollected;
   final double? fourPerThousandPerKilogram;
   final double? orejerasPerKilogram;
   final double? totalPricePerKilogram;
@@ -235,10 +235,11 @@ class ProjectItem {
         finalKilogramPrice: json["finalKilogramPrice"],
         initialWeight: json["initialWeight"],
         finalWeight: json["finalWeight"],
-        insurancePricePerKilogram: json["insurancePricePerKilogram"].toDouble(),
-        mandatoPercentage: json["mandatoPercentage"].toDouble(),
+        insurancePricePerKilogram:
+            json["insurancePricePerKilogram"]?.toDouble(),
+        mandatoPercentage: json["mandatoPercentage"]?.toDouble(),
         isBlockedForInvestment: json["isBlockedForInvestment"],
-        totalMoneyCollected: json["totalMoneyCollected"].toDouble(),
+        totalMoneyCollected: json["totalMoneyCollected"]?.toDouble(),
         fourPerThousandPerKilogram: json["fourPerThousandPerKilogram"] != null
             ? double.parse(json["fourPerThousandPerKilogram"].toString())
             : null,
