@@ -200,6 +200,15 @@ class _ContactScreenState extends State<ContactScreen> {
                                   return null;
                                 },
                               ),
+                              const SizedBox(
+                                height: _sizedBoxValue,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: const Text(
+                                  "Cómo nos encontraste",
+                                ),
+                              ),
                               SelectTextFormField(
                                 options: Constants.foundUsOptions,
                                 onSaved: (String? value) {
