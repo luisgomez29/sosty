@@ -15,6 +15,10 @@ class Constants {
   static const sostyEmail = "hola@sosty.co";
   static const whatsAppPhone = "57$sostyPhone";
 
+  static const Map<String, String> sostyEmailParams = {
+    'subject': 'Quiero más información de Sosty',
+  };
+
   static const List<String> foundUsOptions = [
     'Redes sociales',
     'Canales de YouTube',
@@ -22,4 +26,5 @@ class Constants {
     'Referencia de amigo',
     'Noticias',
   ];
+
 }

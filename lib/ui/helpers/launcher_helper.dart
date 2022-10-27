@@ -4,6 +4,13 @@ import 'package:url_launcher/url_launcher.dart';
 class LauncherHelper {
   LauncherHelper._();
 
+  static String? encodeQueryParameters(Map<String, String> params) {
+    return params.entries
+        .map((MapEntry<String, String> e) =>
+            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+        .join('&');
+  }
+
   static Future<void> launchWhatsapp(
     BuildContext context,
     String phone,
@@ -20,5 +27,16 @@ class LauncherHelper {
         ),
       );
     }
+  }
+
+  static Future<void> launchEmail(String mail,
+      {Map<String, String>? params}) async {
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: mail,
+      query: params != null ? encodeQueryParameters(params) : null,
+    );
+
+    launchUrl(emailLaunchUri);
   }
 }
