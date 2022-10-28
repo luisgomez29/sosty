@@ -53,136 +53,143 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        const Navbar(),
-        SliverToBoxAdapter(
-          child: Column(
-            children: [
-              const NavbarClipper(),
-              ContentSection(
-                offsetY: -60.0,
-                child: Column(
-                  children: [
-                    const SectionTitle(
-                      title: "Proyectos",
-                    ),
-                    Column(
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        // TODO: Eliminar ya que solo se usa para simular la participación
-                        FutureBuilder<ProjectItem>(
-                          future: futureProjectOpen,
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              if (snapshot.hasData) {
-                                ProjectItem project = snapshot.data!;
-                                return ProjectsCard(
-                                  imageUrl: project.projectImageUrl1,
-                                  title:
-                                      "${project.projectName} (${project.projectCode})",
-                                  estimatedProfitability:
-                                      project.projectProfitability,
-                                  neoGanaderosCount: project.amountOfInvestors,
-                                  hoursLeft: project.daysLeft,
-                                  animals:
-                                      "${project.amountOfCattles}  Animales (${FormatterHelper.doubleFormat(project.investmentCollected)} Kg)",
-                                  animalsProgress:
-                                      "Meta: ${project.amountOfCattles} Animales (${project.investmentRequired} Kg)",
-                                  raisedPercentage: "123.08",
-                                  progressIndicator: 1.0,
-                                  navigator: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ProjectDetailScreen(
-                                          project: project,
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: <Widget>[
+          const Navbar(),
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                const NavbarClipper(),
+                ContentSection(
+                  offsetY: -60.0,
+                  child: Column(
+                    children: [
+                      const SectionTitle(
+                        title: "Proyectos",
+                      ),
+                      Column(
+                        children: [
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          // TODO: Eliminar ya que solo se usa para simular la participación
+                          FutureBuilder<ProjectItem>(
+                            future: futureProjectOpen,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                if (snapshot.hasData) {
+                                  ProjectItem project = snapshot.data!;
+                                  return ProjectsCard(
+                                    imageUrl: project.projectImageUrl1,
+                                    title:
+                                        "${project.projectName} (${project.projectCode})",
+                                    estimatedProfitability:
+                                        project.projectProfitability,
+                                    neoGanaderosCount:
+                                        project.amountOfInvestors,
+                                    hoursLeft: project.daysLeft,
+                                    animals:
+                                        "${project.amountOfCattles}  Animales (${FormatterHelper.doubleFormat(project.investmentCollected)} Kg)",
+                                    animalsProgress:
+                                        "Meta: ${project.amountOfCattles} Animales (${project.investmentRequired} Kg)",
+                                    raisedPercentage: "123.08",
+                                    progressIndicator: 1.0,
+                                    navigator: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProjectDetailScreen(
+                                            projectCode: project.projectCode,
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              } else if (snapshot.hasError) {
-                                if (kDebugMode) {
-                                  print(
-                                      "PROJECT_OPEN_ERROR => ${snapshot.error}");
+                                      );
+                                    },
+                                  );
+                                } else if (snapshot.hasError) {
+                                  if (kDebugMode) {
+                                    print(
+                                        "PROJECT_OPEN_ERROR => ${snapshot.error}");
+                                  }
                                 }
                               }
-                            }
-                            return const SizedBox();
-                          },
-                        ),
-                        FutureBuilder<List<ProjectItem>>(
-                          future: futureProjects,
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              if (snapshot.hasData) {
-                                return ListView.builder(
-                                  scrollDirection: Axis.vertical,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data?.length,
-                                  itemBuilder: (context, index) {
-                                    ProjectItem project = snapshot.data![index];
-                                    return Column(
-                                      children: [
-                                        ProjectsCard(
-                                          imageUrl: project.projectImageUrl1,
-                                          title:
-                                              "${project.projectName} (${project.projectCode})",
-                                          estimatedProfitability:
-                                              project.projectProfitability,
-                                          neoGanaderosCount:
-                                              project.amountOfInvestors,
-                                          hoursLeft: project.daysLeft,
-                                          animals:
-                                              "${project.amountOfCattles}  Animales (${FormatterHelper.doubleFormat(project.investmentCollected)} Kg)",
-                                          animalsProgress:
-                                              "Meta: ${project.amountOfCattles} Animales (${project.investmentRequired} Kg)",
-                                          raisedPercentage: "123.08",
-                                          progressIndicator: 1.0,
-                                          navigator: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ProjectDetailScreen(
-                                                  project: project,
+                              return const SizedBox();
+                            },
+                          ),
+                          FutureBuilder<List<ProjectItem>>(
+                            future: futureProjects,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                if (snapshot.hasData) {
+                                  return ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: snapshot.data?.length,
+                                    itemBuilder: (context, index) {
+                                      ProjectItem project =
+                                          snapshot.data![index];
+                                      return Column(
+                                        children: [
+                                          ProjectsCard(
+                                            imageUrl: project.projectImageUrl1,
+                                            title:
+                                                "${project.projectName} (${project.projectCode})",
+                                            estimatedProfitability:
+                                                project.projectProfitability,
+                                            neoGanaderosCount:
+                                                project.amountOfInvestors,
+                                            hoursLeft: project.daysLeft,
+                                            animals:
+                                                "${project.amountOfCattles} Animales (${FormatterHelper.doubleFormat(project.investmentCollected)} Kg)",
+                                            animalsProgress:
+                                                "Meta: ${project.amountOfCattles} Animales (${project.investmentRequired} Kg)",
+                                            raisedPercentage: "123.08",
+                                            progressIndicator: 1.0,
+                                            navigator: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ProjectDetailScreen(
+                                                    projectCode:
+                                                        project.projectCode,
+                                                  ),
                                                 ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              } else if (snapshot.hasError) {
-                                if (kDebugMode) {
-                                  print("PROJECTS_ERROR => ${snapshot.error}");
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else if (snapshot.hasError) {
+                                  if (kDebugMode) {
+                                    print(
+                                        "PROJECTS_ERROR => ${snapshot.error}");
+                                  }
+                                  return const LoadDataError();
                                 }
-                                return const LoadDataError();
                               }
-                            }
-                            return LoadingIndicator(
-                              color: Theme.of(context).primaryColor,
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
+                              return LoadingIndicator(
+                                color: Theme.of(context).primaryColor,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

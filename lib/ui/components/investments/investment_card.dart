@@ -177,18 +177,6 @@ class InvestmentsCard extends StatelessWidget {
                 ),
               ],
             ),
-            const Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Ver seguimiento del proyecto',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-              ],
-            ),
           ],
         ),
       ),

@@ -16,7 +16,8 @@ class InvestmentApi extends InvestmentGateway {
 
   @override
   Future<List<InvestmentItem>> getInvestmentsInProgressByInvestor(
-      String investorId) async {
+    String investorId,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     final accessToken =
         prefs.getString(SharedPreferencesEnum.accessToken.value) ??
@@ -32,13 +33,46 @@ class InvestmentApi extends InvestmentGateway {
 
     if (response.status == HttpStatus.ok) {
       Map<String, dynamic> res = jsonDecode(response.body);
-      return List<InvestmentItem>.from(res["items"].map((x) => InvestmentItem.fromJson(x)));
+      return List<InvestmentItem>.from(
+          res["items"].map((x) => InvestmentItem.fromJson(x)));
     } else {
       throw ApiException(
         ErrorItem(
           domain: ApiEndpoint.getInvestmentsInProgressByInvestor,
           reason: response.body,
           message: InvestmentApiError.getInvestmentsInProgressByInvestorFailed,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<List<InvestmentItem>> getInvestmentsFinishedByInvestor(
+    String investorId,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken =
+        prefs.getString(SharedPreferencesEnum.accessToken.value) ??
+            SharedPreferencesEnum.keyNotFound.value;
+
+    final response = await _apiClient.get(
+      ApiEndpoint.getInvestmentsFinishedByInvestor,
+      headers: {
+        HttpHeaders.authorizationHeader: 'Bearer $accessToken',
+      },
+      params: {'investorID': investorId},
+    );
+
+    if (response.status == HttpStatus.ok) {
+      Map<String, dynamic> res = jsonDecode(response.body);
+      return List<InvestmentItem>.from(
+          res["items"].map((x) => InvestmentItem.fromJson(x)));
+    } else {
+      throw ApiException(
+        ErrorItem(
+          domain: ApiEndpoint.getInvestmentsFinishedByInvestor,
+          reason: response.body,
+          message: InvestmentApiError.getInvestmentsFinishedByInvestorFailed,
         ),
       );
     }

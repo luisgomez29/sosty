@@ -89,8 +89,8 @@ class _ContactScreenState extends State<ContactScreen> {
                         ),
                         CustomCard(
                           child: Column(
-                            children: const [
-                              IconCard(
+                            children: [
+                              const IconCard(
                                 title: Constants.sostyPhone,
                                 subtitle: "Celular",
                                 elevation: 0,
@@ -99,14 +99,23 @@ class _ContactScreenState extends State<ContactScreen> {
                                 icon: Icons.whatsapp_outlined,
                                 color: Colors.transparent,
                               ),
-                              IconCard(
-                                title: Constants.sostyEmail,
-                                subtitle: "Correo electrónico",
-                                elevation: 0,
-                                margin: 0,
-                                padding: 0,
-                                icon: Icons.email_outlined,
-                                color: Colors.transparent,
+                              InkWell(
+                                borderRadius: BorderRadius.circular(5.0),
+                                onTap: () {
+                                  LauncherHelper.launchEmail(
+                                    Constants.sostyEmail,
+                                    params: Constants.sostyEmailParams,
+                                  );
+                                },
+                                child: const IconCard(
+                                  title: Constants.sostyEmail,
+                                  subtitle: "Correo electrónico",
+                                  elevation: 0,
+                                  margin: 0,
+                                  padding: 0,
+                                  icon: Icons.email_outlined,
+                                  color: Colors.transparent,
+                                ),
                               ),
                             ],
                           ),
@@ -199,6 +208,15 @@ class _ContactScreenState extends State<ContactScreen> {
                                   }
                                   return null;
                                 },
+                              ),
+                              const SizedBox(
+                                height: _sizedBoxValue,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: const Text(
+                                  "Cómo nos encontraste",
+                                ),
                               ),
                               SelectTextFormField(
                                 options: Constants.foundUsOptions,

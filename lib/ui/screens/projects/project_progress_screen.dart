@@ -19,6 +19,7 @@ import 'package:sosty/ui/components/projects/project_message.dart';
 import 'package:sosty/ui/components/projects/project_weights_bar_chart.dart';
 import 'package:sosty/ui/components/projects/project_weights_circular_chart.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
+import 'package:sosty/ui/screens/projects/projects_detail_screen.dart';
 
 class ProjectProgressScreen extends StatefulWidget {
   const ProjectProgressScreen({
@@ -209,6 +210,31 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                                         color: Colors.deepOrangeAccent,
                                       ),
                                     ],
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProjectDetailScreen(
+                                            projectCode:
+                                                projectProgress.projectCode,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      side: BorderSide(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      "Ver proyecto",
+                                    ),
                                   ),
                                 ],
                               ),
