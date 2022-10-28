@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sosty/app.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-Future<void> main() async {
+void main() async {
   await Notifications.init();
   runApp(const App());
 }

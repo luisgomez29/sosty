@@ -3,26 +3,24 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sosty/main.dart';
-import 'package:sosty/ui/screens/projects/projects_screen.dart';
+import 'package:sosty/ui/common/constants/constants.dart';
+import 'package:sosty/ui/screens/projects/projects_detail_screen.dart';
 
 import 'firebase_options.dart';
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
-  description:
-      'This channel is used for important notifications.', // description
-  importance: Importance.max,
-);
-
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-  print("Handling a background message: ${message.messageId}");
 }
 
 class Notifications {
+  static const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description:
+        'This channel is used for important notifications.', // description
+    importance: Importance.max,
+  );
+
   static Future<void> init() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
@@ -39,9 +37,6 @@ class Notifications {
       sound: true,
     );
 
-    await FirebaseMessaging.instance
-        .getToken()
-        .then((value) => print("Device token => $value"));
     // Show Push Notifications for iOS in foreground
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
@@ -49,15 +44,11 @@ class Notifications {
       badge: true,
       sound: true,
     );
-    await FirebaseMessaging.instance.subscribeToTopic('SostyTopic');
+    await FirebaseMessaging.instance.subscribeToTopic(Constants.pushTopicName);
     // Handle Push Notifications - Background
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     // Handle Push Notifications - Foreground
-
-    // await Firebase.initializeApp();
-    // FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
 
@@ -79,24 +70,32 @@ class Notifications {
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channelDescription: channel.description,
-                icon: 'ic_launcher',
-              ),
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              icon: Constants.pushIconName,
             ),
-            payload: 'Test');
+          ),
+          payload: message.data[Constants.pushProjectCode],
+        );
       }
     });
 
+    // Click Action for background notifications
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      Navigator.push(navigatorKey.currentState!.context,
-          MaterialPageRoute(builder: (context) => const ProjectsScreen()));
+      Navigator.push(
+        navigatorKey.currentState!.context,
+        MaterialPageRoute(
+          builder: (context) => ProjectDetailScreen(
+            projectCode: message.data[Constants.pushProjectCode],
+          ),
+        ),
+      );
     });
   }
 }
