@@ -11,6 +11,10 @@ class Constants {
   static const projectFullText =
       "Hemos completado el 100% de este proyecto! Te invitamos a estar atento a nuestros próximos proyectos.";
 
+  static const pushProjectCode = 'project_code';
+  static const pushIconName = 'ic_launcher';
+  static const pushTopicName = 'SostyTopic';
+
   static const sostyPhone = "3204357649";
   static const sostyEmail = "hola@sosty.co";
   static const whatsAppPhone = "57$sostyPhone";
@@ -26,5 +30,4 @@ class Constants {
     'Referencia de amigo',
     'Noticias',
   ];
-
 }

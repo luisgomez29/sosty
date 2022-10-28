@@ -48,7 +48,7 @@
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>UIStatusBarHidden</key>
-		<true/>
+		<false/>
 		<key>NSDownloadsFolderUsageDescription</key>
         <string>App wants to access your downloads folder</string>
 	</dict>

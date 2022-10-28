@@ -12,6 +12,7 @@ import 'package:sosty/domain/use_cases/user/user_use_case.dart';
 import 'package:sosty/infraestructure/driven_adapter/investment_api/investment_api.dart';
 import 'package:sosty/infraestructure/driven_adapter/project_api/project_api.dart';
 import 'package:sosty/infraestructure/driven_adapter/user_api/user_api.dart';
+import 'package:sosty/main.dart';
 import 'package:sosty/ui/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/config/theme/app_theme.dart';
@@ -95,6 +96,7 @@ class _AppState extends State<App> {
         title: 'Sosty',
         theme: AppTheme.light(context),
         home: _getHome(),
+        navigatorKey: navigatorKey,
       ),
     );
   }
