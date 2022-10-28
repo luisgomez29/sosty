@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 
 class AppTheme {
   AppTheme._();
+
+  static SystemUiOverlayStyle getSystemUiOverlayStyle(){
+    return SystemUiOverlayStyle.light.copyWith(
+      // set Status bar color in Android devices
+      statusBarColor: Styles.primaryColor,
+
+      // set Status bar icons color in Android devices
+      statusBarIconBrightness: Brightness.light,
+
+      // set Status bar icon color in iOS
+      statusBarBrightness: Brightness.light,
+    );
+  }
 
   static ThemeData light(context) {
     return ThemeData(

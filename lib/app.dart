@@ -14,7 +14,6 @@ import 'package:sosty/infraestructure/driven_adapter/project_api/project_api.dar
 import 'package:sosty/infraestructure/driven_adapter/user_api/user_api.dart';
 import 'package:sosty/main.dart';
 import 'package:sosty/ui/common/enums/shared_preferences_enum.dart';
-import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/screens/auth/login_screen.dart';
 import 'package:sosty/ui/screens/onboarding/on_boarding_screen.dart';
@@ -60,18 +59,9 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle.light.copyWith(
-        // set Status bar color in Android devices
-        statusBarColor: Styles.primaryColor,
-
-        // set Status bar icons color in Android devices
-        statusBarIconBrightness: Brightness.light,
-
-        // set Status bar icon color in iOS
-        statusBarBrightness: Brightness.light,
-      ),
-    );
+    // SystemChrome.setSystemUIOverlayStyle(
+    //   AppTheme.getSystemUiOverlayStyle(),
+    // );
 
     return MultiProvider(
       providers: [

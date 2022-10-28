@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sosty/app_bottom_navigation_bar.dart';
 import 'package:sosty/config/provider/user_provider.dart';
@@ -14,6 +15,7 @@ import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
 import 'package:sosty/ui/components/general/footer.dart';
 import 'package:sosty/ui/components/general/section_with_bg_logo.dart';
+import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
 import 'package:sosty/ui/screens/auth/signup_screen.dart';
 
@@ -80,74 +82,77 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SectionWithBgLogo(
-              title: "Bienvenido",
-            ),
-            CustomForm(
-              formKey: _formKey,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 40.0,
-                  ),
-                  child: Text(
-                    "Por favor, entra con tu correo electrónico y contraseña",
-                    style: Styles.bodyText2Bold,
-                  ),
-                ),
-                CustomTextFormField(
-                  labelText: 'Correo electrónico',
-                  prefixIcon: const Icon(Icons.email),
-                  inputType: TextInputType.emailAddress,
-                  controller: _emailCtrl,
-                  validator: (value) {
-                    if (FormValidations.isEmpty(value!)) {
-                      return ValidationMessages.emailRequired;
-                    }
-                    if (!FormValidations.isEmailValid(value)) {
-                      return ValidationMessages.emailInvalid;
-                    }
-                    return null;
-                  },
-                ),
-                CustomPasswordFormField(
-                  prefixIcon: const Icon(Icons.lock_outline),
-                  labelText: "Contraseña",
-                  controller: _passwordCtrl,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                LargeButton(
-                  text: "Iniciar sesión",
-                  isLoading: _isLoading,
-                  onPressed: _login,
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Nuevo en Sosty? ",
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: AppTheme.getSystemUiOverlayStyle(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SectionWithBgLogo(
+                title: "Bienvenido",
+              ),
+              CustomForm(
+                formKey: _formKey,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 40.0,
+                    ),
+                    child: Text(
+                      "Por favor, entra con tu correo electrónico y contraseña",
                       style: Styles.bodyText2Bold,
                     ),
-                    const SmallButtonNavigation(
-                      buttonText: "Crear una cuenta",
-                      page: SignupScreen(),
-                    ),
-                  ],
-                ),
-                const Footer(),
-              ],
-            ),
-          ],
+                  ),
+                  CustomTextFormField(
+                    labelText: 'Correo electrónico',
+                    prefixIcon: const Icon(Icons.email),
+                    inputType: TextInputType.emailAddress,
+                    controller: _emailCtrl,
+                    validator: (value) {
+                      if (FormValidations.isEmpty(value!)) {
+                        return ValidationMessages.emailRequired;
+                      }
+                      if (!FormValidations.isEmailValid(value)) {
+                        return ValidationMessages.emailInvalid;
+                      }
+                      return null;
+                    },
+                  ),
+                  CustomPasswordFormField(
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    labelText: "Contraseña",
+                    controller: _passwordCtrl,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  LargeButton(
+                    text: "Iniciar sesión",
+                    isLoading: _isLoading,
+                    onPressed: _login,
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Nuevo en Sosty? ",
+                        style: Styles.bodyText2Bold,
+                      ),
+                      const SmallButtonNavigation(
+                        buttonText: "Crear una cuenta",
+                        page: SignupScreen(),
+                      ),
+                    ],
+                  ),
+                  const Footer(),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

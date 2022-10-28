@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sosty/config/provider/project_provider.dart';
 import 'package:sosty/domain/models/project/project_progress.dart';
@@ -18,6 +19,7 @@ import 'package:sosty/ui/components/navbar/navbar_detail.dart';
 import 'package:sosty/ui/components/projects/project_message.dart';
 import 'package:sosty/ui/components/projects/project_weights_bar_chart.dart';
 import 'package:sosty/ui/components/projects/project_weights_circular_chart.dart';
+import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
 import 'package:sosty/ui/screens/projects/projects_detail_screen.dart';
 
@@ -100,229 +102,239 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: <Widget>[
-            const NavbarDetail(),
-            SliverToBoxAdapter(
-              child: ContentSection(
-                offsetY: 30.0,
-                child: FutureBuilder<ProjectProgress>(
-                  future: futureProjectProgress,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        final ProjectProgress projectProgress = snapshot.data!;
-                        final estimatedGain = _getEstimatedGain(
-                          projectProgress.amountInvested,
-                          projectProgress.projectProfitability,
-                          projectProgress.projectDuration,
-                          projectProgress.startDate,
-                          projectProgress.endDate,
-                        );
-                        return Column(
-                          children: [
-                            SectionTitle(
-                              title:
-                                  "Seguimiento Proyecto # ${projectProgress.projectCode}",
-                              subTitle: projectProgress.projectName,
-                            ),
-                            IconCard(
-                              title: FormatterHelper.money(
-                                projectProgress.amountInvested,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: AppTheme.getSystemUiOverlayStyle(),
+      child: Scaffold(
+        body: SafeArea(
+          child: CustomScrollView(
+            slivers: <Widget>[
+              const NavbarDetail(),
+              SliverToBoxAdapter(
+                child: ContentSection(
+                  offsetY: 30.0,
+                  child: FutureBuilder<ProjectProgress>(
+                    future: futureProjectProgress,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
+                          final ProjectProgress projectProgress =
+                              snapshot.data!;
+                          final estimatedGain = _getEstimatedGain(
+                            projectProgress.amountInvested,
+                            projectProgress.projectProfitability,
+                            projectProgress.projectDuration,
+                            projectProgress.startDate,
+                            projectProgress.endDate,
+                          );
+                          return Column(
+                            children: [
+                              SectionTitle(
+                                title:
+                                    "Seguimiento Proyecto # ${projectProgress.projectCode}",
+                                subTitle: projectProgress.projectName,
                               ),
-                              subtitle: 'Inversión Inicial',
-                            ),
-                            IconCard(
-                              title: FormatterHelper.money(
-                                estimatedGain,
+                              IconCard(
+                                title: FormatterHelper.money(
+                                  projectProgress.amountInvested,
+                                ),
+                                subtitle: 'Inversión Inicial',
                               ),
-                              subtitle: 'Ganancia Estimada',
-                              icon: Icons.trending_up_sharp,
-                            ),
-                            IconCard(
-                              title: FormatterHelper.money(
-                                estimatedGain + projectProgress.amountInvested,
+                              IconCard(
+                                title: FormatterHelper.money(
+                                  estimatedGain,
+                                ),
+                                subtitle: 'Ganancia Estimada',
+                                icon: Icons.trending_up_sharp,
                               ),
-                              subtitle: 'Valor Actual Estimado',
-                            ),
-                            CustomCard(
-                              child: Column(
-                                children: [
-                                  _getCardTitle("Información Proyecto"),
-                                  Timeline(
-                                    children: [
-                                      _getProjectInformationItem(
-                                        "Productor",
-                                        "${projectProgress.firstName} ${projectProgress.lastName}",
-                                      ),
-                                      _getProjectInformationItem(
-                                        "Lugar",
-                                        "${projectProgress.locationState} - ${projectProgress.locationCity ?? ""}",
-                                      ),
-                                      _getProjectInformationItem(
-                                        "Finca",
-                                        projectProgress.locationAddress,
-                                      ),
-                                      _getProjectInformationItem(
-                                        "Indicaciones",
-                                        projectProgress
-                                                .locationArrivalLIndications ??
-                                            "-",
-                                      ),
-                                      _getProjectInformationItem(
-                                        "Fecha Inicio",
-                                        FormatterHelper.shortDate(
-                                          projectProgress.startDate,
-                                        ),
-                                      ),
-                                      _getProjectInformationItem(
-                                        "Fecha Cierre",
-                                        FormatterHelper.shortDate(
-                                          projectProgress.endDate,
-                                        ),
-                                      ),
-                                    ],
-                                    indicators: <Widget>[
-                                      Icon(
-                                        Icons.perm_identity,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                      const Icon(
-                                        Icons.location_pin,
-                                        color: Color(0xFF82868B),
-                                      ),
-                                      Icon(
-                                        Icons.home,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                      const Icon(
-                                        Icons.accessibility,
-                                        color: Color(0xFF82868B),
-                                      ),
-                                      Icon(
-                                        Icons.calendar_month_outlined,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                      const Icon(
-                                        Icons.calendar_month_outlined,
-                                        color: Colors.deepOrangeAccent,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  OutlinedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProjectDetailScreen(
-                                            projectCode:
-                                                projectProgress.projectCode,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    style: OutlinedButton.styleFrom(
-                                      side: BorderSide(
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                    ),
-                                    child: const Text(
-                                      "Ver proyecto",
-                                    ),
-                                  ),
-                                ],
+                              IconCard(
+                                title: FormatterHelper.money(
+                                  estimatedGain +
+                                      projectProgress.amountInvested,
+                                ),
+                                subtitle: 'Valor Actual Estimado',
                               ),
-                            ),
-                            CustomCard(
-                              child: ProjectWeightsBarChart(
-                                weights: projectProgress.weightsList,
-                                weightsDates: projectProgress.weightsDatesList,
-                              ),
-                            ),
-                            CustomCard(
-                              child: ProjectWeightsCircularChart(
-                                weights: projectProgress.weights,
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: CustomCard(
+                              CustomCard(
                                 child: Column(
                                   children: [
-                                    _getCardTitle(
-                                        "Actualizaciones y \n Documentos"),
-                                    (projectProgress.events.isEmpty)
-                                        ? const ProjectMessage(
-                                            text: "No hay actualizaciones",
-                                          )
-                                        : Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  top: 20.0,
-                                                ),
-                                                child: Text(
-                                                  "Haz clic sobre la imagen o archivo para descargarlo",
-                                                  style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                  ),
-                                                ),
-                                              ),
-                                              Timeline(
-                                                lineColor: Theme.of(context)
-                                                    .primaryColor
-                                                    .withOpacity(0.3),
-                                                lineGap: 0,
-                                                children: List.generate(
-                                                  projectProgress.events.length,
-                                                  (index) =>
-                                                      InvestmentsTimelineItem(
-                                                    event: projectProgress
-                                                        .events[index],
-                                                  ),
-                                                ),
-                                                indicators: List.generate(
-                                                  projectProgress.events.length,
-                                                  (index) => Icon(
-                                                    Icons.adjust_outlined,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                    _getCardTitle("Información Proyecto"),
+                                    Timeline(
+                                      children: [
+                                        _getProjectInformationItem(
+                                          "Productor",
+                                          "${projectProgress.firstName} ${projectProgress.lastName}",
+                                        ),
+                                        _getProjectInformationItem(
+                                          "Lugar",
+                                          "${projectProgress.locationState} - ${projectProgress.locationCity ?? ""}",
+                                        ),
+                                        _getProjectInformationItem(
+                                          "Finca",
+                                          projectProgress.locationAddress,
+                                        ),
+                                        _getProjectInformationItem(
+                                          "Indicaciones",
+                                          projectProgress
+                                                  .locationArrivalLIndications ??
+                                              "-",
+                                        ),
+                                        _getProjectInformationItem(
+                                          "Fecha Inicio",
+                                          FormatterHelper.shortDate(
+                                            projectProgress.startDate,
                                           ),
+                                        ),
+                                        _getProjectInformationItem(
+                                          "Fecha Cierre",
+                                          FormatterHelper.shortDate(
+                                            projectProgress.endDate,
+                                          ),
+                                        ),
+                                      ],
+                                      indicators: <Widget>[
+                                        Icon(
+                                          Icons.perm_identity,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                        const Icon(
+                                          Icons.location_pin,
+                                          color: Color(0xFF82868B),
+                                        ),
+                                        Icon(
+                                          Icons.home,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                        const Icon(
+                                          Icons.accessibility,
+                                          color: Color(0xFF82868B),
+                                        ),
+                                        Icon(
+                                          Icons.calendar_month_outlined,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                        const Icon(
+                                          Icons.calendar_month_outlined,
+                                          color: Colors.deepOrangeAccent,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    OutlinedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProjectDetailScreen(
+                                              projectCode:
+                                                  projectProgress.projectCode,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      style: OutlinedButton.styleFrom(
+                                        side: BorderSide(
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                      ),
+                                      child: const Text(
+                                        "Ver proyecto",
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 50,
-                            ),
-                          ],
-                        );
-                      } else if (snapshot.hasError) {
-                        if (kDebugMode) {
-                          print("PROJECT_PROGRESS_ERROR => ${snapshot.error}");
+                              CustomCard(
+                                child: ProjectWeightsBarChart(
+                                  weights: projectProgress.weightsList,
+                                  weightsDates:
+                                      projectProgress.weightsDatesList,
+                                ),
+                              ),
+                              CustomCard(
+                                child: ProjectWeightsCircularChart(
+                                  weights: projectProgress.weights,
+                                ),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: CustomCard(
+                                  child: Column(
+                                    children: [
+                                      _getCardTitle(
+                                          "Actualizaciones y \n Documentos"),
+                                      (projectProgress.events.isEmpty)
+                                          ? const ProjectMessage(
+                                              text: "No hay actualizaciones",
+                                            )
+                                          : Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    top: 20.0,
+                                                  ),
+                                                  child: Text(
+                                                    "Haz clic sobre la imagen o archivo para descargarlo",
+                                                    style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Timeline(
+                                                  lineColor: Theme.of(context)
+                                                      .primaryColor
+                                                      .withOpacity(0.3),
+                                                  lineGap: 0,
+                                                  children: List.generate(
+                                                    projectProgress
+                                                        .events.length,
+                                                    (index) =>
+                                                        InvestmentsTimelineItem(
+                                                      event: projectProgress
+                                                          .events[index],
+                                                    ),
+                                                  ),
+                                                  indicators: List.generate(
+                                                    projectProgress
+                                                        .events.length,
+                                                    (index) => Icon(
+                                                      Icons.adjust_outlined,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 50,
+                              ),
+                            ],
+                          );
+                        } else if (snapshot.hasError) {
+                          if (kDebugMode) {
+                            print(
+                                "PROJECT_PROGRESS_ERROR => ${snapshot.error}");
+                          }
+                          return const LoadDataError();
                         }
-                        return const LoadDataError();
                       }
-                    }
-                    return LoadingIndicator(
-                      color: Theme.of(context).primaryColor,
-                    );
-                  },
+                      return LoadingIndicator(
+                        color: Theme.of(context).primaryColor,
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
