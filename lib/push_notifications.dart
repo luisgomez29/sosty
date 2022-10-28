@@ -1,7 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:sosty/main.dart';
+import 'package:sosty/ui/screens/projects/projects_screen.dart';
+
 import 'firebase_options.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -16,11 +19,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-
   print("Handling a background message: ${message.messageId}");
-
-  String projectId = message.data['project_id'];
-  print("PROJECT ID => $projectId");
 }
 
 class Notifications {
@@ -30,7 +29,7 @@ class Notifications {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     FirebaseMessaging messaging = FirebaseMessaging.instance;
-    NotificationSettings settings = await messaging.requestPermission(
+    await messaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -39,7 +38,8 @@ class Notifications {
       provisional: false,
       sound: true,
     );
-    FirebaseMessaging.instance
+
+    await FirebaseMessaging.instance
         .getToken()
         .then((value) => print("Device token => $value"));
     // Show Push Notifications for iOS in foreground
@@ -50,14 +50,13 @@ class Notifications {
       sound: true,
     );
     await FirebaseMessaging.instance.subscribeToTopic('SostyTopic');
-
     // Handle Push Notifications - Background
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     // Handle Push Notifications - Foreground
 
-    await Firebase.initializeApp();
-    FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    // await Firebase.initializeApp();
+    // FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
@@ -75,9 +74,7 @@ class Notifications {
     );
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      String projectId = message.data['project_id'];
-      print("PROJECT ID => $projectId");
-
+      // Notification in foreground - Android
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
@@ -92,8 +89,14 @@ class Notifications {
                 channelDescription: channel.description,
                 icon: 'ic_launcher',
               ),
-            ));
+            ),
+            payload: 'Test');
       }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      Navigator.push(navigatorKey.currentState!.context,
+          MaterialPageRoute(builder: (context) => const ProjectsScreen()));
     });
   }
 }
