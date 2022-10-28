@@ -88,14 +88,17 @@ class Notifications {
 
     // Click Action for background notifications
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      Navigator.push(
-        navigatorKey.currentState!.context,
-        MaterialPageRoute(
-          builder: (context) => ProjectDetailScreen(
-            projectCode: message.data[Constants.pushProjectCode],
+      Map<String, dynamic> data = message.data;
+      if (data[Constants.pushProjectCode] != null) {
+        Navigator.push(
+          navigatorKey.currentState!.context,
+          MaterialPageRoute(
+            builder: (context) => ProjectDetailScreen(
+              projectCode: data[Constants.pushProjectCode].toString(),
+            ),
           ),
-        ),
-      );
+        );
+      }
     });
   }
 }
