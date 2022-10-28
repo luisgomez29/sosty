@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sosty/config/provider/project_provider.dart';
-import 'package:sosty/domain/models/project/project.dart';
 import 'package:sosty/domain/models/project/project_item.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
