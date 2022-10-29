@@ -15,7 +15,7 @@ class CarouselImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 300.0,
-      width: width ?? 250.0,
+      width: width ?? 260.0,
       margin: const EdgeInsets.only(
         top: 20.0,
         left: 10.0,

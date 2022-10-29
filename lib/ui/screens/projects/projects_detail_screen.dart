@@ -307,7 +307,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                           color: Colors.transparent,
                                         ),
                                         IconCard(
-                                          title: "${project.initialWeight} Kg",
+                                          title: "${project.initialWeight ?? 0} Kg",
                                           subtitle: "Peso inicial del animal",
                                           elevation: 0,
                                           padding: 0,
@@ -316,7 +316,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                           color: Colors.transparent,
                                         ),
                                         IconCard(
-                                          title: "${project.finalWeight} Kg",
+                                          title: "${project.finalWeight ?? 0} Kg",
                                           subtitle: "Peso final del animal",
                                           elevation: 0,
                                           padding: 0,
