@@ -10,7 +10,6 @@ import 'package:sosty/ui/components/general/section_title.dart';
 import 'package:sosty/ui/components/navbar/navbar.dart';
 import 'package:sosty/ui/components/navbar/navbar_clipper.dart';
 import 'package:sosty/ui/components/projects/project_card.dart';
-import 'package:sosty/ui/helpers/formatter_helper.dart';
 import 'package:sosty/ui/screens/projects/projects_detail_screen.dart';
 
 class ProjectsScreen extends StatefulWidget {
@@ -82,20 +81,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                                 if (snapshot.hasData) {
                                   ProjectItem project = snapshot.data!;
                                   return ProjectsCard(
-                                    imageUrl: project.projectImageUrl1,
-                                    title:
-                                        "${project.projectName} (${project.projectCode})",
-                                    estimatedProfitability:
-                                        project.projectProfitability,
-                                    neoGanaderosCount:
-                                        project.amountOfInvestors,
-                                    hoursLeft: project.daysLeft,
-                                    animals:
-                                        "${project.amountOfCattles}  Animales (${FormatterHelper.doubleFormat(project.investmentCollected)} Kg)",
-                                    animalsProgress:
-                                        "Meta: ${project.amountOfCattles} Animales (${project.investmentRequired} Kg)",
-                                    raisedPercentage: "123.08",
-                                    progressIndicator: 1.0,
+                                    project: project,
                                     navigator: () {
                                       Navigator.push(
                                         context,
@@ -136,20 +122,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                                       return Column(
                                         children: [
                                           ProjectsCard(
-                                            imageUrl: project.projectImageUrl1,
-                                            title:
-                                                "${project.projectName} (${project.projectCode})",
-                                            estimatedProfitability:
-                                                project.projectProfitability,
-                                            neoGanaderosCount:
-                                                project.amountOfInvestors,
-                                            hoursLeft: project.daysLeft,
-                                            animals:
-                                                "${project.amountOfCattles} Animales (${FormatterHelper.doubleFormat(project.investmentCollected)} Kg)",
-                                            animalsProgress:
-                                                "Meta: ${project.amountOfCattles} Animales (${project.investmentRequired} Kg)",
-                                            raisedPercentage: "123.08",
-                                            progressIndicator: 1.0,
+                                            project: project,
                                             navigator: () {
                                               Navigator.push(
                                                 context,

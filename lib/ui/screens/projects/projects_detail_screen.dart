@@ -20,6 +20,7 @@ import 'package:sosty/ui/components/projects/project_participation_simulator.dar
 import 'package:sosty/ui/components/projects/project_support_documents_section.dart';
 import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
+import 'package:sosty/ui/helpers/project_helper.dart';
 
 class ProjectDetailScreen extends StatefulWidget {
   const ProjectDetailScreen({
@@ -42,14 +43,6 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
         Provider.of<ProjectProvider>(context, listen: false);
     return projectProvider.projectUseCase
         .getProjectPublicByCode(widget.projectCode);
-  }
-
-  String _getPercentageCurrentAnimals(String investmentCollected,
-      String investmentRequired, String amountOfCattles) {
-    final percentage =
-        (double.parse(investmentCollected) / double.parse(investmentRequired)) *
-            double.parse(amountOfCattles);
-    return "${FormatterHelper.doubleFormat(percentage)} Animales (${FormatterHelper.doubleFormat(investmentCollected)}) Kg";
   }
 
   String _getMonthlyFattening(String cattleWeightAverageGain) {
@@ -243,32 +236,24 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        CustomRichText(
-                                          text: "Meta",
-                                          textSpan:
-                                              "${project.amountOfCattles} Animales (${FormatterHelper.doubleFormat(project.investmentCollected)} Kg)",
+                                        ProjectHelper.getGoalWidget(
+                                          project.amountOfCattles,
+                                          project.investmentRequired,
                                         ),
                                         SizedBox(
                                           height: _sizedBoxValue,
                                         ),
-                                        CustomRichText(
-                                          text: "Actual",
-                                          textSpan:
-                                              _getPercentageCurrentAnimals(
-                                            project.investmentCollected,
-                                            project.investmentRequired,
-                                            project.amountOfCattles,
-                                          ),
+                                        ProjectHelper.getCurrentWidget(
+                                          project.investmentCollected,
+                                          project.investmentRequired,
+                                          project.amountOfCattles,
                                         ),
                                         SizedBox(
                                           height: _sizedBoxValue,
                                         ),
-                                        LinearProgressIndicator(
-                                          value: (double.parse(
-                                                  project.projectProgres) /
-                                              100),
-                                          minHeight: 5,
-                                          semanticsLabel: 'Progreso',
+                                        ProjectHelper
+                                            .getProgressIndicatorWidget(
+                                          project.projectProgres,
                                         ),
                                         Text(
                                           "${project.projectProgres}% recaudado",
@@ -307,7 +292,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                           color: Colors.transparent,
                                         ),
                                         IconCard(
-                                          title: "${project.initialWeight ?? 0} Kg",
+                                          title:
+                                              "${project.initialWeight ?? 0} Kg",
                                           subtitle: "Peso inicial del animal",
                                           elevation: 0,
                                           padding: 0,
@@ -316,7 +302,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                           color: Colors.transparent,
                                         ),
                                         IconCard(
-                                          title: "${project.finalWeight ?? 0} Kg",
+                                          title:
+                                              "${project.finalWeight ?? 0} Kg",
                                           subtitle: "Peso final del animal",
                                           elevation: 0,
                                           padding: 0,

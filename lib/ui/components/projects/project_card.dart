@@ -1,43 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:sosty/domain/models/project/project_item.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
-import 'package:sosty/ui/components/alerts/alert_warning.dart';
 import 'package:sosty/ui/components/cards/custom_ink_well_card.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
 import 'package:sosty/ui/components/network_image/custom_network_image.dart';
+import 'package:sosty/ui/helpers/project_helper.dart';
 
 class ProjectsCard extends StatelessWidget {
   const ProjectsCard({
     Key? key,
-    required this.imageUrl,
-    required this.title,
-    required this.estimatedProfitability,
-    required this.neoGanaderosCount,
-    required this.hoursLeft,
-    required this.animals,
-    required this.animalsProgress,
-    required this.raisedPercentage,
-    required this.progressIndicator,
-    this.navigator,
-    this.showMessage = false,
+    required this.project,
+    required this.navigator,
   }) : super(key: key);
 
-  final String imageUrl;
-  final String title;
-  final String estimatedProfitability;
-  final String neoGanaderosCount;
-  final String hoursLeft;
-  final String animals;
-  final String animalsProgress;
-  final String raisedPercentage;
-  final double progressIndicator;
-  final bool? showMessage;
-  final VoidCallback? navigator;
+  final ProjectItem project;
+  final VoidCallback navigator;
 
   @override
   Widget build(BuildContext context) {
+    // bool showMessage = false;
     return CustomInkWellCard(
-      navigator: navigator!,
+      navigator: navigator,
       child: Column(
         children: [
           ClipRRect(
@@ -46,7 +30,7 @@ class ProjectsCard extends StatelessWidget {
               topRight: Radius.circular(10.0),
             ),
             child: CustomNetworkImage(
-              imageUrl: imageUrl,
+              imageUrl: project.projectImageUrl1,
             ),
           ),
           Padding(
@@ -63,14 +47,14 @@ class ProjectsCard extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  title,
+                  "${project.projectName} (${project.projectCode})",
                   style: Styles.bodyText1Bold,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 IconCard(
-                  title: "$estimatedProfitability % (E.A)",
+                  title: "${project.projectProfitability} % (E.A)",
                   subtitle: "Rentabilidad Estimada*",
                   elevation: 0,
                   padding: 0,
@@ -79,7 +63,7 @@ class ProjectsCard extends StatelessWidget {
                   color: Colors.transparent,
                 ),
                 IconCard(
-                  title: neoGanaderosCount,
+                  title: project.amountOfInvestors,
                   subtitle: "NeoGanaderos",
                   elevation: 0,
                   margin: 0,
@@ -97,7 +81,7 @@ class ProjectsCard extends StatelessWidget {
                   color: Colors.transparent,
                 ),
                 IconCard(
-                  title: "$hoursLeft horas",
+                  title: "${project.daysLeft} dias",
                   subtitle: "Restantes",
                   elevation: 0,
                   margin: 0,
@@ -108,37 +92,40 @@ class ProjectsCard extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Text(animals),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  animalsProgress,
+                ProjectHelper.getGoalWidget(
+                  project.amountOfCattles,
+                  project.investmentRequired,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                LinearProgressIndicator(
-                  value: progressIndicator,
-                  minHeight: 5,
-                  semanticsLabel: 'Progreso',
+                ProjectHelper.getCurrentWidget(
+                  project.investmentCollected,
+                  project.investmentRequired,
+                  project.amountOfCattles,
                 ),
-                Text("$raisedPercentage % Recaudado"),
                 const SizedBox(
                   height: 10,
                 ),
-                if (showMessage!)
-                  AlertWarning(
-                    child: Text(
-                      "En caso de no completar el 100% se comprarán los 46 "
-                      "animales actuales y la rentabilidad puede variar "
-                      "un poco",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Styles.warningColor.withOpacity(0.7),
-                      ),
-                    ),
-                  ),
+                ProjectHelper.getProgressIndicatorWidget(
+                  project.projectProgres,
+                ),
+                Text("${project.projectProgres} % Recaudado"),
+                const SizedBox(
+                  height: 10,
+                ),
+                // if (showMessage)
+                //   AlertWarning(
+                //     child: Text(
+                //       "En caso de no completar el 100% se comprarán los 46 "
+                //       "animales actuales y la rentabilidad puede variar "
+                //       "un poco",
+                //       style: TextStyle(
+                //         fontWeight: FontWeight.bold,
+                //         color: Styles.warningColor.withOpacity(0.7),
+                //       ),
+                //     ),
+                //   ),
                 // const SizedBox(
                 //   height: 20,
                 // ),
