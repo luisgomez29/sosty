@@ -36,7 +36,25 @@ class LauncherHelper {
       path: mail,
       query: params != null ? encodeQueryParameters(params) : null,
     );
-
     launchUrl(emailLaunchUri);
+  }
+
+  static Future<void> launchInBrowser(String url) async {
+    if (!await launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  static Future<void> launchInWebViewOrVC(String url) async {
+    if (!await launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.inAppWebView,
+      webViewConfiguration: const WebViewConfiguration(),
+    )) {
+      throw 'Could not launch $url';
+    }
   }
 }

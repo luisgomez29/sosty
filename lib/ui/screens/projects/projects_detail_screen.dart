@@ -16,11 +16,13 @@ import 'package:sosty/ui/components/general/custom_rich_text.dart';
 import 'package:sosty/ui/components/general/load_data_error.dart';
 import 'package:sosty/ui/components/general/loading_indicator.dart';
 import 'package:sosty/ui/components/navbar/navbar_detail.dart';
+import 'package:sosty/ui/components/projects/project_current_widget.dart';
+import 'package:sosty/ui/components/projects/project_goal_widget.dart';
 import 'package:sosty/ui/components/projects/project_participation_simulator.dart';
+import 'package:sosty/ui/components/projects/project_progress_indicator.dart';
 import 'package:sosty/ui/components/projects/project_support_documents_section.dart';
 import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
-import 'package:sosty/ui/helpers/project_helper.dart';
 
 class ProjectDetailScreen extends StatefulWidget {
   const ProjectDetailScreen({
@@ -236,24 +238,28 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        ProjectHelper.getGoalWidget(
-                                          project.amountOfCattles,
-                                          project.investmentRequired,
+                                        ProjectGoalWidget(
+                                          amountOfCattles:
+                                              project.amountOfCattles,
+                                          investmentRequired:
+                                              project.investmentRequired,
                                         ),
                                         SizedBox(
                                           height: _sizedBoxValue,
                                         ),
-                                        ProjectHelper.getCurrentWidget(
-                                          project.investmentCollected,
-                                          project.investmentRequired,
-                                          project.amountOfCattles,
+                                        ProjectCurrentWidget(
+                                          investmentCollected:
+                                              project.investmentCollected,
+                                          investmentRequired:
+                                              project.investmentRequired,
+                                          amountOfCattles:
+                                              project.amountOfCattles,
                                         ),
                                         SizedBox(
                                           height: _sizedBoxValue,
                                         ),
-                                        ProjectHelper
-                                            .getProgressIndicatorWidget(
-                                          project.projectProgres,
+                                        ProjectProgressIndicator(
+                                          progress: project.projectProgres,
                                         ),
                                         Text(
                                           "${project.projectProgres}% recaudado",

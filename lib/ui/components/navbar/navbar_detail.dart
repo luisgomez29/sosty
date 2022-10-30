@@ -3,7 +3,12 @@ import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/common/enums/assets_enum.dart';
 
 class NavbarDetail extends StatelessWidget {
-  const NavbarDetail({Key? key}) : super(key: key);
+  const NavbarDetail({
+    Key? key,
+    this.title,
+  }) : super(key: key);
+
+  final Text? title;
 
   @override
   Widget build(BuildContext context) {
@@ -11,13 +16,14 @@ class NavbarDetail extends StatelessWidget {
       pinned: false,
       snap: true,
       floating: true,
-      centerTitle: true,
+      centerTitle: title != null ? false : true,
       backgroundColor: Styles.primaryColor,
       leading: const BackButton(color: Colors.white),
-      title: Image(
-        image: AssetImage(AssetsEnum.logo.value),
-        height: 50,
-      ),
+      title: title ??
+          Image(
+            image: AssetImage(AssetsEnum.logo.value),
+            height: 50,
+          ),
     );
   }
 }

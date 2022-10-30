@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sosty/config/provider/user_provider.dart';
 import 'package:sosty/domain/models/user/user.dart';
+import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/enums/shared_preferences_enum.dart';
-import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/account/account_info.dart';
 import 'package:sosty/ui/components/account/profile_menu_item.dart';
 import 'package:sosty/ui/components/general/content_section.dart';
@@ -13,9 +13,10 @@ import 'package:sosty/ui/components/general/load_data_error.dart';
 import 'package:sosty/ui/components/general/loading_indicator.dart';
 import 'package:sosty/ui/components/navbar/navbar.dart';
 import 'package:sosty/ui/components/navbar/navbar_clipper.dart';
+import 'package:sosty/ui/helpers/launcher_helper.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
-import 'package:sosty/ui/screens/contact/contact_screen.dart';
 import 'package:sosty/ui/screens/auth/login_screen.dart';
+import 'package:sosty/ui/screens/contact/contact_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -80,57 +81,25 @@ class _AccountScreenState extends State<AccountScreen> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       if (snapshot.hasData) {
-                        final User user = snapshot.data!;
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
                             AccountInfo(
-                              imageUrl: user.profilePictureUrl,
-                              name:
-                                  "${user.profileDetails[0].firstName} ${user.profileDetails[0].lastName}",
-                              email: user.email,
-                            ),
-                            const SizedBox(
-                              height: 50,
-                            ),
-                            ContentSection(
-                              offsetY: 0.0,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Text(
-                                    "Celular",
-                                    style: Styles.bodyText1Bold,
-                                  ),
-                                  Text(
-                                    user.profileDetails[0].contactCellphone,
-                                    style: Styles.bodyText1,
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(
-                                    "Ubicación",
-                                    style: Styles.bodyText1Bold,
-                                  ),
-                                  Text(
-                                    "${user.profileDetails[0].city ?? ""} - ${user.profileDetails[0].state ?? ""}",
-                                    style: Styles.bodyText1,
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  const Divider(),
-                                ],
-                              ),
+                              user: snapshot.data!,
                             ),
                             ProfileMenuItem(
-                              title: "Contacto",
-                              icon: Icons.contact_support_outlined,
+                              title: "Contáctenos",
+                              icon: Icons.people_alt_outlined,
                               chevron: true,
                               onTap: () => _goToScreen(const ContactScreen()),
+                            ),
+                            ProfileMenuItem(
+                              title: "Ayuda",
+                              icon: Icons.help_outline,
+                              onTap: () => LauncherHelper.launchInBrowser(
+                                Constants.sostyHelpUrl,
+                              ),
                             ),
                             ProfileMenuItem(
                               title: "Cerrar sesión",

@@ -142,9 +142,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         "Nuevo en Sosty? ",
                         style: Styles.bodyText2Bold,
                       ),
-                      const SmallButtonNavigation(
+                      SmallButtonNavigation(
                         buttonText: "Crear una cuenta",
-                        page: SignupScreen(),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SignupScreen(),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

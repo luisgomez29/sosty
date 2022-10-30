@@ -218,9 +218,16 @@ class _SignupScreenState extends State<SignupScreen> {
                         "Ya tienes una cuenta? ",
                         style: Styles.bodyText2Bold,
                       ),
-                      const SmallButtonNavigation(
+                      SmallButtonNavigation(
                         buttonText: "Entra",
-                        page: LoginScreen(),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

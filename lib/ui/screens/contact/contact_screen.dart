@@ -73,7 +73,14 @@ class _ContactScreenState extends State<ContactScreen> {
         body: SafeArea(
           child: CustomScrollView(
             slivers: [
-              const NavbarDetail(),
+              NavbarDetail(
+                title: Text(
+                  "Contáctenos",
+                  style: Styles.headline2.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
               SliverToBoxAdapter(
                 child: Column(
                   children: [

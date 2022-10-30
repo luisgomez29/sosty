@@ -18,6 +18,8 @@ class Constants {
   static const sostyPhone = "3204357649";
   static const sostyEmail = "hola@sosty.co";
   static const whatsAppPhone = "57$sostyPhone";
+  static const sostyHelpUrl =
+      "https://sosty.co/preguntas-sosty-para-inversiones-ganaderas/";
 
   static const Map<String, String> sostyEmailParams = {
     'subject': 'Quiero más información de Sosty',

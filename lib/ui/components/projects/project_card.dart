@@ -5,7 +5,9 @@ import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/cards/custom_ink_well_card.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
 import 'package:sosty/ui/components/network_image/custom_network_image.dart';
-import 'package:sosty/ui/helpers/project_helper.dart';
+import 'package:sosty/ui/components/projects/project_current_widget.dart';
+import 'package:sosty/ui/components/projects/project_goal_widget.dart';
+import 'package:sosty/ui/components/projects/project_progress_indicator.dart';
 
 class ProjectsCard extends StatelessWidget {
   const ProjectsCard({
@@ -92,23 +94,23 @@ class ProjectsCard extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                ProjectHelper.getGoalWidget(
-                  project.amountOfCattles,
-                  project.investmentRequired,
+                ProjectGoalWidget(
+                  amountOfCattles: project.amountOfCattles,
+                  investmentRequired: project.investmentRequired,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                ProjectHelper.getCurrentWidget(
-                  project.investmentCollected,
-                  project.investmentRequired,
-                  project.amountOfCattles,
+                ProjectCurrentWidget(
+                  investmentCollected: project.investmentCollected,
+                  investmentRequired: project.investmentRequired,
+                  amountOfCattles: project.amountOfCattles,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                ProjectHelper.getProgressIndicatorWidget(
-                  project.projectProgres,
+                ProjectProgressIndicator(
+                  progress: project.projectProgres,
                 ),
                 Text("${project.projectProgres} % Recaudado"),
                 const SizedBox(
