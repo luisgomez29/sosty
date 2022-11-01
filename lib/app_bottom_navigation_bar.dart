@@ -30,8 +30,8 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
 
   // Main screens
   final List<Widget> widgetsChildren = const [
-    InvestmentsScreen(),
     ProjectsScreen(),
+    InvestmentsScreen(),
     AccountScreen(),
   ];
 
@@ -64,20 +64,20 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
           selectedIndex: currentPageIndex,
           destinations: const <Widget>[
             NavigationDestination(
-              icon: Icon(Icons.assessment_outlined),
-              selectedIcon: Icon(
-                Icons.assessment_sharp,
-                color: Colors.white,
-              ),
-              label: 'Inversiones',
-            ),
-            NavigationDestination(
               icon: Icon(Icons.assignment_outlined),
               selectedIcon: Icon(
                 Icons.assignment,
                 color: Colors.white,
               ),
               label: 'Proyectos',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.assessment_outlined),
+              selectedIcon: Icon(
+                Icons.assessment_sharp,
+                color: Colors.white,
+              ),
+              label: 'Inversiones',
             ),
             NavigationDestination(
               icon: Icon(Icons.account_circle_outlined),

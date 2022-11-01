@@ -8,6 +8,7 @@ import 'package:sosty/ui/components/network_image/custom_network_image.dart';
 import 'package:sosty/ui/components/projects/project_current_widget.dart';
 import 'package:sosty/ui/components/projects/project_goal_widget.dart';
 import 'package:sosty/ui/components/projects/project_progress_indicator.dart';
+import 'package:sosty/ui/helpers/formatter_helper.dart';
 
 class ProjectsCard extends StatelessWidget {
   const ProjectsCard({
@@ -73,8 +74,8 @@ class ProjectsCard extends StatelessWidget {
                   icon: Icons.people_alt,
                   color: Colors.transparent,
                 ),
-                const IconCard(
-                  title: "\$ ${Constants.minimumInvestment}",
+                IconCard(
+                  title: FormatterHelper.money(Constants.minimumInvestment),
                   titleSpan: "COP",
                   subtitle: "Inversión mínima",
                   elevation: 0,

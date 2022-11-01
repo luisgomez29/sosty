@@ -461,22 +461,25 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                   SizedBox(
                                     height: _sizedBoxValue * 2,
                                   ),
-                                  CustomCard(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Detalle y Objetivos del Proyecto",
-                                          style: Styles.headline2,
-                                        ),
-                                        SizedBox(
-                                          height: _sizedBoxValue,
-                                        ),
-                                        Text(
-                                          project.details,
-                                        ),
-                                      ],
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: CustomCard(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Detalle y Objetivos del Proyecto",
+                                            style: Styles.headline2,
+                                          ),
+                                          SizedBox(
+                                            height: _sizedBoxValue,
+                                          ),
+                                          Text(
+                                            project.details,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
@@ -506,22 +509,25 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                   SizedBox(
                                     height: _sizedBoxValue * 2,
                                   ),
-                                  CustomCard(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Plan de Comunicaciones",
-                                          style: Styles.headline2,
-                                        ),
-                                        SizedBox(
-                                          height: _sizedBoxValue,
-                                        ),
-                                        Text(
-                                          project.communicationPlan,
-                                        ),
-                                      ],
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: CustomCard(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Plan de Comunicaciones",
+                                            style: Styles.headline2,
+                                          ),
+                                          SizedBox(
+                                            height: _sizedBoxValue,
+                                          ),
+                                          Text(
+                                            project.communicationPlan,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
