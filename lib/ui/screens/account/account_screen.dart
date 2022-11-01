@@ -25,7 +25,8 @@ class AccountScreen extends StatefulWidget {
   _AccountScreenState createState() => _AccountScreenState();
 }
 
-class _AccountScreenState extends State<AccountScreen> {
+class _AccountScreenState extends State<AccountScreen>
+    with AutomaticKeepAliveClientMixin {
   String? userId;
   Future<User>? futureUser;
 
@@ -66,81 +67,93 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        const Navbar(),
-        SliverToBoxAdapter(
-          child: Column(
-            children: <Widget>[
-              const NavbarClipper(),
-              ContentSection(
-                offsetY: -70.0,
-                paddingH: 0.0,
-                child: FutureBuilder<User>(
-                  future: futureUser,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasData) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            AccountInfo(
-                              user: snapshot.data!,
-                            ),
-                            ProfileMenuItem(
-                              title: "Contáctenos",
-                              icon: Icons.people_alt_outlined,
-                              chevron: true,
-                              onTap: () => _goToScreen(const ContactScreen()),
-                            ),
-                            ProfileMenuItem(
-                              title: "Ayuda",
-                              icon: Icons.help_outline,
-                              onTap: () => LauncherHelper.launchInBrowser(
-                                Constants.sostyHelpUrl,
+    super.build(context);
+    return RefreshIndicator(
+      onRefresh: () async {
+        setState(() {
+          futureUser = fetchUser();
+        });
+      },
+      child: CustomScrollView(
+        slivers: <Widget>[
+          const Navbar(),
+          SliverToBoxAdapter(
+            child: Column(
+              children: <Widget>[
+                const NavbarClipper(),
+                ContentSection(
+                  offsetY: -70.0,
+                  paddingH: 0.0,
+                  child: FutureBuilder<User>(
+                    future: futureUser,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              AccountInfo(
+                                user: snapshot.data!,
                               ),
-                            ),
-                            ProfileMenuItem(
-                              title: "Cerrar sesión",
-                              icon: Icons.exit_to_app_outlined,
-                              onTap: () => showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: const Text(
-                                    '¿Quieres cerrar sesión?',
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text('No'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () => _logout(context),
-                                      child: const Text('Si'),
-                                    ),
-                                  ],
+                              ProfileMenuItem(
+                                title: "Contáctenos",
+                                icon: Icons.people_alt_outlined,
+                                chevron: true,
+                                onTap: () => _goToScreen(const ContactScreen()),
+                              ),
+                              ProfileMenuItem(
+                                title: "Ayuda",
+                                icon: Icons.help_outline,
+                                onTap: () => LauncherHelper.launchInBrowser(
+                                  Constants.sostyHelpUrl,
                                 ),
                               ),
-                            ),
-                          ],
-                        );
+                              ProfileMenuItem(
+                                title: "Cerrar sesión",
+                                icon: Icons.exit_to_app_outlined,
+                                onTap: () => showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    title: const Text(
+                                      '¿Quieres cerrar sesión?',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('No'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => _logout(context),
+                                        child: const Text('Si'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                      } else if (snapshot.hasError) {
+                        if (kDebugMode) {
+                          print("GET_USER_BY_ID_ERROR => ${snapshot.error}");
+                        }
+                        return const LoadDataError();
                       }
-                    } else if (snapshot.hasError) {
-                      if (kDebugMode) {
-                        print("GET_USER_BY_ID_ERROR => ${snapshot.error}");
-                      }
-                      return const LoadDataError();
-                    }
-                    return const LoadingIndicator();
-                  },
+                      return const LoadingIndicator();
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -19,7 +19,8 @@ class ProjectsScreen extends StatefulWidget {
   _ProjectsScreenState createState() => _ProjectsScreenState();
 }
 
-class _ProjectsScreenState extends State<ProjectsScreen> {
+class _ProjectsScreenState extends State<ProjectsScreen>
+    with AutomaticKeepAliveClientMixin {
   Future<List<ProjectItem>>? futureProjects;
   Future<ProjectItem>? futureProjectOpen;
 
@@ -52,117 +53,127 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          const Navbar(),
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                const NavbarClipper(),
-                ContentSection(
-                  offsetY: -60.0,
-                  child: Column(
-                    children: [
-                      const SectionTitle(
-                        title: "Proyectos",
-                      ),
-                      Column(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          // TODO: Eliminar ya que solo se usa para simular la participación
-                          FutureBuilder<ProjectItem>(
-                            future: futureProjectOpen,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                if (snapshot.hasData) {
-                                  ProjectItem project = snapshot.data!;
-                                  return ProjectsCard(
-                                    project: project,
-                                    navigator: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProjectDetailScreen(
-                                            projectCode: project.projectCode,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          _fetchProjectsList();
+          _fetchProjectOpen();
+        },
+        child: CustomScrollView(
+          slivers: <Widget>[
+            const Navbar(),
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  const NavbarClipper(),
+                  ContentSection(
+                    offsetY: -60.0,
+                    child: Column(
+                      children: [
+                        const SectionTitle(
+                          title: "Proyectos",
+                        ),
+                        Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            // TODO: Eliminar ya que solo se usa para simular la participación
+                            FutureBuilder<ProjectItem>(
+                              future: futureProjectOpen,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  if (snapshot.hasData) {
+                                    ProjectItem project = snapshot.data!;
+                                    return ProjectsCard(
+                                      project: project,
+                                      navigator: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProjectDetailScreen(
+                                              projectCode: project.projectCode,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                } else if (snapshot.hasError) {
-                                  if (kDebugMode) {
-                                    print(
-                                        "PROJECT_OPEN_ERROR => ${snapshot.error}");
+                                        );
+                                      },
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    if (kDebugMode) {
+                                      print(
+                                          "PROJECT_OPEN_ERROR => ${snapshot.error}");
+                                    }
                                   }
                                 }
-                              }
-                              return const SizedBox();
-                            },
-                          ),
-                          FutureBuilder<List<ProjectItem>>(
-                            future: futureProjects,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                if (snapshot.hasData) {
-                                  return ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: snapshot.data?.length,
-                                    itemBuilder: (context, index) {
-                                      ProjectItem project =
-                                          snapshot.data![index];
-                                      return Column(
-                                        children: [
-                                          ProjectsCard(
-                                            project: project,
-                                            navigator: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ProjectDetailScreen(
-                                                    projectCode:
-                                                        project.projectCode,
+                                return const SizedBox();
+                              },
+                            ),
+                            FutureBuilder<List<ProjectItem>>(
+                              future: futureProjects,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  if (snapshot.hasData) {
+                                    return ListView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data?.length,
+                                      itemBuilder: (context, index) {
+                                        ProjectItem project =
+                                            snapshot.data![index];
+                                        return Column(
+                                          children: [
+                                            ProjectsCard(
+                                              project: project,
+                                              navigator: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ProjectDetailScreen(
+                                                      projectCode:
+                                                          project.projectCode,
+                                                    ),
                                                   ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                } else if (snapshot.hasError) {
-                                  if (kDebugMode) {
-                                    print(
-                                        "PROJECTS_ERROR => ${snapshot.error}");
+                                                );
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    if (kDebugMode) {
+                                      print(
+                                          "PROJECTS_ERROR => ${snapshot.error}");
+                                    }
+                                    return const LoadDataError();
                                   }
-                                  return const LoadDataError();
                                 }
-                              }
-                              return LoadingIndicator(
-                                color: Theme.of(context).primaryColor,
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
+                                return LoadingIndicator(
+                                  color: Theme.of(context).primaryColor,
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

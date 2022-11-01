@@ -23,7 +23,8 @@ class InvestmentsScreen extends StatefulWidget {
   _InvestmentsScreenState createState() => _InvestmentsScreenState();
 }
 
-class _InvestmentsScreenState extends State<InvestmentsScreen> {
+class _InvestmentsScreenState extends State<InvestmentsScreen>
+    with AutomaticKeepAliveClientMixin {
   String? _userId;
   int? _balance;
   double _totalInvestedInProgress = 0.0;
@@ -111,171 +112,187 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        const Navbar(),
-        SliverToBoxAdapter(
-          child: Column(
-            children: [
-              const NavbarClipper(),
-              ContentSection(
-                offsetY: -70.0,
-                child: Column(
-                  children: [
-                    IconCard(
-                      title: FormatterHelper.money(
-                        _totalInvestedInProgress + _totalInvestedFinished,
+    super.build(context);
+    return RefreshIndicator(
+      onRefresh: () async {
+        setState(() {
+          _futureInvestmentsInProgress = _fetchInvestmentsInProgress();
+          _futureInvestmentsFinished = _fetchInvestmentsFinished();
+        });
+      },
+      child: CustomScrollView(
+        slivers: <Widget>[
+          const Navbar(),
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                const NavbarClipper(),
+                ContentSection(
+                  offsetY: -70.0,
+                  child: Column(
+                    children: [
+                      IconCard(
+                        title: FormatterHelper.money(
+                          _totalInvestedInProgress + _totalInvestedFinished,
+                        ),
+                        subtitle: 'Total Invertido',
                       ),
-                      subtitle: 'Total Invertido',
-                    ),
-                    IconCard(
-                      title: FormatterHelper.money(_totalReceivedFinished),
-                      subtitle: 'Total Recibido',
-                    ),
-                    IconCard(
-                      title: _getTotalGain(),
-                      subtitle: 'Total Ganancia',
-                    ),
-                    IconCard(
-                      title: FormatterHelper.money(_balance),
-                      subtitle: 'Saldo Sosty',
-                      tintColor: true,
-                    ),
-                    FutureBuilder<List<InvestmentItem>>(
-                      future: _futureInvestmentsInProgress,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasData) {
-                            final bool isEmpty =
-                                (snapshot.data?.isEmpty ?? false);
-                            if (!isEmpty) {
-                              _getTotalInvestedInProgress(snapshot.data!);
-                            }
-                            return Column(
-                              children: [
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                // Show message if there aren't investments
-                                (isEmpty)
-                                    ? const SectionTitle(
-                                        title:
-                                            "Busca proyectos \n para participar",
-                                      )
-                                    : Column(
-                                        children: [
-                                          Divider(
-                                            height: 60,
-                                            thickness: 1,
-                                            indent: 0,
-                                            endIndent: 0,
-                                            color: Styles.secondaryColor
-                                                .withOpacity(0.1),
-                                          ),
-                                          const SectionTitle(
-                                            title: "Inversiones actuales",
-                                          ),
-                                          ListView.builder(
-                                            scrollDirection: Axis.vertical,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemCount: snapshot.data?.length,
-                                            itemBuilder: (context, index) =>
-                                                Column(
-                                              children: [
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                InvestmentsCard(
-                                                  investmentItem:
-                                                      snapshot.data![index],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                              ],
-                            );
-                          } else if (snapshot.hasError) {
-                            if (kDebugMode) {
-                              print(
-                                "INVESTMENT_IN_PROGRESS_ERROR => ${snapshot.error}",
-                              );
-                            }
-                            return const LoadDataError();
-                          }
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                            top: 30.0,
-                          ),
-                          child: LoadingIndicator(
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        );
-                      },
-                    ),
-                    FutureBuilder<List<InvestmentItem>>(
-                      future: _futureInvestmentsFinished,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasData &&
-                              (snapshot.data?.isNotEmpty ?? false)) {
-                            _getTotalInvestedFinished(snapshot.data!);
-                            _getTotalReceivedFinished(snapshot.data!);
-                            return Column(
-                              children: [
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Divider(
-                                  height: 60,
-                                  thickness: 1,
-                                  indent: 0,
-                                  endIndent: 0,
-                                  color: Styles.secondaryColor.withOpacity(0.1),
-                                ),
-                                const SectionTitle(
-                                  title: "Inversiones Finializadas",
-                                ),
-                                ListView.builder(
-                                  scrollDirection: Axis.vertical,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data?.length,
-                                  itemBuilder: (context, index) => Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      InvestmentsCard(
-                                        investmentItem: snapshot.data![index],
-                                      ),
-                                    ],
+                      IconCard(
+                        title: FormatterHelper.money(_totalReceivedFinished),
+                        subtitle: 'Total Recibido',
+                      ),
+                      IconCard(
+                        title: _getTotalGain(),
+                        subtitle: 'Total Ganancia',
+                      ),
+                      IconCard(
+                        title: FormatterHelper.money(_balance),
+                        subtitle: 'Saldo Sosty',
+                        tintColor: true,
+                      ),
+                      FutureBuilder<List<InvestmentItem>>(
+                        future: _futureInvestmentsInProgress,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasData) {
+                              final bool isEmpty =
+                                  (snapshot.data?.isEmpty ?? false);
+                              if (!isEmpty) {
+                                _getTotalInvestedInProgress(snapshot.data!);
+                              }
+                              return Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 10,
                                   ),
-                                ),
-                              ],
-                            );
-                          } else if (snapshot.hasError) {
-                            if (kDebugMode) {
-                              print(
-                                  "INVESTMENT_FINISHED_ERROR => ${snapshot.error}");
+                                  // Show message if there aren't investments
+                                  (isEmpty)
+                                      ? const SectionTitle(
+                                          title:
+                                              "Busca proyectos \n para participar",
+                                        )
+                                      : Column(
+                                          children: [
+                                            Divider(
+                                              height: 60,
+                                              thickness: 1,
+                                              indent: 0,
+                                              endIndent: 0,
+                                              color: Styles.secondaryColor
+                                                  .withOpacity(0.1),
+                                            ),
+                                            const SectionTitle(
+                                              title: "Inversiones actuales",
+                                            ),
+                                            ListView.builder(
+                                              scrollDirection: Axis.vertical,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              shrinkWrap: true,
+                                              itemCount: snapshot.data?.length,
+                                              itemBuilder: (context, index) =>
+                                                  Column(
+                                                children: [
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  InvestmentsCard(
+                                                    investmentItem:
+                                                        snapshot.data![index],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                ],
+                              );
+                            } else if (snapshot.hasError) {
+                              if (kDebugMode) {
+                                print(
+                                  "INVESTMENT_IN_PROGRESS_ERROR => ${snapshot.error}",
+                                );
+                              }
+                              return const LoadDataError();
                             }
-                            return const LoadDataError();
                           }
-                        }
-                        return const SizedBox();
-                      },
-                    ),
-                  ],
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                              top: 30.0,
+                            ),
+                            child: LoadingIndicator(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          );
+                        },
+                      ),
+                      FutureBuilder<List<InvestmentItem>>(
+                        future: _futureInvestmentsFinished,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasData &&
+                                (snapshot.data?.isNotEmpty ?? false)) {
+                              _getTotalInvestedFinished(snapshot.data!);
+                              _getTotalReceivedFinished(snapshot.data!);
+                              return Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Divider(
+                                    height: 60,
+                                    thickness: 1,
+                                    indent: 0,
+                                    endIndent: 0,
+                                    color:
+                                        Styles.secondaryColor.withOpacity(0.1),
+                                  ),
+                                  const SectionTitle(
+                                    title: "Inversiones Finializadas",
+                                  ),
+                                  ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: snapshot.data?.length,
+                                    itemBuilder: (context, index) => Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        InvestmentsCard(
+                                          investmentItem: snapshot.data![index],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            } else if (snapshot.hasError) {
+                              if (kDebugMode) {
+                                print(
+                                    "INVESTMENT_FINISHED_ERROR => ${snapshot.error}");
+                              }
+                              return const LoadDataError();
+                            }
+                          }
+                          return const SizedBox();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

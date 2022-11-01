@@ -19,11 +19,13 @@ class AppBottomNavigationBar extends StatefulWidget {
 
 class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
   int currentPageIndex = 0;
+  final PageController _pageController = PageController();
 
   void _onDestinationSelectedState(int index) {
     setState(() {
       currentPageIndex = widget.indexPage ?? index;
     });
+    _pageController.jumpToPage(index);
   }
 
   // Main screens
@@ -34,12 +36,26 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
   ];
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: AppTheme.getSystemUiOverlayStyle(),
       child: Scaffold(
         body: SafeArea(
-          child: widgetsChildren[currentPageIndex],
+          child: PageView.builder(
+            itemCount: widgetsChildren.length,
+            controller: _pageController,
+            scrollDirection: Axis.horizontal,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return widgetsChildren[index];
+            },
+          ),
         ),
         bottomNavigationBar: NavigationBar(
           surfaceTintColor: Colors.white,
