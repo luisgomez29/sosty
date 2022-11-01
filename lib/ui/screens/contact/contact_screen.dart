@@ -75,7 +75,7 @@ class _ContactScreenState extends State<ContactScreen> {
             slivers: [
               NavbarDetail(
                 title: Text(
-                  "Contáctenos",
+                  "Contáctanos",
                   style: Styles.headline2.copyWith(
                     color: Colors.white,
                   ),

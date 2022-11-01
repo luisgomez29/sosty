@@ -28,7 +28,7 @@ class Footer extends StatelessWidget {
               ),
             ),
             SmallButtonNavigation(
-              buttonText: "Contáctenos",
+              buttonText: "Contáctanos",
               textStyle: Styles.bodyText2.copyWith(
                 color: Theme.of(context).primaryColor,
               ),

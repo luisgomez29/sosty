@@ -84,7 +84,7 @@ class ProjectsCard extends StatelessWidget {
                   color: Colors.transparent,
                 ),
                 IconCard(
-                  title: "${project.daysLeft} dias",
+                  title: "${project.daysLeft} días",
                   subtitle: "Restantes",
                   elevation: 0,
                   margin: 0,

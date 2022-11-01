@@ -97,7 +97,7 @@ class _AccountScreenState extends State<AccountScreen>
                                 user: snapshot.data!,
                               ),
                               ProfileMenuItem(
-                                title: "Contáctenos",
+                                title: "Contáctanos",
                                 icon: Icons.people_alt_outlined,
                                 chevron: true,
                                 onTap: () => _goToScreen(const ContactScreen()),
