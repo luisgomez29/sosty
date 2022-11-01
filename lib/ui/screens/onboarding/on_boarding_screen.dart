@@ -70,7 +70,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               ),
               Row(
                 children: List.generate(
-                    onBoardingContents.length, (index) => _dotIndicator(index)),
+                  onBoardingContents.length,
+                  (index) => _dotIndicator(index),
+                ),
               ),
               IconButton(
                 icon: const Icon(Icons.arrow_forward_sharp),

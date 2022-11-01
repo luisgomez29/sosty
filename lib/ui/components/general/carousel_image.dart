@@ -17,17 +17,20 @@ class CarouselImage extends StatefulWidget {
 }
 
 class _CarouselImageState extends State<CarouselImage> {
-  final PageController _pageController = PageController(viewportFraction: 0.88);
-  double _currentPage = 0.0;
+  int _currentPage = 0;
+  double _currentPageValue = 0.0;
   final double _scaleFactor = 0.8;
   final _imageHeight = 350.0;
+  final PageController _pageController = PageController(viewportFraction: 0.88);
+  final Duration _animatedDuration = const Duration(milliseconds: 300);
 
   Widget _dotIndicator(index) {
     final isActive = _currentPage == index;
-    return Container(
+    return AnimatedContainer(
       height: 10,
       width: isActive ? 20 : 10,
       margin: const EdgeInsets.only(right: 5),
+      duration: _animatedDuration,
       decoration: BoxDecoration(
         color:
             isActive ? Theme.of(context).primaryColor : Styles.secondaryColor,
@@ -44,19 +47,19 @@ class _CarouselImageState extends State<CarouselImage> {
     double currTrans = 0.0;
     double _height = widget.height ?? _imageHeight;
 
-    if (index == _currentPage.floor()) {
-      currScale = 1 - (_currentPage - index) * (1 - _scaleFactor);
+    if (index == _currentPageValue.floor()) {
+      currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
       currTrans = _height * (1 - currScale) / 2;
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, currTrans, 0);
-    } else if (index == _currentPage.floor() + 1) {
+    } else if (index == _currentPageValue.floor() + 1) {
       currScale =
-          _scaleFactor + (_currentPage - index + 1) * (1 - _scaleFactor);
+          _scaleFactor + (_currentPageValue - index + 1) * (1 - _scaleFactor);
       currTrans = _height * (1 - currScale) / 2;
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, currTrans, 0);
-    } else if (index == _currentPage.floor() - 1) {
-      currScale = 1 - (_currentPage - index) * (1 - _scaleFactor);
+    } else if (index == _currentPageValue.floor() - 1) {
+      currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
       currTrans = _height * (1 - currScale) / 2;
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, currTrans, 0);
@@ -94,7 +97,7 @@ class _CarouselImageState extends State<CarouselImage> {
     super.initState();
     _pageController.addListener(() {
       setState(() {
-        _currentPage = _pageController.page!;
+        _currentPageValue = _pageController.page!;
       });
     });
   }
@@ -125,6 +128,11 @@ class _CarouselImageState extends State<CarouselImage> {
           child: PageView.builder(
             itemCount: widget.images.length,
             controller: _pageController,
+            onPageChanged: (value) {
+              setState(() {
+                _currentPage = value;
+              });
+            },
             itemBuilder: (context, position) {
               return _buildPageItem(position);
             },
