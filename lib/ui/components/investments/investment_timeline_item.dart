@@ -95,12 +95,10 @@ class _InvestmentsTimelineItemState extends State<InvestmentsTimelineItem> {
             SizedBox(
               height: 75.0 * _getListViewRows(),
               child: GridView.count(
-                primary: false,
                 padding: const EdgeInsets.all(20),
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 crossAxisCount: _listViewCrossAxisCount,
-                shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: <Widget>[
                   ...List.generate(

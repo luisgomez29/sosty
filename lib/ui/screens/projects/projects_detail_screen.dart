@@ -95,7 +95,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
           );
   }
 
-  ListView _getCarouselImage(ProjectItem project) {
+  Widget _getCarouselImage(ProjectItem project) {
     final List<String> imagesUrl = [project.projectImageUrl1];
     if (project.projectImageUrl2 != null) {
       imagesUrl.add(project.projectImageUrl2!);
@@ -107,17 +107,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
       imagesUrl.add(project.projectImageUrl4!);
     }
 
-    return ListView.builder(
-      itemCount: imagesUrl.length,
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (context, index) {
-        return CarouselImage(
-          imageUrl: imagesUrl[index],
-          width: imagesUrl.length == 1
-              ? (MediaQuery.of(context).size.width - 40)
-              : null,
-        );
-      },
+    return CarouselImage(
+      images: imagesUrl,
     );
   }
 
@@ -145,13 +136,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                         final ProjectItem project = snapshot.data!;
                         return Column(
                           children: [
-                            Container(
-                              height: 350,
-                              padding: const EdgeInsets.only(
-                                left: 10.0,
-                              ),
-                              child: _getCarouselImage(project),
-                            ),
+                            _getCarouselImage(project),
                             const SizedBox(
                               height: 30,
                             ),
