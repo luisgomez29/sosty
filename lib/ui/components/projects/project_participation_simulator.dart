@@ -187,7 +187,7 @@ class _ProjectParticipationSimulatorState
           LargeButton(
             text: "Participar",
             onPressed: () => LauncherHelper.launchInBrowser(
-              'https://app.sosty.co/invest-in-project?projectCode=${widget.projectCode}&amountToInvest=$_inputValue}',
+              'https://app.sosty.co/invest-in-project?projectCode=${widget.projectCode}&amountToInvest=$_inputValue',
             ),
           ),
         ],
