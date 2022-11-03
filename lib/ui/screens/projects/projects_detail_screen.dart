@@ -262,6 +262,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                   if (double.parse(project.projectProgres) <
                                       100.0)
                                     ProjectParticipationSimulator(
+                                      projectCode: project.projectCode,
                                       profitability:
                                           project.projectProfitability,
                                       duration: project.projectDuration,

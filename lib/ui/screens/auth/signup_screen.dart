@@ -10,7 +10,7 @@ import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/common/validations/form_validations.dart';
 import 'package:sosty/ui/common/validations/validation_messages.dart';
 import 'package:sosty/ui/components/buttons/large_button.dart';
-import 'package:sosty/ui/components/buttons/small_button_navigation.dart';
+import 'package:sosty/ui/components/buttons/small_button.dart';
 import 'package:sosty/ui/components/fields/checkbox_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_password_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
@@ -218,7 +218,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         "Ya tienes una cuenta? ",
                         style: Styles.bodyText2Bold,
                       ),
-                      SmallButtonNavigation(
+                      SmallButton(
                         buttonText: "Entra",
                         onPressed: () {
                           Navigator.push(

@@ -9,7 +9,7 @@ import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/common/validations/form_validations.dart';
 import 'package:sosty/ui/common/validations/validation_messages.dart';
 import 'package:sosty/ui/components/buttons/large_button.dart';
-import 'package:sosty/ui/components/buttons/small_button_navigation.dart';
+import 'package:sosty/ui/components/buttons/small_button.dart';
 import 'package:sosty/ui/components/fields/custom_password_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
@@ -142,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         "Nuevo en Sosty? ",
                         style: Styles.bodyText2Bold,
                       ),
-                      SmallButtonNavigation(
+                      SmallButton(
                         buttonText: "Crear una cuenta",
                         onPressed: () {
                           Navigator.push(

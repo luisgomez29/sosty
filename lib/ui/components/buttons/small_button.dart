@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SmallButtonNavigation extends StatelessWidget {
-  const SmallButtonNavigation({
+class SmallButton extends StatelessWidget {
+  const SmallButton({
     Key? key,
     required this.buttonText,
     required this.onPressed,

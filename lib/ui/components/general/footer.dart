@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
-import 'package:sosty/ui/components/buttons/small_button_navigation.dart';
+import 'package:sosty/ui/components/buttons/small_button.dart';
 import 'package:sosty/ui/helpers/launcher_helper.dart';
 import 'package:sosty/ui/screens/contact/contact_screen.dart';
 
@@ -18,7 +18,7 @@ class Footer extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SmallButtonNavigation(
+            SmallButton(
               buttonText: "Ayuda",
               textStyle: Styles.bodyText2.copyWith(
                 color: Theme.of(context).primaryColor,
@@ -27,7 +27,7 @@ class Footer extends StatelessWidget {
                 Constants.sostyHelpUrl,
               ),
             ),
-            SmallButtonNavigation(
+            SmallButton(
               buttonText: "Contáctanos",
               textStyle: Styles.bodyText2.copyWith(
                 color: Theme.of(context).primaryColor,

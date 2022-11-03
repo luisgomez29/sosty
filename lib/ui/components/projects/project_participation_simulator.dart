@@ -5,19 +5,23 @@ import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/common/validations/form_validations.dart';
 import 'package:sosty/ui/common/validations/validation_messages.dart';
 import 'package:sosty/ui/components/alerts/alert_warning.dart';
+import 'package:sosty/ui/components/buttons/large_button.dart';
 import 'package:sosty/ui/components/cards/custom_card.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
 import 'package:sosty/ui/helpers/formatters/currency_formatter.dart';
+import 'package:sosty/ui/helpers/launcher_helper.dart';
 
 class ProjectParticipationSimulator extends StatefulWidget {
   const ProjectParticipationSimulator({
     Key? key,
+    required this.projectCode,
     required this.profitability,
     required this.duration,
   }) : super(key: key);
 
+  final String projectCode;
   final String profitability;
   final String duration;
 
@@ -31,6 +35,7 @@ class _ProjectParticipationSimulatorState
   late String _totalGain;
   late String _participationValue;
   late double _profitabilityPercentage;
+  int _inputValue = 5000000;
   final _sizedBoxValue = 5.0;
   final _formKey = GlobalKey<FormState>();
   final _participationCtrl = TextEditingController();
@@ -42,18 +47,21 @@ class _ProjectParticipationSimulatorState
   }
 
   void _getParticipation(String value) {
-    final userInput = int.parse(value.replaceAll('.', ''));
-    final result = _profitabilityPercentage * userInput;
-    setState(() {
-      _totalGain = FormatterHelper.money(userInput + result);
-      _participationValue = FormatterHelper.money(result);
-    });
+    if (value.isNotEmpty) {
+      final userInput = int.parse(value.replaceAll('.', ''));
+      final result = _profitabilityPercentage * userInput;
+      setState(() {
+        _inputValue = userInput;
+        _totalGain = FormatterHelper.money(userInput + result);
+        _participationValue = FormatterHelper.money(result);
+      });
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    _participationCtrl.text = FormatterHelper.doubleFormat(5000000);
+    _participationCtrl.text = FormatterHelper.doubleFormat(_inputValue);
     _getProfitabilityPercentage();
     _getParticipation(_participationCtrl.text);
   }
@@ -171,6 +179,15 @@ class _ProjectParticipationSimulatorState
                   ),
                 ],
               ),
+            ),
+          ),
+          SizedBox(
+            height: _sizedBoxValue * 4,
+          ),
+          LargeButton(
+            text: "Participar",
+            onPressed: () => LauncherHelper.launchInBrowser(
+              'https://app.sosty.co/invest-in-project?projectCode=${widget.projectCode}&amountToInvest=$_inputValue}',
             ),
           ),
         ],

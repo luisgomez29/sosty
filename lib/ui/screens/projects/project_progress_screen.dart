@@ -6,6 +6,7 @@ import 'package:sosty/config/provider/project_provider.dart';
 import 'package:sosty/domain/models/project/project_progress.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
+import 'package:sosty/ui/components/buttons/large_button.dart';
 import 'package:sosty/ui/components/cards/custom_card.dart';
 import 'package:sosty/ui/components/cards/icon_card.dart';
 import 'package:sosty/ui/components/general/content_section.dart';
@@ -220,26 +221,17 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    OutlinedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProjectDetailScreen(
-                                              projectCode:
-                                                  projectProgress.projectCode,
-                                            ),
+                                    LargeButton(
+                                      text: "Ver proyecto",
+                                      onPressed: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProjectDetailScreen(
+                                            projectCode:
+                                                projectProgress.projectCode,
                                           ),
-                                        );
-                                      },
-                                      style: OutlinedButton.styleFrom(
-                                        side: BorderSide(
-                                          color: Theme.of(context).primaryColor,
                                         ),
-                                      ),
-                                      child: const Text(
-                                        "Ver proyecto",
                                       ),
                                     ),
                                   ],

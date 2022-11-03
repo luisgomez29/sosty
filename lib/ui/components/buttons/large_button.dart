@@ -9,6 +9,7 @@ class LargeButton extends StatelessWidget {
     required this.onPressed,
     this.bgColor,
     this.icon,
+    this.textStyle,
     this.isLoading = false,
   }) : super(key: key);
 
@@ -17,6 +18,7 @@ class LargeButton extends StatelessWidget {
   final VoidCallback onPressed;
   final IconData? icon;
   final bool? isLoading;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +43,7 @@ class LargeButton extends StatelessWidget {
         backgroundColor: bgColor ?? Styles.primaryColor,
         foregroundColor: Colors.white,
         minimumSize: const Size.fromHeight(50),
-        textStyle: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 24.0,
-        ),
+        textStyle: textStyle ?? Styles.headline3,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Styles.buttonBorderRadius),
         ),
