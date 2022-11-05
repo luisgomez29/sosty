@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:sosty/app_bottom_navigation_bar.dart';
 import 'package:sosty/ui/common/enums/assets_enum.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/buttons/large_button.dart';
 import 'package:sosty/ui/components/clippers/wave_clipper.dart';
 import 'package:sosty/ui/helpers/on_boarding_helper.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
-import 'package:sosty/ui/screens/auth/login_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -36,11 +36,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 
-  void _goToLoginScreen() {
+  void _goToProjectsScreen() {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
+        builder: (context) => const AppBottomNavigationBar(),
       ),
     );
   }
@@ -51,14 +51,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: LargeButton(
               text: "Iniciar",
-              onPressed: _goToLoginScreen,
+              onPressed: _goToProjectsScreen,
             ),
           )
         : Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               OutlinedButton(
-                onPressed: _goToLoginScreen,
+                onPressed: _goToProjectsScreen,
                 child: Text(
                   "Omitir",
                   textAlign: TextAlign.center,
