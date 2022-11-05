@@ -83,7 +83,6 @@ class AccountInfo extends StatelessWidget {
           height: 50,
         ),
         ContentSection(
-          offsetY: 0.0,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,

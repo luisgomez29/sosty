@@ -15,7 +15,6 @@ import 'package:sosty/ui/components/fields/checkbox_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_password_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
-import 'package:sosty/ui/components/general/footer.dart';
 import 'package:sosty/ui/components/general/section_with_bg_logo.dart';
 import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
@@ -220,18 +219,18 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       SmallButton(
                         buttonText: "Entra",
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ),
-                          );
-                        },
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  const Footer(),
+                  const SizedBox(
+                    height: 40,
+                  ),
                 ],
               ),
             ],

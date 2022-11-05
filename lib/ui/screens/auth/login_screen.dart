@@ -13,7 +13,6 @@ import 'package:sosty/ui/components/buttons/small_button.dart';
 import 'package:sosty/ui/components/fields/custom_password_form_field.dart';
 import 'package:sosty/ui/components/fields/custom_text_form_field.dart';
 import 'package:sosty/ui/components/forms/custom_form.dart';
-import 'package:sosty/ui/components/general/footer.dart';
 import 'package:sosty/ui/components/general/section_with_bg_logo.dart';
 import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
@@ -54,11 +53,12 @@ class _LoginScreenState extends State<LoginScreen> {
         );
 
         Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AppBottomNavigationBar(),
-            ),
-            (route) => false);
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AppBottomNavigationBar(),
+          ),
+          (route) => false,
+        );
       } on ApiException catch (e) {
         setState(() {
           _isLoading = false;
@@ -144,18 +144,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SmallButton(
                         buttonText: "Crear una cuenta",
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SignupScreen(),
-                            ),
-                          );
-                        },
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignupScreen(),
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  const Footer(),
                 ],
               ),
             ],

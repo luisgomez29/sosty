@@ -5,20 +5,21 @@ class ContentSection extends StatelessWidget {
   const ContentSection({
     Key? key,
     required this.child,
-    required this.offsetY,
+    this.offsetY,
     this.paddingH,
   }) : super(key: key);
 
   final Widget child;
-  final double offsetY;
+  final double? offsetY;
   final double? paddingH;
 
   @override
   Widget build(BuildContext context) {
     return Transform.translate(
-      offset: Offset(0.0, offsetY),
+      offset: Offset(0.0, offsetY ?? 0.0),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: paddingH ?? Styles.paddingContent),
+        padding:
+            EdgeInsets.symmetric(horizontal: paddingH ?? Styles.paddingContent),
         child: child,
       ),
     );

@@ -6,7 +6,6 @@ import 'package:sosty/domain/models/project/project_item.dart';
 import 'package:sosty/ui/components/general/content_section.dart';
 import 'package:sosty/ui/components/general/load_data_error.dart';
 import 'package:sosty/ui/components/general/loading_indicator.dart';
-import 'package:sosty/ui/components/general/section_title.dart';
 import 'package:sosty/ui/components/navbar/navbar.dart';
 import 'package:sosty/ui/components/navbar/navbar_clipper.dart';
 import 'package:sosty/ui/components/projects/project_card.dart';
@@ -68,12 +67,9 @@ class _ProjectsScreenState extends State<ProjectsScreen>
                 children: [
                   const NavbarClipper(),
                   ContentSection(
-                    offsetY: -60.0,
+                    offsetY: -80.0,
                     child: Column(
                       children: [
-                        const SectionTitle(
-                          title: "Proyectos",
-                        ),
                         Column(
                           children: [
                             const SizedBox(
@@ -155,9 +151,7 @@ class _ProjectsScreenState extends State<ProjectsScreen>
                                     return const LoadDataError();
                                   }
                                 }
-                                return LoadingIndicator(
-                                  color: Theme.of(context).primaryColor,
-                                );
+                                return const LoadingIndicator();
                               },
                             ),
                           ],

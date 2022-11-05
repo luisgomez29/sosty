@@ -35,5 +35,6 @@ class SharedPreferencesHelper {
     await prefs.remove(SharedPreferencesEnum.accessToken.value);
     await prefs.remove(SharedPreferencesEnum.userId.value);
     await prefs.remove(SharedPreferencesEnum.userType.value);
+    await prefs.remove(SharedPreferencesEnum.balance.value);
   }
 }

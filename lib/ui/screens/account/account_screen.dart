@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sosty/app_bottom_navigation_bar.dart';
 import 'package:sosty/config/provider/user_provider.dart';
 import 'package:sosty/domain/models/user/user.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
@@ -16,6 +17,7 @@ import 'package:sosty/ui/components/navbar/navbar_clipper.dart';
 import 'package:sosty/ui/helpers/launcher_helper.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
 import 'package:sosty/ui/screens/auth/login_screen.dart';
+import 'package:sosty/ui/screens/auth/signup_screen.dart';
 import 'package:sosty/ui/screens/contact/contact_screen.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -27,41 +29,66 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen>
     with AutomaticKeepAliveClientMixin {
-  String? userId;
-  Future<User>? futureUser;
+  String? _userId;
+  Future<User>? _futureUser;
 
-  Future<void> _loadUserId() async {
+  Future<void> _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      userId = prefs.getString(SharedPreferencesEnum.userId.value) ??
-          SharedPreferencesEnum.keyNotFound.value;
+      _userId = prefs.getString(SharedPreferencesEnum.userId.value);
     });
   }
 
-  Future<User> fetchUser() {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    return userProvider.userUseCase.getUserByID(userId!);
+  Future<void> _fetchUser() async {
+    if (_userId != null) {
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      final user = userProvider.userUseCase.getUserByID(_userId!);
+      setState(() {
+        _futureUser = user;
+      });
+    }
   }
 
   void _logout(context) async {
     await SharedPreferencesHelper.deleteUserSessionData();
     Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
-        (route) => false);
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AppBottomNavigationBar(),
+      ),
+      (route) => false,
+    );
   }
 
   void _goToScreen(Widget screen) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
   }
 
+  Widget _getOptions() {
+    return Column(
+      children: [
+        ProfileMenuItem(
+          title: "Contáctanos",
+          icon: Icons.people_alt_outlined,
+          chevron: true,
+          onTap: () => _goToScreen(const ContactScreen()),
+        ),
+        ProfileMenuItem(
+          title: "Ayuda",
+          icon: Icons.help_outline,
+          onTap: () => LauncherHelper.launchInBrowser(
+            Constants.sostyHelpUrl,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   void initState() {
     super.initState();
-    _loadUserId().then((_) {
-      futureUser = fetchUser();
+    _loadUserData().then((_) {
+      _fetchUser();
     });
   }
 
@@ -70,9 +97,7 @@ class _AccountScreenState extends State<AccountScreen>
     super.build(context);
     return RefreshIndicator(
       onRefresh: () async {
-        setState(() {
-          futureUser = fetchUser();
-        });
+        _fetchUser();
       },
       child: CustomScrollView(
         slivers: <Widget>[
@@ -82,69 +107,102 @@ class _AccountScreenState extends State<AccountScreen>
               children: <Widget>[
                 const NavbarClipper(),
                 ContentSection(
-                  offsetY: -70.0,
+                  offsetY: -60.0,
                   paddingH: 0.0,
-                  child: FutureBuilder<User>(
-                    future: futureUser,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasData) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              AccountInfo(
-                                user: snapshot.data!,
+                  child: (_userId == null)
+                      ? Column(
+                          children: [
+                            const SizedBox(
+                              height: 80.0,
+                            ),
+                            ProfileMenuItem(
+                              title: "Iniciar sesión",
+                              icon: Icons.login_outlined,
+                              chevron: true,
+                              onTap: () => _goToScreen(
+                                const LoginScreen(),
                               ),
-                              ProfileMenuItem(
-                                title: "Contáctanos",
-                                icon: Icons.people_alt_outlined,
-                                chevron: true,
-                                onTap: () => _goToScreen(const ContactScreen()),
+                            ),
+                            ProfileMenuItem(
+                              title: "Crear cuenta",
+                              icon: Icons.account_circle_outlined,
+                              chevron: true,
+                              onTap: () => _goToScreen(
+                                const SignupScreen(),
                               ),
-                              ProfileMenuItem(
-                                title: "Ayuda",
-                                icon: Icons.help_outline,
-                                onTap: () => LauncherHelper.launchInBrowser(
-                                  Constants.sostyHelpUrl,
-                                ),
-                              ),
-                              ProfileMenuItem(
-                                title: "Cerrar sesión",
-                                icon: Icons.exit_to_app_outlined,
-                                onTap: () => showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                    title: const Text(
-                                      '¿Quieres cerrar sesión?',
-                                      textAlign: TextAlign.center,
+                            ),
+                            _getOptions(),
+                          ],
+                        )
+                      : FutureBuilder<User>(
+                          future: _futureUser,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (snapshot.hasData) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    AccountInfo(
+                                      user: snapshot.data!,
                                     ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text('No'),
+                                    ProfileMenuItem(
+                                      title: "Contáctanos",
+                                      icon: Icons.people_alt_outlined,
+                                      chevron: true,
+                                      onTap: () => _goToScreen(
+                                        const ContactScreen(),
                                       ),
-                                      TextButton(
-                                        onPressed: () => _logout(context),
-                                        child: const Text('Si'),
+                                    ),
+                                    ProfileMenuItem(
+                                      title: "Ayuda",
+                                      icon: Icons.help_outline,
+                                      onTap: () =>
+                                          LauncherHelper.launchInBrowser(
+                                        Constants.sostyHelpUrl,
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }
-                      } else if (snapshot.hasError) {
-                        if (kDebugMode) {
-                          print("GET_USER_BY_ID_ERROR => ${snapshot.error}");
-                        }
-                        return const LoadDataError();
-                      }
-                      return const LoadingIndicator();
-                    },
-                  ),
+                                    ),
+                                    ProfileMenuItem(
+                                      title: "Cerrar sesión",
+                                      icon: Icons.exit_to_app_outlined,
+                                      onTap: () => showDialog<String>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text(
+                                              '¿Quieres cerrar sesión?',
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                                child: const Text('No'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () =>
+                                                    _logout(context),
+                                                child: const Text('Si'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                            } else if (snapshot.hasError) {
+                              if (kDebugMode) {
+                                print(
+                                    "GET_USER_BY_ID_ERROR => ${snapshot.error}");
+                              }
+                              return const LoadDataError();
+                            }
+                            return const LoadingIndicator();
+                          },
+                        ),
                 ),
               ],
             ),

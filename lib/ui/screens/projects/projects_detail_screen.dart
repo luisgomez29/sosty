@@ -141,7 +141,6 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                               height: 30,
                             ),
                             ContentSection(
-                              offsetY: 0.0,
                               child: Column(
                                 children: [
                                   CustomCard(
