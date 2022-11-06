@@ -49,41 +49,6 @@ class _AccountScreenState extends State<AccountScreen>
     }
   }
 
-  void _logout(context) async {
-    await SharedPreferencesHelper.deleteUserSessionData();
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const AppBottomNavigationBar(),
-      ),
-      (route) => false,
-    );
-  }
-
-  void _goToScreen(Widget screen) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
-  }
-
-  Widget _getOptions() {
-    return Column(
-      children: [
-        ProfileMenuItem(
-          title: "Contáctanos",
-          icon: Icons.people_alt_outlined,
-          chevron: true,
-          onTap: () => _goToScreen(const ContactScreen()),
-        ),
-        ProfileMenuItem(
-          title: "Ayuda",
-          icon: Icons.help_outline,
-          onTap: () => LauncherHelper.launchInBrowser(
-            Constants.sostyHelpUrl,
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -110,98 +75,9 @@ class _AccountScreenState extends State<AccountScreen>
                   offsetY: -60.0,
                   paddingH: 0.0,
                   child: (_userId == null)
-                      ? Column(
-                          children: [
-                            const SizedBox(
-                              height: 80.0,
-                            ),
-                            ProfileMenuItem(
-                              title: "Iniciar sesión",
-                              icon: Icons.login_outlined,
-                              chevron: true,
-                              onTap: () => _goToScreen(
-                                const LoginScreen(),
-                              ),
-                            ),
-                            ProfileMenuItem(
-                              title: "Crear cuenta",
-                              icon: Icons.account_circle_outlined,
-                              chevron: true,
-                              onTap: () => _goToScreen(
-                                const SignupScreen(),
-                              ),
-                            ),
-                            _getOptions(),
-                          ],
-                        )
-                      : FutureBuilder<User>(
-                          future: _futureUser,
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              if (snapshot.hasData) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    AccountInfo(
-                                      user: snapshot.data!,
-                                    ),
-                                    ProfileMenuItem(
-                                      title: "Contáctanos",
-                                      icon: Icons.people_alt_outlined,
-                                      chevron: true,
-                                      onTap: () => _goToScreen(
-                                        const ContactScreen(),
-                                      ),
-                                    ),
-                                    ProfileMenuItem(
-                                      title: "Ayuda",
-                                      icon: Icons.help_outline,
-                                      onTap: () =>
-                                          LauncherHelper.launchInBrowser(
-                                        Constants.sostyHelpUrl,
-                                      ),
-                                    ),
-                                    ProfileMenuItem(
-                                      title: "Cerrar sesión",
-                                      icon: Icons.exit_to_app_outlined,
-                                      onTap: () => showDialog<String>(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Text(
-                                              '¿Quieres cerrar sesión?',
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: const Text('No'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () =>
-                                                    _logout(context),
-                                                child: const Text('Si'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }
-                            } else if (snapshot.hasError) {
-                              if (kDebugMode) {
-                                print(
-                                    "GET_USER_BY_ID_ERROR => ${snapshot.error}");
-                              }
-                              return const LoadDataError();
-                            }
-                            return const LoadingIndicator();
-                          },
+                      ? const AccountScreenWithoutSession()
+                      : AccountScreenWithSession(
+                          futureUser: _futureUser!,
                         ),
                 ),
               ],
@@ -214,4 +90,152 @@ class _AccountScreenState extends State<AccountScreen>
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class HelpOptions extends StatelessWidget {
+  const HelpOptions({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ProfileMenuItem(
+          title: "Contáctanos",
+          icon: Icons.people_alt_outlined,
+          chevron: true,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ContactScreen(),
+            ),
+          ),
+        ),
+        ProfileMenuItem(
+          title: "Ayuda",
+          icon: Icons.help_outline,
+          onTap: () => LauncherHelper.launchInBrowser(
+            Constants.sostyHelpUrl,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class AccountScreenWithSession extends StatefulWidget {
+  const AccountScreenWithSession({
+    Key? key,
+    required this.futureUser,
+  }) : super(key: key);
+
+  final Future<User> futureUser;
+
+  @override
+  _AccountScreenWithSessionState createState() =>
+      _AccountScreenWithSessionState();
+}
+
+class _AccountScreenWithSessionState extends State<AccountScreenWithSession> {
+  void _logout(BuildContext context) async {
+    await SharedPreferencesHelper.deleteUserSessionData();
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AppBottomNavigationBar(),
+      ),
+      (route) => false,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<User>(
+      future: widget.futureUser,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                AccountInfo(
+                  user: snapshot.data!,
+                ),
+                const HelpOptions(),
+                ProfileMenuItem(
+                  title: "Cerrar sesión",
+                  icon: Icons.exit_to_app_outlined,
+                  onTap: () => showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text(
+                          '¿Quieres cerrar sesión?',
+                          textAlign: TextAlign.center,
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('No'),
+                          ),
+                          TextButton(
+                            onPressed: () => _logout(context),
+                            child: const Text('Si'),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          }
+        } else if (snapshot.hasError) {
+          if (kDebugMode) {
+            print("GET_USER_BY_ID_ERROR => ${snapshot.error}");
+          }
+          return const LoadDataError();
+        }
+        return const LoadingIndicator();
+      },
+    );
+  }
+}
+
+class AccountScreenWithoutSession extends StatelessWidget {
+  const AccountScreenWithoutSession({Key? key}) : super(key: key);
+
+  void _goToScreen(BuildContext context, Widget screen) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 80.0,
+        ),
+        ProfileMenuItem(
+          title: "Iniciar sesión",
+          icon: Icons.login_outlined,
+          chevron: true,
+          onTap: () => _goToScreen(
+            context,
+            const LoginScreen(),
+          ),
+        ),
+        ProfileMenuItem(
+          title: "Crear cuenta",
+          icon: Icons.account_circle_outlined,
+          chevron: true,
+          onTap: () => _goToScreen(
+            context,
+            const SignupScreen(),
+          ),
+        ),
+        const HelpOptions(),
+      ],
+    );
+  }
 }

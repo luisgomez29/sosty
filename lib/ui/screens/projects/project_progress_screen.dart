@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sosty/config/provider/project_provider.dart';
 import 'package:sosty/domain/models/project/project_progress.dart';
+import 'package:sosty/domain/models/project/project_progress_event.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/buttons/large_button.dart';
@@ -47,28 +48,6 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
     setState(() {
       futureProjectProgress = response;
     });
-  }
-
-  Padding _getProjectInformationItem(String text, String textSpan) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: CustomRichText(
-        text: text,
-        textSpan: textSpan,
-      ),
-    );
-  }
-
-  Padding _getCardTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 10.0,
-      ),
-      child: Text(
-        title,
-        style: Styles.headline3,
-      ),
-    );
   }
 
   double _getEstimatedGain(
@@ -157,36 +136,41 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                               CustomCard(
                                 child: Column(
                                   children: [
-                                    _getCardTitle("Información Proyecto"),
+                                    const CardTitle(
+                                      title: "Información Proyecto",
+                                    ),
                                     Timeline(
                                       children: [
-                                        _getProjectInformationItem(
-                                          "Productor",
-                                          "${projectProgress.firstName} ${projectProgress.lastName}",
+                                        ProjectInformationItem(
+                                          text: "Productor",
+                                          textSpan:
+                                              "${projectProgress.firstName} ${projectProgress.lastName}",
                                         ),
-                                        _getProjectInformationItem(
-                                          "Lugar",
-                                          "${projectProgress.locationState} - ${projectProgress.locationCity ?? ""}",
+                                        ProjectInformationItem(
+                                          text: "Lugar",
+                                          textSpan:
+                                              "${projectProgress.locationState} - ${projectProgress.locationCity ?? ""}",
                                         ),
-                                        _getProjectInformationItem(
-                                          "Finca",
-                                          projectProgress.locationAddress,
+                                        ProjectInformationItem(
+                                          text: "Finca",
+                                          textSpan:
+                                              projectProgress.locationAddress,
                                         ),
-                                        _getProjectInformationItem(
-                                          "Indicaciones",
-                                          projectProgress
+                                        ProjectInformationItem(
+                                          text: "Indicaciones",
+                                          textSpan: projectProgress
                                                   .locationArrivalLIndications ??
                                               "-",
                                         ),
-                                        _getProjectInformationItem(
-                                          "Fecha Inicio",
-                                          FormatterHelper.shortDate(
+                                        ProjectInformationItem(
+                                          text: "Fecha Inicio",
+                                          textSpan: FormatterHelper.shortDate(
                                             projectProgress.startDate,
                                           ),
                                         ),
-                                        _getProjectInformationItem(
-                                          "Fecha Cierre",
-                                          FormatterHelper.shortDate(
+                                        ProjectInformationItem(
+                                          text: "Fecha Cierre",
+                                          textSpan: FormatterHelper.shortDate(
                                             projectProgress.endDate,
                                           ),
                                         ),
@@ -254,53 +238,13 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                                 child: CustomCard(
                                   child: Column(
                                     children: [
-                                      _getCardTitle(
-                                          "Actualizaciones y \n Documentos"),
-                                      (projectProgress.events.isEmpty)
-                                          ? const ProjectMessage(
-                                              text: "No hay actualizaciones",
-                                            )
-                                          : Column(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                    top: 20.0,
-                                                  ),
-                                                  child: Text(
-                                                    "Haz clic sobre la imagen o archivo para descargarlo",
-                                                    style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Timeline(
-                                                  lineColor: Theme.of(context)
-                                                      .primaryColor
-                                                      .withOpacity(0.3),
-                                                  lineGap: 0,
-                                                  children: List.generate(
-                                                    projectProgress
-                                                        .events.length,
-                                                    (index) =>
-                                                        InvestmentsTimelineItem(
-                                                      event: projectProgress
-                                                          .events[index],
-                                                    ),
-                                                  ),
-                                                  indicators: List.generate(
-                                                    projectProgress
-                                                        .events.length,
-                                                    (index) => Icon(
-                                                      Icons.adjust_outlined,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                      const CardTitle(
+                                        title:
+                                            "Actualizaciones y \n Documentos",
+                                      ),
+                                      UpdatesAndDocuments(
+                                        events: projectProgress.events,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -330,5 +274,98 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
         ),
       ),
     );
+  }
+}
+
+class ProjectInformationItem extends StatelessWidget {
+  const ProjectInformationItem({
+    Key? key,
+    required this.text,
+    required this.textSpan,
+  }) : super(key: key);
+
+  final String text;
+  final String textSpan;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: CustomRichText(
+        text: text,
+        textSpan: textSpan,
+      ),
+    );
+  }
+}
+
+class CardTitle extends StatelessWidget {
+  const CardTitle({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 10.0,
+      ),
+      child: Text(
+        title,
+        style: Styles.headline3,
+      ),
+    );
+  }
+}
+
+class UpdatesAndDocuments extends StatelessWidget {
+  const UpdatesAndDocuments({
+    Key? key,
+    required this.events,
+  }) : super(key: key);
+
+  final List<ProjectProgressEvent> events;
+
+  @override
+  Widget build(BuildContext context) {
+    return (events.isEmpty)
+        ? const ProjectMessage(
+            text: "No hay actualizaciones",
+          )
+        : Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 20.0,
+                ),
+                child: Text(
+                  "Haz clic sobre la imagen o archivo para descargarlo",
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+              Timeline(
+                lineColor: Theme.of(context).primaryColor.withOpacity(0.3),
+                lineGap: 0,
+                children: List.generate(
+                  events.length,
+                  (index) => InvestmentsTimelineItem(
+                    event: events[index],
+                  ),
+                ),
+                indicators: List.generate(
+                  events.length,
+                  (index) => Icon(
+                    Icons.adjust_outlined,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+            ],
+          );
   }
 }

@@ -55,63 +55,6 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
     return "$total Kg";
   }
 
-  Widget _getAlert(String projectProgress) {
-    return double.parse(projectProgress) >= 100.0
-        ? AlertWarning(
-            child: Text(
-              Constants.projectFullText,
-              style: TextStyle(
-                color: AlertWarning.textColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          )
-        : AlertInfo(
-            child: Text(
-              Constants.projectIncompleteText,
-              style: TextStyle(
-                color: AlertInfo.textColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          );
-  }
-
-  Widget _getImageProducer(String? url) {
-    return url != null
-        ? Image.network(
-            url,
-            width: 60,
-            height: 60,
-            fit: BoxFit.cover,
-          )
-        : Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.person_outline_rounded,
-              size: 48,
-              color: Theme.of(context).primaryColor,
-            ),
-          );
-  }
-
-  Widget _getCarouselImage(ProjectItem project) {
-    final List<String> imagesUrl = [project.projectImageUrl1];
-    if (project.projectImageUrl2 != null) {
-      imagesUrl.add(project.projectImageUrl2!);
-    }
-    if (project.projectImageUrl3 != null) {
-      imagesUrl.add(project.projectImageUrl3!);
-    }
-    if (project.projectImageUrl4 != null) {
-      imagesUrl.add(project.projectImageUrl4!);
-    }
-
-    return CarouselImage(
-      images: imagesUrl,
-    );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -136,7 +79,9 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                         final ProjectItem project = snapshot.data!;
                         return Column(
                           children: [
-                            _getCarouselImage(project),
+                            ProjectCarouselImage(
+                              project: project,
+                            ),
                             const SizedBox(
                               height: 30,
                             ),
@@ -251,7 +196,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                         SizedBox(
                                           height: _sizedBoxValue,
                                         ),
-                                        _getAlert(project.projectProgres),
+                                        ProjectAlert(
+                                            progress: project.projectProgres),
                                       ],
                                     ),
                                   ),
@@ -409,8 +355,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                                 color: Theme.of(context)
                                                     .primaryColor
                                                     .withOpacity(0.2),
-                                                child: _getImageProducer(
-                                                  project
+                                                child: ImageProducer(
+                                                  url: project
                                                       .producerProfilePictureUrl,
                                                 ),
                                               ),
@@ -592,5 +538,92 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
         ),
       ),
     );
+  }
+}
+
+class ProjectCarouselImage extends StatelessWidget {
+  const ProjectCarouselImage({
+    Key? key,
+    required this.project,
+  }) : super(key: key);
+
+  final ProjectItem project;
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> imagesUrl = [project.projectImageUrl1];
+    if (project.projectImageUrl2 != null) {
+      imagesUrl.add(project.projectImageUrl2!);
+    }
+    if (project.projectImageUrl3 != null) {
+      imagesUrl.add(project.projectImageUrl3!);
+    }
+    if (project.projectImageUrl4 != null) {
+      imagesUrl.add(project.projectImageUrl4!);
+    }
+
+    return CarouselImage(
+      images: imagesUrl,
+    );
+  }
+}
+
+class ImageProducer extends StatelessWidget {
+  const ImageProducer({
+    Key? key,
+    this.url,
+  }) : super(key: key);
+
+  final String? url;
+
+  @override
+  Widget build(BuildContext context) {
+    return url != null
+        ? Image.network(
+            url!,
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
+          )
+        : Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.person_outline_rounded,
+              size: 48,
+              color: Theme.of(context).primaryColor,
+            ),
+          );
+  }
+}
+
+class ProjectAlert extends StatelessWidget {
+  const ProjectAlert({
+    Key? key,
+    required this.progress,
+  }) : super(key: key);
+
+  final String progress;
+
+  @override
+  Widget build(BuildContext context) {
+    return double.parse(progress) >= 100.0
+        ? AlertWarning(
+            child: Text(
+              Constants.projectFullText,
+              style: TextStyle(
+                color: AlertWarning.textColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          )
+        : AlertInfo(
+            child: Text(
+              Constants.projectIncompleteText,
+              style: TextStyle(
+                color: AlertInfo.textColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          );
   }
 }

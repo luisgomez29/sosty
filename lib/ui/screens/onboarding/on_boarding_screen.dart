@@ -16,82 +16,7 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int _currentPage = 0;
-  final Duration _animatedDuration = const Duration(milliseconds: 300);
   final PageController _pageController = PageController(initialPage: 0);
-
-  AnimatedContainer _dotIndicator(index) {
-    final isActive = _currentPage == index;
-    return AnimatedContainer(
-      height: isActive ? 20 : 10,
-      width: 10,
-      margin: const EdgeInsets.only(right: 5),
-      duration: _animatedDuration,
-      decoration: BoxDecoration(
-        color:
-            isActive ? Theme.of(context).primaryColor : Styles.secondaryColor,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(22),
-        ),
-      ),
-    );
-  }
-
-  void _goToProjectsScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const AppBottomNavigationBar(),
-      ),
-    );
-  }
-
-  Widget _getWidgetButtonNavigationBar() {
-    return _currentPage == onBoardingContents.length - 1
-        ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: LargeButton(
-              text: "Iniciar",
-              onPressed: _goToProjectsScreen,
-            ),
-          )
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              OutlinedButton(
-                onPressed: _goToProjectsScreen,
-                child: Text(
-                  "Omitir",
-                  textAlign: TextAlign.center,
-                  style: Styles.bodyText1Bold,
-                ),
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                ),
-              ),
-              Row(
-                children: List.generate(
-                  onBoardingContents.length,
-                  (index) => _dotIndicator(index),
-                ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.arrow_forward_sharp),
-                iconSize: 32.0,
-                selectedIcon: const Icon(Icons.settings),
-                style: IconButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  foregroundColor: Colors.white,
-                ),
-                onPressed: () {
-                  _pageController.nextPage(
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeInOut,
-                  );
-                },
-              ),
-            ],
-          );
-  }
 
   @override
   void initState() {
@@ -206,7 +131,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               flex: 1,
               child: Column(
                 children: [
-                  _getWidgetButtonNavigationBar(),
+                  // _getWidgetButtonNavigationBar(),
+                  ButtonNavigationBar(
+                    currentPage: _currentPage,
+                    pageController: _pageController,
+                  ),
                 ],
               ),
             ),
@@ -214,5 +143,106 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         ),
       ),
     );
+  }
+}
+
+class DotIndicator extends StatelessWidget {
+  const DotIndicator({
+    Key? key,
+    required this.currentPage,
+    required this.index,
+  }) : super(key: key);
+
+  final int currentPage;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    final isActive = currentPage == index;
+    return AnimatedContainer(
+      height: isActive ? 20 : 10,
+      width: 10,
+      margin: const EdgeInsets.only(right: 5),
+      duration: const Duration(milliseconds: 300),
+      decoration: BoxDecoration(
+        color:
+            isActive ? Theme.of(context).primaryColor : Styles.secondaryColor,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(22),
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonNavigationBar extends StatelessWidget {
+  const ButtonNavigationBar({
+    Key? key,
+    required this.currentPage,
+    required this.pageController,
+  }) : super(key: key);
+
+  final int currentPage;
+  final PageController pageController;
+
+  void _goToProjectsScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AppBottomNavigationBar(),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return currentPage == onBoardingContents.length - 1
+        ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: LargeButton(
+              text: "Iniciar",
+              onPressed: () => _goToProjectsScreen(context),
+            ),
+          )
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              OutlinedButton(
+                onPressed: () => _goToProjectsScreen(context),
+                child: Text(
+                  "Omitir",
+                  textAlign: TextAlign.center,
+                  style: Styles.bodyText1Bold,
+                ),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                ),
+              ),
+              Row(
+                children: List.generate(
+                  onBoardingContents.length,
+                  (index) => DotIndicator(
+                    index: index,
+                    currentPage: currentPage,
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.arrow_forward_sharp),
+                iconSize: 32.0,
+                selectedIcon: const Icon(Icons.settings),
+                style: IconButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: () {
+                  pageController.nextPage(
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeInOut,
+                  );
+                },
+              ),
+            ],
+          );
   }
 }
