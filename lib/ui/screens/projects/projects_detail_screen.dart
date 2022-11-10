@@ -52,7 +52,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
     if (cattleWeightAverageGain != '-') {
       total = (double.parse(cattleWeightAverageGain) * 30) / 1000;
     }
-    return "$total Kg";
+    return "${FormatterHelper.doubleFormat(total)} Kg";
   }
 
   @override
