@@ -107,7 +107,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                   elevation: 0,
                                   padding: 0,
                                   margin: 0,
-                                  icon: Icons.whatsapp_outlined,
+                                  icon: Icons.phone,
                                   color: Colors.transparent,
                                 ),
                                 InkWell(
