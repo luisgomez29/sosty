@@ -381,6 +381,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
                                         Align(
                                           alignment: Alignment.centerRight,
                                           child: Chip(
+                                            side: BorderSide.none,
                                             backgroundColor: Theme.of(context)
                                                 .primaryColor
                                                 .withOpacity(0.1),
