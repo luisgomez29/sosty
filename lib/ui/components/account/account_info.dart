@@ -109,7 +109,9 @@ class AccountInfo extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              const Divider(),
+              Divider(
+                color: Styles.secondaryColor.withOpacity(0.1),
+              ),
             ],
           ),
         ),

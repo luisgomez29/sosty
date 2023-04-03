@@ -24,6 +24,15 @@ class LargeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onPressed,
+      style: TextButton.styleFrom(
+        backgroundColor: bgColor ?? Styles.primaryColor,
+        foregroundColor: Colors.white,
+        minimumSize: const Size.fromHeight(50),
+        textStyle: textStyle ?? Styles.headline3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(Styles.buttonBorderRadius),
+        ),
+      ),
       child: isLoading!
           ? const LoadingIndicator()
           : Row(
@@ -39,15 +48,6 @@ class LargeButton extends StatelessWidget {
                 ),
               ],
             ),
-      style: TextButton.styleFrom(
-        backgroundColor: bgColor ?? Styles.primaryColor,
-        foregroundColor: Colors.white,
-        minimumSize: const Size.fromHeight(50),
-        textStyle: textStyle ?? Styles.headline3,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(Styles.buttonBorderRadius),
-        ),
-      ),
     );
   }
 }

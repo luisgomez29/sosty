@@ -24,7 +24,7 @@ class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
 
   @override
-  _AccountScreenState createState() => _AccountScreenState();
+  State<AccountScreen> createState() => _AccountScreenState();
 }
 
 class _AccountScreenState extends State<AccountScreen>
@@ -131,20 +131,22 @@ class AccountScreenWithSession extends StatefulWidget {
   final Future<User> futureUser;
 
   @override
-  _AccountScreenWithSessionState createState() =>
+  State<AccountScreenWithSession> createState() =>
       _AccountScreenWithSessionState();
 }
 
 class _AccountScreenWithSessionState extends State<AccountScreenWithSession> {
   void _logout(BuildContext context) async {
     await SharedPreferencesHelper.deleteUserSessionData();
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const AppBottomNavigationBar(),
-      ),
-      (route) => false,
-    );
+    if (context.mounted) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AppBottomNavigationBar(),
+        ),
+        (route) => false,
+      );
+    }
   }
 
   @override

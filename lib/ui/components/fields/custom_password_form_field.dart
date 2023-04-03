@@ -18,7 +18,7 @@ class CustomPasswordFormField extends StatefulWidget {
   final TextEditingController? controller;
 
   @override
-  _CustomPasswordFormFieldState createState() =>
+  State<CustomPasswordFormField> createState() =>
       _CustomPasswordFormFieldState();
 }
 

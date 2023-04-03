@@ -34,7 +34,7 @@ class ProjectProgressScreen extends StatefulWidget {
   final String investmentId;
 
   @override
-  _ProjectProgressScreenState createState() => _ProjectProgressScreenState();
+  State<ProjectProgressScreen> createState() => _ProjectProgressScreenState();
 }
 
 class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
@@ -140,6 +140,32 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                                       title: "Información Proyecto",
                                     ),
                                     Timeline(
+                                      indicators: <Widget>[
+                                        Icon(
+                                          Icons.perm_identity,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                        const Icon(
+                                          Icons.location_pin,
+                                          color: Color(0xFF82868B),
+                                        ),
+                                        Icon(
+                                          Icons.home,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                        const Icon(
+                                          Icons.accessibility,
+                                          color: Color(0xFF82868B),
+                                        ),
+                                        Icon(
+                                          Icons.calendar_month_outlined,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                        const Icon(
+                                          Icons.calendar_month_outlined,
+                                          color: Colors.deepOrangeAccent,
+                                        ),
+                                      ],
                                       children: [
                                         ProjectInformationItem(
                                           text: "Productor",
@@ -173,32 +199,6 @@ class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
                                           textSpan: FormatterHelper.shortDate(
                                             projectProgress.endDate,
                                           ),
-                                        ),
-                                      ],
-                                      indicators: <Widget>[
-                                        Icon(
-                                          Icons.perm_identity,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                        const Icon(
-                                          Icons.location_pin,
-                                          color: Color(0xFF82868B),
-                                        ),
-                                        Icon(
-                                          Icons.home,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                        const Icon(
-                                          Icons.accessibility,
-                                          color: Color(0xFF82868B),
-                                        ),
-                                        Icon(
-                                          Icons.calendar_month_outlined,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                        const Icon(
-                                          Icons.calendar_month_outlined,
-                                          color: Colors.deepOrangeAccent,
                                         ),
                                       ],
                                     ),
@@ -351,17 +351,17 @@ class UpdatesAndDocuments extends StatelessWidget {
               Timeline(
                 lineColor: Theme.of(context).primaryColor.withOpacity(0.3),
                 lineGap: 0,
-                children: List.generate(
-                  events.length,
-                  (index) => InvestmentsTimelineItem(
-                    event: events[index],
-                  ),
-                ),
                 indicators: List.generate(
                   events.length,
                   (index) => Icon(
                     Icons.adjust_outlined,
                     color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                children: List.generate(
+                  events.length,
+                  (index) => InvestmentsTimelineItem(
+                    event: events[index],
                   ),
                 ),
               ),

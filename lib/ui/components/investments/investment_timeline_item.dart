@@ -13,7 +13,7 @@ class InvestmentsTimelineItem extends StatefulWidget {
   final ProjectProgressEvent event;
 
   @override
-  _InvestmentsTimelineItemState createState() =>
+  State<InvestmentsTimelineItem> createState() =>
       _InvestmentsTimelineItemState();
 }
 
@@ -24,9 +24,7 @@ class _InvestmentsTimelineItemState extends State<InvestmentsTimelineItem> {
   final List<String> _files = [];
 
   void _getImages() {
-    if (widget.event.picture1Url != null) {
-      _images.add(widget.event.picture1Url!);
-    }
+    if (widget.event.picture1Url != null) {}
     if (widget.event.picture2Url != null) {
       _images.add(widget.event.picture2Url!);
     }

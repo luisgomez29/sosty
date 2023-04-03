@@ -24,15 +24,15 @@ class CustomInkWellCard extends StatelessWidget {
     return Card(
       color: color,
       surfaceTintColor: tintColor == false ? Colors.white : null,
+      elevation: elevation,
+      margin: EdgeInsets.symmetric(vertical: margin ?? Styles.cardMargin),
       child: navigator == null
           ? child
           : InkWell(
-              child: child,
               borderRadius: BorderRadius.circular(10),
               onTap: navigator,
+              child: child,
             ),
-      elevation: elevation,
-      margin: EdgeInsets.symmetric(vertical: margin ?? Styles.cardMargin),
     );
   }
 }

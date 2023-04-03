@@ -33,7 +33,7 @@ class ProjectDetailScreen extends StatefulWidget {
   final String projectCode;
 
   @override
-  _ProjectDetailScreenState createState() => _ProjectDetailScreenState();
+  State<ProjectDetailScreen> createState() => _ProjectDetailScreenState();
 }
 
 class _ProjectDetailScreenState extends State<ProjectDetailScreen> {

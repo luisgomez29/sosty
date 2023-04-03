@@ -21,7 +21,7 @@ class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
 
   @override
-  _ContactScreenState createState() => _ContactScreenState();
+  State<ContactScreen> createState() => _ContactScreenState();
 }
 
 class _ContactScreenState extends State<ContactScreen> {
@@ -66,7 +66,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const double _sizedBoxValue = 10.0;
+    const double sizedBoxValue = 10.0;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: AppTheme.getSystemUiOverlayStyle(),
       child: Scaffold(
@@ -90,13 +90,13 @@ class _ContactScreenState extends State<ContactScreen> {
                       child: Column(
                         children: [
                           const SizedBox(
-                            height: _sizedBoxValue * 3,
+                            height: sizedBoxValue * 3,
                           ),
                           const SectionTitle(
                             title: "Requiero información",
                           ),
                           const SizedBox(
-                            height: _sizedBoxValue,
+                            height: sizedBoxValue,
                           ),
                           CustomCard(
                             child: Column(
@@ -132,7 +132,7 @@ class _ContactScreenState extends State<ContactScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: _sizedBoxValue,
+                            height: sizedBoxValue,
                           ),
                           CustomCard(
                             child: CustomForm(
@@ -226,7 +226,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                   },
                                 ),
                                 const SizedBox(
-                                  height: _sizedBoxValue,
+                                  height: sizedBoxValue,
                                 ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width,
@@ -261,7 +261,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                   },
                                 ),
                                 const SizedBox(
-                                  height: _sizedBoxValue,
+                                  height: sizedBoxValue,
                                 ),
                                 LargeButton(
                                   text: "Enviar",

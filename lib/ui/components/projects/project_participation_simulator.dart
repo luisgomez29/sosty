@@ -26,7 +26,7 @@ class ProjectParticipationSimulator extends StatefulWidget {
   final String duration;
 
   @override
-  _ProjectParticipationSimulatorState createState() =>
+  State<ProjectParticipationSimulator> createState() =>
       _ProjectParticipationSimulatorState();
 }
 

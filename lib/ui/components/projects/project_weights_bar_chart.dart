@@ -24,10 +24,10 @@ class ProjectWeightsBarChart extends StatefulWidget {
   final List<String> weightsDates;
 
   @override
-  _ToolState createState() => _ToolState();
+  State<ProjectWeightsBarChart> createState() => _ProjectWeightsBarChartState();
 }
 
-class _ToolState extends State<ProjectWeightsBarChart> {
+class _ProjectWeightsBarChartState extends State<ProjectWeightsBarChart> {
   late TooltipBehavior _toolBarBehavior;
 
   @override

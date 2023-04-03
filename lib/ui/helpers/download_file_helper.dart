@@ -54,7 +54,7 @@ class DownloadFileHelper {
       return "/sdcard/download";
     } else {
       var directory = await getApplicationDocumentsDirectory();
-      return directory.path + Platform.pathSeparator + 'Download';
+      return '${directory.path}${Platform.pathSeparator}Download';
     }
   }
 
@@ -96,15 +96,17 @@ class DownloadFileHelper {
 
           File("$_localPath/${fileMap['name']}_${uuid.v4()}.${fileMap['extension']}")
               .writeAsBytes(response.bodyBytes);
-          _showMessage(context, "Archivo descargado correctamente");
+          if (context.mounted) {
+            _showMessage(context, "Archivo descargado correctamente");
+          }
         } else {
-          _showMessage(context, _downloadFilerError);
+          if (context.mounted) _showMessage(context, _downloadFilerError);
         }
       } on ApiException catch (e) {
         if (kDebugMode) {
           print("DOWNLOAD_FILE_FAILED => ${e.toString()}");
         }
-        _showMessage(context, _downloadFilerError);
+        if (context.mounted) _showMessage(context, _downloadFilerError);
       }
     }
   }

@@ -14,7 +14,7 @@ class AppBottomNavigationBar extends StatefulWidget {
   final int? indexPage;
 
   @override
-  _AppBottomNavigationBarState createState() => _AppBottomNavigationBarState();
+  State<AppBottomNavigationBar> createState() => _AppBottomNavigationBarState();
 }
 
 class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {

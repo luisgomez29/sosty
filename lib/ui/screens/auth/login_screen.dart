@@ -22,7 +22,7 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -52,13 +52,15 @@ class _LoginScreenState extends State<LoginScreen> {
           user.balance ?? 0,
         );
 
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const AppBottomNavigationBar(),
-          ),
-          (route) => false,
-        );
+        if (context.mounted) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AppBottomNavigationBar(),
+            ),
+            (route) => false,
+          );
+        }
       } on ApiException catch (e) {
         setState(() {
           _isLoading = false;
