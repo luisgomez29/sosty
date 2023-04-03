@@ -52,7 +52,7 @@ class Producer {
   String? documentType;
   String documentNumber;
   String? documentUrl;
-  String contactEmail;
+  String? contactEmail;
   String? contactCellphone;
   String? contactPhone;
   String? address;
