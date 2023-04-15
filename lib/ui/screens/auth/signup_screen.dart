@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:sosty/app_bottom_navigation_bar.dart';
-import 'package:sosty/config/provider/user_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sosty/app/app_bottom_navigation_bar.dart';
+import 'package:sosty/config/providers/user_provider.dart';
 import 'package:sosty/domain/models/common/enums/user_role_enum.dart';
 import 'package:sosty/domain/models/user/user.dart';
 import 'package:sosty/infraestructure/helpers/api_client/exception/api_exception.dart';
@@ -20,14 +20,16 @@ import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
 import 'package:sosty/ui/screens/auth/login_screen.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+class SignupScreen extends ConsumerStatefulWidget {
+  const SignupScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  ConsumerState createState() => _SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignupScreenState extends ConsumerState<SignupScreen> {
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   final _emailCtrl = TextEditingController();
@@ -43,15 +45,14 @@ class _SignupScreenState extends State<SignupScreen> {
           _isLoading = true;
         });
 
-        final userProvider = Provider.of<UserProvider>(context, listen: false);
-        User user = await userProvider.userUseCase.signup(
-          _emailCtrl.text,
-          _passwordCtrl.text,
-          UserRoleEnum.investor.value,
-          _firstNameCtrl.text,
-          _lastNameCtrl.text,
-          _phoneNumberCtrl.text,
-        );
+        User user = await ref.read(userProvider).signup(
+              _emailCtrl.text,
+              _passwordCtrl.text,
+              UserRoleEnum.investor.value,
+              _firstNameCtrl.text,
+              _lastNameCtrl.text,
+              _phoneNumberCtrl.text,
+            );
 
         // Store user session data
         await SharedPreferencesHelper.saveUserSessionData(

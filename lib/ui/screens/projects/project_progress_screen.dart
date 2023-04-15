@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:sosty/config/provider/project_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sosty/config/providers/project_provider.dart';
 import 'package:sosty/domain/models/project/project_progress.dart';
 import 'package:sosty/domain/models/project/project_progress_event.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
@@ -25,7 +25,7 @@ import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
 import 'package:sosty/ui/screens/projects/projects_detail_screen.dart';
 
-class ProjectProgressScreen extends StatefulWidget {
+class ProjectProgressScreen extends ConsumerStatefulWidget {
   const ProjectProgressScreen({
     Key? key,
     required this.investmentId,
@@ -34,16 +34,15 @@ class ProjectProgressScreen extends StatefulWidget {
   final String investmentId;
 
   @override
-  State<ProjectProgressScreen> createState() => _ProjectProgressScreenState();
+  ConsumerState createState() => _ProjectProgressScreenState();
 }
 
-class _ProjectProgressScreenState extends State<ProjectProgressScreen> {
+class _ProjectProgressScreenState extends ConsumerState<ProjectProgressScreen> {
   Future<ProjectProgress>? futureProjectProgress;
 
   void _fetchProjectProgress() {
-    final projectProvider =
-        Provider.of<ProjectProvider>(context, listen: false);
-    final response = projectProvider.projectUseCase
+    final response = ref
+        .read(projectProvider)
         .getProjectProgressInformation(widget.investmentId);
     setState(() {
       futureProjectProgress = response;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:sosty/app_bottom_navigation_bar.dart';
-import 'package:sosty/config/provider/user_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sosty/app/app_bottom_navigation_bar.dart';
+import 'package:sosty/config/providers/user_provider.dart';
 import 'package:sosty/domain/models/user/user.dart';
 import 'package:sosty/infraestructure/helpers/api_client/exception/api_exception.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
@@ -18,14 +18,16 @@ import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/helpers/shared_preferences_helper.dart';
 import 'package:sosty/ui/screens/auth/signup_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends ConsumerStatefulWidget {
+  const LoginScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
   final _emailCtrl = TextEditingController();
@@ -38,11 +40,10 @@ class _LoginScreenState extends State<LoginScreen> {
           _isLoading = true;
         });
 
-        final userProvider = Provider.of<UserProvider>(context, listen: false);
-        User user = await userProvider.userUseCase.login(
-          _emailCtrl.text,
-          _passwordCtrl.text,
-        );
+        User user = await ref.read(userProvider).login(
+              _emailCtrl.text,
+              _passwordCtrl.text,
+            );
 
         // Store user session data
         await SharedPreferencesHelper.saveUserSessionData(

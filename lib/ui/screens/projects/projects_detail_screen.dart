@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:sosty/config/provider/project_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sosty/config/providers/project_provider.dart';
 import 'package:sosty/domain/models/project/project_item.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
@@ -24,7 +24,7 @@ import 'package:sosty/ui/components/projects/project_support_documents_section.d
 import 'package:sosty/ui/config/theme/app_theme.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
 
-class ProjectDetailScreen extends StatefulWidget {
+class ProjectDetailScreen extends ConsumerStatefulWidget {
   const ProjectDetailScreen({
     Key? key,
     required this.projectCode,
@@ -33,17 +33,16 @@ class ProjectDetailScreen extends StatefulWidget {
   final String projectCode;
 
   @override
-  State<ProjectDetailScreen> createState() => _ProjectDetailScreenState();
+  ConsumerState createState() => _ProjectDetailScreenState();
 }
 
-class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
+class _ProjectDetailScreenState extends ConsumerState<ProjectDetailScreen> {
   final _sizedBoxValue = 5.0;
   Future<ProjectItem>? _futureProject;
 
   Future<ProjectItem> _fetchProjectDetail() async {
-    final projectProvider =
-        Provider.of<ProjectProvider>(context, listen: false);
-    return projectProvider.projectUseCase
+    return ref
+        .read(projectProvider)
         .getProjectPublicByCode(widget.projectCode);
   }
 
