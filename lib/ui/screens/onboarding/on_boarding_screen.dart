@@ -11,7 +11,7 @@ class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override
-  _OnBoardingScreenState createState() => _OnBoardingScreenState();
+  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
@@ -209,13 +209,13 @@ class ButtonNavigationBar extends StatelessWidget {
             children: [
               OutlinedButton(
                 onPressed: () => _goToProjectsScreen(context),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                ),
                 child: Text(
                   "Omitir",
                   textAlign: TextAlign.center,
                   style: Styles.bodyText1Bold,
-                ),
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
                 ),
               ),
               Row(

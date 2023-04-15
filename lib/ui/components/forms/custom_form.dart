@@ -14,7 +14,7 @@ class CustomForm extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
 
   @override
-  _CustomFormState createState() => _CustomFormState();
+  State<CustomForm> createState() => _CustomFormState();
 }
 
 class _CustomFormState extends State<CustomForm> {

@@ -139,9 +139,9 @@ class ProjectItem {
   final String? suraDeclaracionTipoDeProductorUrl;
   final String? suraCotizacionSeguroUrl;
   final double sostyComission;
-  final int? initialKilogramPrice;
+  final double? initialKilogramPrice;
   final int? finalKilogramPrice;
-  final int? initialWeight;
+  final double? initialWeight;
   final int? finalWeight;
   final double? insurancePricePerKilogram;
   final double? mandatoPercentage;
@@ -231,9 +231,9 @@ class ProjectItem {
             json["suraDeclaracionTipoDeProductorUrl"],
         suraCotizacionSeguroUrl: json["suraCotizacionSeguroUrl"],
         sostyComission: json["sostyComission"].toDouble(),
-        initialKilogramPrice: json["initialKilogramPrice"],
+        initialKilogramPrice: json["initialKilogramPrice"]?.toDouble(),
         finalKilogramPrice: json["finalKilogramPrice"],
-        initialWeight: json["initialWeight"],
+        initialWeight: json["initialWeight"]?.toDouble(),
         finalWeight: json["finalWeight"],
         insurancePricePerKilogram:
             json["insurancePricePerKilogram"]?.toDouble(),

@@ -6,7 +6,7 @@ import 'package:sosty/ui/common/styles/styles.dart';
 class AppTheme {
   AppTheme._();
 
-  static SystemUiOverlayStyle getSystemUiOverlayStyle(){
+  static SystemUiOverlayStyle getSystemUiOverlayStyle() {
     return SystemUiOverlayStyle.light.copyWith(
       // set Status bar color in Android devices
       statusBarColor: Styles.primaryColor,
@@ -30,10 +30,17 @@ class AppTheme {
       navigationBarTheme: NavigationBarThemeData(
         indicatorColor: Styles.primaryColor.withOpacity(0.6),
       ),
-      // scaffoldBackgroundColor: Styles.screenBackgroundColor,
+      scaffoldBackgroundColor: Colors.white,
+      canvasColor: Colors.white,
+      dialogBackgroundColor: Colors.white,
       // snackBarTheme: SnackBarThemeData(
       //   contentTextStyle: TextStyle(
       //     fontSize: 16.0
+      //   ),
+      // ),
+      // inputDecorationTheme: const InputDecorationTheme(
+      //   enabledBorder: OutlineInputBorder(
+      //     borderSide: BorderSide(color: Colors.black),
       //   ),
       // ),
       colorScheme: ColorScheme.fromSwatch(

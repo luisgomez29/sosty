@@ -14,9 +14,9 @@ class ProjectProgressWeight {
   final String projectWeightId;
   final String projectId;
   final int pesoManada;
-  final int cantidadDeAnimalesGanananDe0A7;
-  final int cantidadDeAnimalesGanananDe7A10;
-  final int cantidadDeAnimalesGanananMasDe10;
+  final int? cantidadDeAnimalesGanananDe0A7;
+  final int? cantidadDeAnimalesGanananDe7A10;
+  final int? cantidadDeAnimalesGanananMasDe10;
   final DateTime weightDate;
   final DateTime createDate;
   final DateTime? deleteDate;

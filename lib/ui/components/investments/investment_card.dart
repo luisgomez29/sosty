@@ -159,6 +159,7 @@ class InvestmentsCard extends StatelessWidget {
                         ? Styles.primaryColor
                         : Colors.deepOrange.withOpacity(0.7),
                   ),
+                  side: BorderSide.none,
                 ),
               ],
             ),
@@ -174,6 +175,7 @@ class InvestmentsCard extends StatelessWidget {
                   labelStyle: const TextStyle(
                     color: Colors.white,
                   ),
+                  side: BorderSide.none,
                 ),
               ],
             ),

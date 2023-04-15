@@ -16,7 +16,7 @@ class Navbar extends StatelessWidget {
       centerTitle: true,
       title: Image(
         image: AssetImage(AssetsEnum.logo.value),
-        height: 50,
+        height: 60,
       ),
       // leading: Image(
       //   image: AssetImage(AssetsEnum.logo.value),

@@ -22,7 +22,7 @@ class InvestmentsScreen extends StatefulWidget {
   const InvestmentsScreen({Key? key}) : super(key: key);
 
   @override
-  _InvestmentsScreenState createState() => _InvestmentsScreenState();
+  State<InvestmentsScreen> createState() => _InvestmentsScreenState();
 }
 
 class _InvestmentsScreenState extends State<InvestmentsScreen>

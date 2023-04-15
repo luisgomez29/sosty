@@ -25,10 +25,12 @@ class ProjectWeightsCircularChart extends StatefulWidget {
   final List<ProjectProgressWeight> weights;
 
   @override
-  _ToolState createState() => _ToolState();
+  State<ProjectWeightsCircularChart> createState() =>
+      _ProjectWeightsCircularChartState();
 }
 
-class _ToolState extends State<ProjectWeightsCircularChart> {
+class _ProjectWeightsCircularChartState
+    extends State<ProjectWeightsCircularChart> {
   late TooltipBehavior _toolCircularBehavior;
 
   Padding _getCardTitle(String title) {
@@ -58,9 +60,9 @@ class _ToolState extends State<ProjectWeightsCircularChart> {
     int de0a7 = 0, de7a10 = 0, deMas10 = 0, totalCattles = 0;
 
     if (widget.weights.isNotEmpty) {
-      de0a7 = (widget.weights.last.cantidadDeAnimalesGanananDe0A7);
-      de7a10 = (widget.weights.last.cantidadDeAnimalesGanananDe7A10);
-      deMas10 = (widget.weights.last.cantidadDeAnimalesGanananMasDe10);
+      de0a7 = widget.weights.last.cantidadDeAnimalesGanananDe0A7 ?? 0;
+      de7a10 = widget.weights.last.cantidadDeAnimalesGanananDe7A10 ?? 0;
+      deMas10 = widget.weights.last.cantidadDeAnimalesGanananMasDe10 ?? 0;
       totalCattles = de0a7 + de7a10 + deMas10;
       circularChar.addAll(
         [

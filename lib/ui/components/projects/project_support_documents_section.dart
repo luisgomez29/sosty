@@ -14,7 +14,7 @@ class ProjectSupportDocumentsSection extends StatefulWidget {
   final ProjectItem project;
 
   @override
-  _ProjectSupportDocumentsSectionState createState() =>
+  State<ProjectSupportDocumentsSection> createState() =>
       _ProjectSupportDocumentsSectionState();
 }
 

@@ -53,7 +53,7 @@ class ProfileDetail {
   final String? documentType;
   final String? documentNumber;
   final String? documentUrl;
-  final String contactEmail;
+  final String? contactEmail;
   final String contactCellphone;
   final String? contactPhone;
   final String? address;

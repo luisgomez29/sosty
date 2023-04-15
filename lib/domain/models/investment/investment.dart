@@ -7,7 +7,7 @@ class Investment {
     this.amountReceived,
     this.contractUrl,
     required this.isConfirmed,
-    this.balanceLoaded,
+    required this.balanceLoaded,
     this.paymentProofUrl,
     this.contratoColaboracionUrl,
     this.contratoMandatoUrl,
@@ -32,7 +32,7 @@ class Investment {
   final double? amountReceived;
   final String? contractUrl;
   final bool isConfirmed;
-  final double? balanceLoaded;
+  final bool balanceLoaded;
   final String? paymentProofUrl;
   final String? contratoColaboracionUrl;
   final String? contratoMandatoUrl;
@@ -57,7 +57,7 @@ class Investment {
         amountReceived: json["amountReceived"]?.toDouble(),
         contractUrl: json["contractUrl"],
         isConfirmed: json["isConfirmed"],
-        balanceLoaded: json["balanceLoaded"]?.toDouble(),
+        balanceLoaded: json["balanceLoaded"],
         paymentProofUrl: json["paymentProofUrl"],
         contratoColaboracionUrl: json["contratoColaboracionUrl"],
         contratoMandatoUrl: json["contratoMandatoUrl"],

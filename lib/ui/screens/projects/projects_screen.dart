@@ -15,7 +15,7 @@ class ProjectsScreen extends StatefulWidget {
   const ProjectsScreen({Key? key}) : super(key: key);
 
   @override
-  _ProjectsScreenState createState() => _ProjectsScreenState();
+  State<ProjectsScreen> createState() => _ProjectsScreenState();
 }
 
 class _ProjectsScreenState extends State<ProjectsScreen>

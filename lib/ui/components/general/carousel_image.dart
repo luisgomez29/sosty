@@ -13,7 +13,7 @@ class CarouselImage extends StatefulWidget {
   final double? height;
 
   @override
-  _CarouselImageState createState() => _CarouselImageState();
+  State<CarouselImage> createState() => _CarouselImageState();
 }
 
 class _CarouselImageState extends State<CarouselImage> {
@@ -45,28 +45,28 @@ class _CarouselImageState extends State<CarouselImage> {
     Matrix4 matrix = Matrix4.identity();
     double currScale = 0.0;
     double currTrans = 0.0;
-    double _height = widget.height ?? _imageHeight;
+    double height = widget.height ?? _imageHeight;
 
     if (index == _currentPageValue.floor()) {
       currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
-      currTrans = _height * (1 - currScale) / 2;
+      currTrans = height * (1 - currScale) / 2;
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, currTrans, 0);
     } else if (index == _currentPageValue.floor() + 1) {
       currScale =
           _scaleFactor + (_currentPageValue - index + 1) * (1 - _scaleFactor);
-      currTrans = _height * (1 - currScale) / 2;
+      currTrans = height * (1 - currScale) / 2;
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, currTrans, 0);
     } else if (index == _currentPageValue.floor() - 1) {
       currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
-      currTrans = _height * (1 - currScale) / 2;
+      currTrans = height * (1 - currScale) / 2;
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
         ..setTranslationRaw(0, currTrans, 0);
     } else {
       currScale = 0.8;
       matrix = Matrix4.diagonal3Values(1, currScale, 1)
-        ..setTranslationRaw(0, _height * (1 - _scaleFactor) / 2, 1);
+        ..setTranslationRaw(0, height * (1 - _scaleFactor) / 2, 1);
     }
 
     return Transform(

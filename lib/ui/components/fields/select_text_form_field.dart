@@ -13,7 +13,7 @@ class SelectTextFormField extends StatefulWidget {
   final ValueChanged<String?>? onSaved;
 
   @override
-  _SelectTextFormFieldState createState() => _SelectTextFormFieldState();
+  State<SelectTextFormField> createState() => _SelectTextFormFieldState();
 }
 
 class _SelectTextFormFieldState extends State<SelectTextFormField> {

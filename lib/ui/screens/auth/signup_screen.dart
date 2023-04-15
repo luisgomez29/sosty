@@ -24,7 +24,7 @@ class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
   @override
-  _SignupScreenState createState() => _SignupScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
 class _SignupScreenState extends State<SignupScreen> {
@@ -61,12 +61,14 @@ class _SignupScreenState extends State<SignupScreen> {
           user.balance ?? 0,
         );
 
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AppBottomNavigationBar(),
-            ),
-            (route) => false);
+        if (context.mounted) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AppBottomNavigationBar(),
+              ),
+              (route) => false);
+        }
       } on ApiException catch (e) {
         setState(() {
           _isLoading = false;
