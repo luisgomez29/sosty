@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sosty/config/provider/investment_provider.dart';
+import 'package:sosty/config/providers/investment_provider.dart';
 import 'package:sosty/domain/models/investment/investment_item.dart';
 import 'package:sosty/ui/common/enums/shared_preferences_enum.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
@@ -18,14 +18,16 @@ import 'package:sosty/ui/components/navbar/navbar_clipper.dart';
 import 'package:sosty/ui/helpers/formatter_helper.dart';
 import 'package:sosty/ui/screens/auth/login_screen.dart';
 
-class InvestmentsScreen extends StatefulWidget {
-  const InvestmentsScreen({Key? key}) : super(key: key);
+class InvestmentsScreen extends ConsumerStatefulWidget {
+  const InvestmentsScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<InvestmentsScreen> createState() => _InvestmentsScreenState();
+  ConsumerState createState() => _InvestmentsScreenState();
 }
 
-class _InvestmentsScreenState extends State<InvestmentsScreen>
+class _InvestmentsScreenState extends ConsumerState<InvestmentsScreen>
     with AutomaticKeepAliveClientMixin {
   String? _userId;
   int? _balance;
@@ -44,19 +46,18 @@ class _InvestmentsScreenState extends State<InvestmentsScreen>
   }
 
   Future<void> _fetchInvestmentsInProgress() async {
-    final investmentProvider =
-        Provider.of<InvestmentProvider>(context, listen: false);
-    final res = investmentProvider.investmentUseCase
+    final res = ref
+        .watch(investmentProvider)
         .getInvestmentsInProgressByInvestor(_userId!);
+
     setState(() {
       _futureInvestmentsInProgress = res;
     });
   }
 
   Future<void> _fetchInvestmentsFinished() async {
-    final investmentProvider =
-        Provider.of<InvestmentProvider>(context, listen: false);
-    final res = investmentProvider.investmentUseCase
+    final res = ref
+        .watch(investmentProvider)
         .getInvestmentsFinishedByInvestor(_userId!);
     setState(() {
       _futureInvestmentsFinished = res;

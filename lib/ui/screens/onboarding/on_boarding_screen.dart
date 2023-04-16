@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sosty/app_bottom_navigation_bar.dart';
+import 'package:sosty/app/app_bottom_navigation_bar.dart';
 import 'package:sosty/ui/common/enums/assets_enum.dart';
 import 'package:sosty/ui/common/styles/styles.dart';
 import 'package:sosty/ui/components/buttons/large_button.dart';

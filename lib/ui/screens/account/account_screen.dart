@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sosty/app_bottom_navigation_bar.dart';
-import 'package:sosty/config/provider/user_provider.dart';
+import 'package:sosty/app/app_bottom_navigation_bar.dart';
+import 'package:sosty/config/providers/user_provider.dart';
 import 'package:sosty/domain/models/user/user.dart';
 import 'package:sosty/ui/common/constants/constants.dart';
 import 'package:sosty/ui/common/enums/shared_preferences_enum.dart';
@@ -20,14 +20,16 @@ import 'package:sosty/ui/screens/auth/login_screen.dart';
 import 'package:sosty/ui/screens/auth/signup_screen.dart';
 import 'package:sosty/ui/screens/contact/contact_screen.dart';
 
-class AccountScreen extends StatefulWidget {
-  const AccountScreen({Key? key}) : super(key: key);
+class AccountScreen extends ConsumerStatefulWidget {
+  const AccountScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<AccountScreen> createState() => _AccountScreenState();
+  ConsumerState createState() => _AccountScreenState();
 }
 
-class _AccountScreenState extends State<AccountScreen>
+class _AccountScreenState extends ConsumerState<AccountScreen>
     with AutomaticKeepAliveClientMixin {
   String? _userId;
   Future<User>? _futureUser;
@@ -41,8 +43,7 @@ class _AccountScreenState extends State<AccountScreen>
 
   Future<void> _fetchUser() async {
     if (_userId != null) {
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
-      final user = userProvider.userUseCase.getUserByID(_userId!);
+      final user = ref.watch(userProvider).getUserByID(_userId!);
       setState(() {
         _futureUser = user;
       });

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:sosty/config/provider/project_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sosty/config/providers/project_provider.dart';
 import 'package:sosty/domain/models/project/project_item.dart';
 import 'package:sosty/ui/components/general/content_section.dart';
 import 'package:sosty/ui/components/general/load_data_error.dart';
@@ -11,33 +11,29 @@ import 'package:sosty/ui/components/navbar/navbar_clipper.dart';
 import 'package:sosty/ui/components/projects/project_card.dart';
 import 'package:sosty/ui/screens/projects/projects_detail_screen.dart';
 
-class ProjectsScreen extends StatefulWidget {
-  const ProjectsScreen({Key? key}) : super(key: key);
+class ProjectsScreen extends ConsumerStatefulWidget {
+  const ProjectsScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<ProjectsScreen> createState() => _ProjectsScreenState();
+  ConsumerState createState() => _ProjectsScreenState();
 }
 
-class _ProjectsScreenState extends State<ProjectsScreen>
+class _ProjectsScreenState extends ConsumerState<ProjectsScreen>
     with AutomaticKeepAliveClientMixin {
   Future<List<ProjectItem>>? futureProjects;
   Future<ProjectItem>? futureProjectOpen;
 
   void _fetchProjectsList() {
-    final projectProvider =
-        Provider.of<ProjectProvider>(context, listen: false);
-
-    final projects = projectProvider.projectUseCase.getAll();
+    final projects = ref.read(projectProvider).getAll();
     setState(() {
       futureProjects = projects;
     });
   }
 
   void _fetchProjectOpen() {
-    final projectProvider =
-        Provider.of<ProjectProvider>(context, listen: false);
-    final project =
-        projectProvider.projectUseCase.getProjectPublicByCode("1110");
+    final project = ref.read(projectProvider).getProjectPublicByCode("1110");
     setState(() {
       futureProjectOpen = project;
     });
