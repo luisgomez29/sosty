@@ -40,7 +40,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           _isLoading = true;
         });
 
-        User user = await ref.read(userProvider).login(
+        User user = await ref.watch(userProvider).login(
               _emailCtrl.text,
               _passwordCtrl.text,
             );

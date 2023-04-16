@@ -43,7 +43,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen>
 
   Future<void> _fetchUser() async {
     if (_userId != null) {
-      final user = ref.read(userProvider).getUserByID(_userId!);
+      final user = ref.watch(userProvider).getUserByID(_userId!);
       setState(() {
         _futureUser = user;
       });

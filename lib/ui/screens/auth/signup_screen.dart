@@ -45,7 +45,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
           _isLoading = true;
         });
 
-        User user = await ref.read(userProvider).signup(
+        User user = await ref.watch(userProvider).signup(
               _emailCtrl.text,
               _passwordCtrl.text,
               UserRoleEnum.investor.value,
